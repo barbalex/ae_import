@@ -34,8 +34,10 @@ const pgp = require('pg-promise')()
 const pgDb = pgp(config.pg.connectionString)
 
 // 1. import group
-const buildGroups = require('./src/buildGroups.js')
-buildGroups(pgDb)
+const importGroups = require('./src/importGroups.js')
+const importOrganizations = require('./src/importOrganizations.js')
+importGroups(pgDb)
+  .then(() => importOrganizations(pgDb))
   .then(() => {
     pgp.end()
   })

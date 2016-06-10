@@ -1,0 +1,11 @@
+{
+  "name": "ae_import",
+  "version": "1.0.0",
+  "description": "import arteigenschaften.ch to postgres",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,608 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"conn",
+				"connection"
+			],
+			[
+				"rou",
+				"routes"
+			],
+			[
+				"Ap",
+				"ApArtId"
+			],
+			[
+				"beob",
+				"beobId"
+			],
+			[
+				"pro",
+				"programmAp"
+			],
+			[
+				"J",
+				"JBerJahr"
+			],
+			[
+				"node",
+				"nodeText2"
+			],
+			[
+				"date",
+				"date1"
+			],
+			[
+				"dat",
+				"date1"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 173.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 223.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/alex/ae_import"
+	],
+	"file_history":
+	[
+		"/C/Users/alex/ae_import/.gitignore",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/setParents.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/setParentInLrTaxObjects.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/rebuildObjects.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/nonLrTaxonomies.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/groups.json",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/getTaxonomieObjects.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/getObjects.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxonomiesNonLr.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/index.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxonomiesLr.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsPilzeLevel2.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsPilzeLevel1.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsPilze.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsMooseLevel4.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsMooseLevel3.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsMooseLevel2.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsMooseLevel1.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsMoose.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/package.json",
+		"/C/Users/alex/ae_structure_v1_to_v3/.eslintrc.json",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildGroups.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildLrTaxonomieObject.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel1.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFauna.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel2.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel3.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel4.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFlora.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFloraLevel1.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFloraLevel2.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFloraLevel3.js",
+		"/D/gd/artendb/push.txt",
+		"/C/Users/Alexander/ae_structure_v1_to_v3/src/buildTaxObjectsFauna.js",
+		"/C/Users/Alexander/ae_structure_v1_to_v3/src/buildTaxonomiesNonLr.js",
+		"/C/Users/Alexander/ae_structure_v1_to_v3/src/buildTaxonomiesLr.js",
+		"/C/Users/Alexander/ae_structure_v1_to_v3/package.json",
+		"/D/Google Drive/artendb/push.txt",
+		"/C/Users/alex/ae_structure_v1_to_v3/readme.md",
+		"/C/Users/alex/ae_taxonomien/index.js",
+		"/C/Users/alex/apflora_api/configuration.js",
+		"/C/Users/alex/apflora_api/pgDbPass.json",
+		"/C/Users/alex/apflora_api/gulp-tasks/prod_copy_root_to_dist.js",
+		"/C/Users/alex/apflora_api/appPass.json",
+		"/C/Users/alex/apflora_api/dbPass.json",
+		"/D/Google Drive/apflora/pgDbPass.json",
+		"/C/Users/alex/apflora_api/gulp-tasks/prod_sftp.js",
+		"/C/Users/alex/apflora_api/gulp-tasks/prod_copy.js",
+		"/C/Users/alex/apflora_api/src/routes/beobKarteGet.js",
+		"/C/Users/alex/apflora_api/test/beobKarte.js",
+		"/C/Users/alex/apflora_api/queries/tabelleUpdateApflora.js",
+		"/C/Users/alex/apflora_api/queries/beobKarte.js",
+		"/C/Users/alex/.ssh/alex.pub",
+		"/C/Users/alex/apflora_api/pgPlugin.js",
+		"/C/Users/alex/apflora_api/.gitignore",
+		"/C/Users/alex/apflora_api/dbConnection.js",
+		"/C/Users/alex/apflora_api/sql/create_databases.sql",
+		"/C/Users/alex/AppData/Roaming/postgresql/pgpass.conf",
+		"/D/Google Drive/apflora/v2/createDbStructure.txt",
+		"/D/Google Drive/apflora/v2/installDb.txt",
+		"/C/Users/alex/.ssh/alex",
+		"/C/Users/alex/.ssh/alex.ppk",
+		"/C/Users/alex/apflora_api/sql/triggers.sql",
+		"/C/Users/alex/apflora_api/sql/createViews.sql",
+		"/C/Users/alex/apflora_api/sql/create_tables_beob.sql",
+		"/C/Users/alex/apflora_api/sql/create_tables_apflora.sql",
+		"/C/Users/alex/apflora_api/sql/countRows.sql",
+		"/C/Users/alex/apflora_api/queries/tabelleInsertApflora.js",
+		"/C/Users/alex/apf2_api/sql/create_tables_apflora.sql",
+		"/C/Users/alex/apf2_api/sql/triggers.sql",
+		"/C/Users/alex/apflora_api/src/routes/apflora.js",
+		"/C/Users/alex/apflora_api/queries/tree/assozarten.js",
+		"/C/Users/alex/apflora_api/queries/tree/apziel.js",
+		"/C/Users/alex/apflora_api/queries/tree/beobNichtBeurteilt.js",
+		"/C/Users/alex/apflora_api/queries/tree/ber.js",
+		"/C/Users/alex/apflora_api/queries/tabelleInsertMultipleApflora.js",
+		"/C/Users/alex/apflora_api/test/apfloraInsertMultiple.js",
+		"/C/Users/alex/apflora_api/server.js",
+		"/C/Users/alex/apflora_api/queries/tabelleSelectApfloraNumber.js",
+		"/C/Users/alex/apflora_api/queries/tabelleSelectBeobNumber.js",
+		"/C/Users/alex/apf2_api/sql/create_databases.sql",
+		"/C/Users/alex/apflora_api/queries/feldkontrInsert.js",
+		"/C/Users/alex/apflora_api/test/feldkontrInsert.js",
+		"/C/Users/alex/apflora_api/queries/popInsertKopie.js",
+		"/C/Users/alex/apflora_api/test/apflora.js",
+		"/C/Users/alex/apflora_api/test/popInsertKopie.js",
+		"/C/Users/alex/apflora_api/src/routes/treeGet.js",
+		"/C/Users/alex/apflora_api/test/tree.js",
+		"/C/Users/alex/apflora_api/test/tpopsKarte.js",
+		"/C/Users/alex/apflora_api/queries/tpopsKarte.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopsKarteGet.js",
+		"/C/Users/alex/apflora_api/test/tpopMassnTypen.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopMassnTypenGet.js",
+		"/C/Users/alex/apflora_api/queries/tpopMassnTypen.js",
+		"/C/Users/alex/apflora_api/test/tpopKoordFuerProgramm.js",
+		"/C/Users/alex/apflora_api/queries/tpopKoordFuerProgramm.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopKoordFuerProgrammGet.js",
+		"/C/Users/alex/apflora_api/queries/tpopmassnInsertKopie.js",
+		"/C/Users/alex/apflora_api/queries/tpopkontrInsertKopie.js",
+		"/C/Users/alex/apflora_api/queries/tpopInsertKopie.js",
+		"/C/Users/alex/apflora_api/test/tpopmassnInsertKopie.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopmassnPostKopie.js",
+		"/C/Users/alex/apflora_api/src/newGuid.js",
+		"/C/Users/alex/apflora/src/modules/erstelleGuid.js",
+		"/C/Users/alex/apflora_api/test/tpopkontrInsertKopie.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopkontrPostKopie.js",
+		"/C/Users/alex/apflora_api/test/tpopInsertKopie.js",
+		"/C/Users/alex/apflora_api/test/tpopKarteAlle.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopKarteAlleGet.js",
+		"/C/Users/alex/apflora_api/queries/tpopKarteAlle.js",
+		"/C/Users/alex/apflora_api/test/tpopKarte.js",
+		"/C/Users/alex/apflora_api/queries/tpopKarte.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopKarteGet.js",
+		"/C/Users/alex/apflora_api/test/popKarte.js",
+		"/C/Users/alex/apflora_api/src/routes/tpopPostKopie.js",
+		"/C/Users/alex/apflora_api/test/beob.js",
+		"/C/Users/alex/apflora_api/src/routes/beob.js",
+		"/C/Users/alex/apflora_api/queries/tabelleUpdateBeob.js",
+		"/C/Users/alex/apflora_api/src/routes/beobPut.js",
+		"/C/Users/alex/apflora_api/src/routes/beobGetFromTableByString.js",
+		"/C/Users/alex/apflora_api/queries/tabelleSelectBeobString.js",
+		"/C/Users/alex/apflora_api/src/routes/beobGetFromTableByNumber.js",
+		"/C/Users/alex/apflora_api/src/routes/apfloraGetFromTableByString.js",
+		"/C/Users/alex/apflora_api/src/routes/apfloraGetFromTableByNumber.js",
+		"/C/Users/alex/apflora_api/src/routes/apfloraPost.js",
+		"/C/Users/alex/apflora_api/src/routes/apfloraPut.js",
+		"/C/Users/alex/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/alex/apflora_api/apflora.sublime-project"
+	],
+	"find":
+	{
+		"height": 42.0
+	},
+	"find_in_files":
+	{
+		"height": 366.0,
+		"where_history":
+		[
+			"C:\\Users\\alex\\ae_structure_v1_to_v3",
+			"C:\\Users\\alex\\apflora_api",
+			"C:\\Users\\alex\\apflora_api\\test",
+			"C:\\Users\\alex\\apflora_api\\src\\routes",
+			"C:\\Users\\alex\\apflora_api",
+			"C:\\Users\\alex\\artendb",
+			"C:\\Users\\alex\\ae"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"result",
+			"return reject",
+			"taxonomy-object",
+			"db",
+			"sourceDb",
+			"connection2",
+			"aeDb",
+			"sourceDb, aeDb",
+			"aeDb",
+			"aeDb.save",
+			".view('ae",
+			".view",
+			"view",
+			"db.Save",
+			"sourceDb",
+			"bulkSave",
+			"db",
+			"sourceDb",
+			"aeDb",
+			"Gruppe",
+			"buildTaxonomiesNonLr",
+			"aeDbConn",
+			"buildNonLrTaxonomies",
+			"buildLrTaxonomies",
+			"rows",
+			"config.db.userName",
+			"dbPass",
+			"insert/apflora/tabelle",
+			"\"",
+			"RETURNING",
+			"to_number",
+			"tpopInsertKopie",
+			"\"",
+			"apfloraPut",
+			"apfloraDelete.js",
+			"jberUebersicht.js",
+			"jber.js",
+			"jberUebersicht",
+			"\"",
+			"beobNichtZuordnen",
+			"connection",
+			"\"",
+			"apfDb from aplist",
+			"require('../routes')",
+			"'../src",
+			"'../queries",
+			"const mysql = require('mysql')\nconst config = require('../configuration')\nconst escapeStringForSql = require('./escapeStringForSql')\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: config.db.userName,\n  password: config.db.passWord,\n  database: 'apflora'\n})",
+			"const mysql = require('mysql')\nconst config = require('../configuration')\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: config.db.userName,\n  password: config.db.passWord,\n  database: 'beob'\n})",
+			"const mysql = require('mysql')\nconst config = require('../configuration')\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: config.db.userName,\n  password: config.db.passWord,\n  database: 'apflora'\n})",
+			"feldkontrPost",
+			"\"",
+			"beobDistzutpopEvabGet",
+			"apInsertPost",
+			"config",
+			"queryLrDelarze",
+			"queryTabelleInsertApflora",
+			"queryTabelleSelectBeobString",
+			"queryTabelleSelectApfloraString",
+			"./queries/qkTpopOhneMassnber.js",
+			"json2csv",
+			"queryBeobKarte",
+			"queryBeobDistzutpopEvab",
+			"queryApliste",
+			"queryApKarte",
+			"queryApInsert",
+			"queryAnmeldung",
+			"aktualisiereArteigenschaften",
+			"json2csv",
+			"adressen_get",
+			"exportView",
+			"queryAdressen",
+			"exportView",
+			"queryBeobZuordnen",
+			"queryBeobNaechsteTpop",
+			"beobNaechsteTpop",
+			"queryBeobKarte",
+			"beobKarte",
+			"queryBeobDistzutpopEvab",
+			"queryApliste",
+			"queryApKarte",
+			"queryApInsert",
+			"queryTabelleDeleteApflora",
+			"apflora/tabelle=",
+			"queryAp",
+			"queryAnmeldung",
+			"aktualisiereArteigenschaften",
+			"\\t",
+			"queryAdressen",
+			"exportKontr",
+			"DistzuTPop",
+			"queryBeobNaechsteTpop",
+			"to_char",
+			", '9999999')",
+			"queryBeobKarte",
+			"timeout",
+			"() =>",
+			"(done) =>",
+			"queryBeobDistzutpopEvab",
+			"beobDistzutpopEvab",
+			"queryTabelleDeleteApflora",
+			"delete",
+			"queryApInsert",
+			"\\n",
+			"exportevab",
+			"evab",
+			"apflora.",
+			"TABLE",
+			"adresse",
+			"CREATE INDEX",
+			"ApArtId",
+			"datetime",
+			"_variable",
+			"CREATE INDEX",
+			"tinyint(1)",
+			"KEY",
+			"PRIMARY KEY",
+			"char",
+			"double precision precision",
+			"double",
+			"int(11)",
+			"tinyint(1)",
+			"smallint(5)",
+			"int(2)",
+			"int(7)",
+			"int(10)",
+			"longtext",
+			".MutWer IS",
+			".MutWann IS"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"reject",
+			"db",
+			"sourceDb",
+			"sourceDb.save",
+			".view('artendb",
+			"sourceDb, aeDb",
+			"aeDb",
+			"db",
+			"sourceDb",
+			"connection",
+			"buildTaxonomiesNonLr",
+			"buildTaxonomiesLr",
+			"'",
+			"BeobNichtZuordnen",
+			"'",
+			"require('../src/routes')",
+			"'..",
+			"'../../queries",
+			"const pg = require('pg')\nconst config = require('../configuration')\nconst connectionString = config.pg.connectionString",
+			"'",
+			"beobDistzutpopInfospeziesGet",
+			"apPost",
+			"adressenGet",
+			"  ",
+			"DistZuTPop",
+			", 'FM9999999')",
+			"function ()",
+			"function (done)",
+			", ",
+			"",
+			"ziel",
+			"tpopmassnber",
+			"tpopmassn",
+			"tpopkontrzaehl",
+			"tpopkontr_typ_werte",
+			"tpopkontr",
+			"tpopber",
+			"tpop",
+			"popmassnber",
+			"popber",
+			"pop_entwicklung_werte",
+			"pop",
+			"smallint",
+			"double precision",
+			"integer",
+			"smallint",
+			"integer",
+			"text",
+			".\"MutWer\" IS",
+			".\"MutWann\" IS",
+			"smallint",
+			"integer",
+			"smallint",
+			"integer",
+			"",
+			"Von wem wurde der Datensatz zuletzt geändert?",
+			"Wann wurde der Datensatz zuletzt geändert?",
+			"",
+			"''",
+			"",
+			"apber",
+			"apberuebersicht",
+			"assozart",
+			"ber",
+			"erfkrit",
+			"ap_erfbeurtkrit_werte",
+			"idealbiotop",
+			"ap",
+			"popber",
+			"popmassnber",
+			"pop",
+			"pop_status_werte",
+			"tpop_apberrelevant_werte",
+			"tpopber",
+			"pop_entwicklung_werte",
+			"tpopkontr",
+			"tpopkontr_typ_werte",
+			"adresse",
+			"pop_entwicklung_werte",
+			"tpopkontrzaehl_methode_werte",
+			"tpopkontrzaehl_einheit_werte",
+			"tpopmassn",
+			"tpopmassn_typ_werte",
+			"adresse",
+			"tpopmassn_erfbeurt_werte",
+			"tpop",
+			"tpopmassnber",
+			"user",
+			"ziel",
+			"zielber",
+			"ziel_typ_werte",
+			"",
+			"zielber",
+			"ziel_typ_werte",
+			"ziel",
+			"user",
+			"tpopmassnber",
+			"tpopmassn_typ_werte",
+			"tpopmassn_erfbeurt_werte",
+			"tpopmassn",
+			"tpopkontrzaehl_methode_werte",
+			"tpopkontrzaehl_einheit_werte",
+			"tpopkontrzaehl",
+			"tpopkontr_typ_werte",
+			"tpopkontr_idbiotuebereinst_werte",
+			"tpopkontr",
+			"tpopber",
+			"tpop_entwicklung_werte",
+			"tpop_apberrelevant_werte",
+			"tpop",
+			"popmassnber",
+			"popber",
+			"pop_status_werte",
+			"pop_entwicklung_werte",
+			"pop",
+			"idealbiotop",
+			"erfkrit",
+			"ber",
+			"beobzuordnung",
+			"assozart",
+			"apberuebersicht",
+			"apber",
+			"ap_umsetzung_werte",
+			"ap_erfkrit_werte",
+			"ap_erfbeurtkrit_werte",
+			"ap_bearbstand_werte",
+			"ap",
+			"adresse"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 42.0
+	},
+	"input":
+	{
+		"height": 50.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 232.0
+	},
+	"pinned_build_system": "",
+	"project": "ae_import_pc.sublime-project",
+	"replace":
+	{
+		"height": 80.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 290.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

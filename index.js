@@ -20,13 +20,21 @@
 
 const couchPass = require('./couchPass.json')
 const cradle = require('cradle')
-const connection = new (cradle.Connection)(`127.0.0.1`, 5984, {
+const connection = new (cradle.Connection)('127.0.0.1', 5984, {
   auth: {
     username: couchPass.user,
     password: couchPass.pass
   }
 })
-const db = connection.database('artendb')
+const couchDb = connection.database('artendb')
+
+
+const pgConnection = require('./dbConnection.js')
+const pgp = require('pg-promise')()
+const pgDb = pgp(pgConnection)
+
+
+
 const getObjects = require('./src/getObjects.js')
 const buildTaxonomiesNonLr = require('./src/buildTaxonomiesNonLr.js')
 const buildTaxonomiesLr = require('./src/buildTaxonomiesLr.js')
@@ -44,16 +52,16 @@ let taxFauna = null
 let taxFlora = null
 let taxPilze = null
 
-getObjects(db)
+getObjects(couchDb)
   .then((result) => {
     objects = result
     console.log('objects', objects.slice(0, 2))
-    return buildTaxonomiesNonLr(db)
+    return buildTaxonomiesNonLr(couchDb)
   })
   .then((result) => {
     taxonomies = result
     console.log('taxonomies', taxonomies.slice(0, 2))
-    return buildTaxonomiesLr(db)
+    return buildTaxonomiesLr(couchDb)
   })
   .then((result) => {
     lrTaxonomies = result
@@ -62,11 +70,11 @@ getObjects(db)
     taxFauna = taxonomies.find((taxonomy) => taxonomy.Name === 'CSCF (2009)')
     taxFlora = taxonomies.find((taxonomy) => taxonomy.Name === 'SISF Index 2 (2005)')
     taxPilze = taxonomies.find((taxonomy) => taxonomy.Name === 'Swissfunghi (2011)')
-    return buildTaxObjectsFauna(db, taxFauna, objects)
+    return buildTaxObjectsFauna(couchDb, taxFauna, objects)
   })
-  .then(() => buildTaxObjectsFlora(db, taxFlora, objects))
-  .then(() => buildTaxObjectsPilze(db, taxPilze, objects))
-  .then(() => buildTaxObjectsMoose(db, taxPilze, objects))
-  .then(() => rebuildObjects(db, lrTaxonomies))
-  .then(() => buildGroups(db))
+  .then(() => buildTaxObjectsFlora(couchDb, taxFlora, objects))
+  .then(() => buildTaxObjectsPilze(couchDb, taxPilze, objects))
+  .then(() => buildTaxObjectsMoose(couchDb, taxPilze, objects))
+  .then(() => rebuildObjects(couchDb, lrTaxonomies))
+  .then(() => buildGroups(couchDb))
   .catch((error) => console.log(error))

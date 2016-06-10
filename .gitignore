@@ -52,3 +52,9 @@ couchPass.json
 npm-debug.log
 project.sublime-workspace
 project_mac.sublime-workspace
+
+pgDbPass.json
+dbPass.json
+appPass.json
+sftpPass.json
+coverage.html

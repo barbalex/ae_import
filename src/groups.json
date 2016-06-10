@@ -1,0 +1,27 @@
+[
+  {
+    "_id": "f3ba1dc6-ca63-4dc5-87d2-71a26d376c83",
+    "Name": "Fauna",
+    "Typ": "Gruppe"
+  },
+  {
+    "_id": "71de71ad-861e-42c8-b341-0c62b4105bca",
+    "Name": "Flora",
+    "Typ": "Gruppe"
+  },
+  {
+    "_id": "ddf8a9dc-e5fc-4026-a1e6-59bcf082cbf0",
+    "Name": "Moose",
+    "Typ": "Gruppe"
+  },
+  {
+    "_id": "4729570e-8a64-4cfe-803e-d0d9133407df",
+    "Name": "Pilze",
+    "Typ": "Gruppe"
+  },
+  {
+    "_id": "4e0cc6ab-3925-40f7-9c56-f906fe22950d",
+    "Name": "Lebensräume",
+    "Typ": "Gruppe"
+  }
+]

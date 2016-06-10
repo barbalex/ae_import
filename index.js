@@ -29,16 +29,26 @@ const connection = new (cradle.Connection)('127.0.0.1', 5984, {
 const couchDb = connection.database('artendb')
 
 
-const pgConnection = require('./dbConnection.js')
+const config = require('./configuration.js')
 const pgp = require('pg-promise')()
-const pgDb = pgp(pgConnection)
+const pgDb = pgp(config.pg.connectionString)
 
+// 1. import group
+const buildGroups = require('./src/buildGroups.js')
+buildGroups(pgDb)
+  .then(() => {
+    pgp.end()
+  })
+  .catch((error) => {
+    console.log(error)
+    pgp.end()
+  })
 
-
+/*
 const getObjects = require('./src/getObjects.js')
 const buildTaxonomiesNonLr = require('./src/buildTaxonomiesNonLr.js')
 const buildTaxonomiesLr = require('./src/buildTaxonomiesLr.js')
-const buildGroups = require('./src/buildGroups.js')
+
 const buildTaxObjectsFauna = require('./src/buildTaxObjectsFauna.js')
 const buildTaxObjectsFlora = require('./src/buildTaxObjectsFlora.js')
 const buildTaxObjectsPilze = require('./src/buildTaxObjectsPilze.js')
@@ -76,5 +86,5 @@ getObjects(couchDb)
   .then(() => buildTaxObjectsPilze(couchDb, taxPilze, objects))
   .then(() => buildTaxObjectsMoose(couchDb, taxPilze, objects))
   .then(() => rebuildObjects(couchDb, lrTaxonomies))
-  .then(() => buildGroups(couchDb))
   .catch((error) => console.log(error))
+*/

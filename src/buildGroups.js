@@ -1,7 +1,6 @@
 'use strict'
 
-const getGroups = require('./groups.js')
-const groups = getGroups()
+const groups = require('./groups.js')()
 
 module.exports = (db) =>
   new Promise((resolve, reject) => {
@@ -13,5 +12,7 @@ module.exports = (db) =>
         console.log('groups inserted')
         resolve()
       })
-      .catch((error) => reject(`error inserting groups ${error}`))
+      .catch((error) =>
+        reject(`error inserting groups ${error}`)
+      )
   })

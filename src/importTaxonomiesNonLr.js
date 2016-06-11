@@ -3,10 +3,10 @@
 const _ = require('lodash')
 const nonLrTaxonomies = require('./nonLrTaxonomies.js')
 
-module.exports = (pgDb, organization_id) =>
+module.exports = (pgDb, organizationId) =>
   new Promise((resolve, reject) => {
     nonLrTaxonomies.forEach((tax) => {
-      tax.organization_id = organization_id
+      tax.organization_id = organizationId
     })
     const fieldsSql = _.keys(nonLrTaxonomies[0]).join(',')
     const valueSql = nonLrTaxonomies

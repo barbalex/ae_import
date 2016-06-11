@@ -37,10 +37,12 @@ const importCategories = require('./src/importCategories.js')
 const importOrganizations = require('./src/importOrganizations.js')
 const importUsers = require('./src/importUsers.js')
 const importTaxonomiesNonLr = require('./src/importTaxonomiesNonLr.js')
+const importTaxonomiesLr = require('./src/importTaxonomiesLr.js')
 let categories
 let organizations
 let users
-let taxonomies
+let nonLrTaxonomies
+let lrTaxonomies
 importCategories(pgDb)
   .then((result) => {
     categories = result
@@ -55,7 +57,12 @@ importCategories(pgDb)
     return importTaxonomiesNonLr(pgDb, organizations[0].id)
   })
   .then((result) => {
-    taxonomies = result
+    nonLrTaxonomies = result
+    return importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
+  })
+  .then((result) => {
+    lrTaxonomies = result
+    console.log('lrTaxonomies', lrTaxonomies)
     pgp.end()
   })
   .catch((error) => {

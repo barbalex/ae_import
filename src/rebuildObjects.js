@@ -18,7 +18,7 @@ module.exports = function (db, lrTaxonomies) {
       }
     })
   }
-  db.view('artendb/prov_objekte', {
+  db.view('artendb/objekte', {
     include_docs: true
   }, (error, res) => {
     if (error) console.log(error)

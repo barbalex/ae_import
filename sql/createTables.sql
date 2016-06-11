@@ -19,7 +19,12 @@ CREATE TABLE ae.taxonomy (
   last_updated date DEFAULT NULL,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
-  is_category_standard boolean DEFAULT FALSE
+  is_category_standard boolean DEFAULT FALSE,
+  -- TODO: check length of this field in ms-access then set it here
+  habitat_label text DEFAULT NULL,
+  habitat_comments text DEFAULT NULL,
+  habitat_nr_fns_min integer DEFAULT NULL,
+  habitat_nr_fns_max integer DEFAULT NULL
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);

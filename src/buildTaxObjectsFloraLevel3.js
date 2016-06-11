@@ -5,7 +5,7 @@ const uuid = require('node-uuid')
 
 module.exports = (db, taxFlora, taxObjectsFloraLevel1, taxObjectsFloraLevel2, objects) =>
   new Promise((resolve, reject) => {
-    db.view('artendb/prov_baumFlora', {
+    db.view('artendb/baumFlora', {
       group_level: 4
     }, (error, result) => {
       if (error) reject(`error querying view baumFlora: ${error}`)

@@ -12,7 +12,7 @@ module.exports = (
   objects
 ) =>
   new Promise((resolve, reject) => {
-    db.view('artendb/prov_baumMoose', {
+    db.view('artendb/baumMoose', {
       group_level: 5
     }, (error, result) => {
       if (error) reject(`error querying view baumMoose: ${error}`)

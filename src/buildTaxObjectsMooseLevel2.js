@@ -5,7 +5,7 @@ const uuid = require('node-uuid')
 
 module.exports = (db, taxMoose, taxObjectsMooseLevel1) =>
   new Promise((resolve, reject) => {
-    db.view('artendb/prov_baumMoose', {
+    db.view('artendb/baumMoose', {
       group_level: 2
     }, (error, result) => {
       if (error) reject(`error querying view baumMoose: ${error}`)

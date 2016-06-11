@@ -3,18 +3,18 @@ CREATE TABLE ae.group (
   name text PRIMARY KEY
 );
 
-DROP TABLE IF EXISTS ae."organization" CASCADE;
-CREATE TABLE ae."organization" (
+DROP TABLE IF EXISTS ae.organization CASCADE;
+CREATE TABLE ae.organization (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL
 );
-CREATE INDEX ON ae."organization" USING btree ("name");
+CREATE INDEX ON ae.organization USING btree ("name");
 
 DROP TABLE IF EXISTS ae."taxonomy" CASCADE;
 CREATE TABLE ae."taxonomy" (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
-  "description" text DEFAULT NULL,
+  description text DEFAULT NULL,
   "links" text[] DEFAULT NULL,
   "lastUpdated" date DEFAULT NULL,
   "organizationId" UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS ae."propertyCollection" CASCADE;
 CREATE TABLE ae."propertyCollection" (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
-  "description" text DEFAULT NULL,
+  description text DEFAULT NULL,
   "links" text[] DEFAULT NULL,
   "numberOfRecords" integer DEFAULT NULL,
   "propertyFields" text[] DEFAULT NULL,
@@ -72,7 +72,7 @@ DROP TABLE IF EXISTS ae."relationCollection" CASCADE;
 CREATE TABLE ae."relationCollection" (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
-  "description" text DEFAULT NULL,
+  description text DEFAULT NULL,
   "links" text[] DEFAULT NULL,
   "natureOfRelation" text NOT NULL,
   "numberOfRecords" integer DEFAULT NULL,

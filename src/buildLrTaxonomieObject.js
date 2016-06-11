@@ -1,6 +1,6 @@
 'use strict'
 
-const uuid = require('node-uuid')
+const uuid = require(`node-uuid`)
 
 module.exports = (db, doc, index, lrTaxonomies) => {
   // this is lr > create Taxonomie-Objekt

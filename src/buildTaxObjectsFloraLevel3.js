@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const uuid = require('node-uuid')
+const uuid = require(`node-uuid`)
 
 module.exports = (db, taxFlora, taxObjectsFloraLevel1, taxObjectsFloraLevel2, objects) =>
   new Promise((resolve, reject) => {

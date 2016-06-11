@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const uuid = require('node-uuid')
+const uuid = require(`node-uuid`)
 
 module.exports = (db, taxPilze) =>
   new Promise((resolve, reject) => {

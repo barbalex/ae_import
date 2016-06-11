@@ -18,26 +18,26 @@
  *
  */
 
-const couchPass = require('./couchPass.json')
-const cradle = require('cradle')
-const connection = new (cradle.Connection)('127.0.0.1', 5984, {
+const couchPass = require(`./couchPass.json`)
+const cradle = require(`cradle`)
+const connection = new (cradle.Connection)(`127.0.0.1`, 5984, {
   auth: {
     username: couchPass.user,
     password: couchPass.pass
   }
 })
-const couchDb = connection.database('artendb')
+const couchDb = connection.database(`artendb`)
 
 
-const config = require('./configuration.js')
-const pgp = require('pg-promise')()
+const config = require(`./configuration.js`)
+const pgp = require(`pg-promise`)()
 const pgDb = pgp(config.pg.connectionString)
 
-const importCategories = require('./src/importCategories.js')
-const importOrganizations = require('./src/importOrganizations.js')
-const importUsers = require('./src/importUsers.js')
-const importTaxonomiesNonLr = require('./src/importTaxonomiesNonLr.js')
-const importTaxonomiesLr = require('./src/importTaxonomiesLr.js')
+const importCategories = require(`./src/importCategories.js`)
+const importOrganizations = require(`./src/importOrganizations.js`)
+const importUsers = require(`./src/importUsers.js`)
+const importTaxonomiesNonLr = require(`./src/importTaxonomiesNonLr.js`)
+const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
 let categories
 let organizations
 let users
@@ -62,7 +62,6 @@ importCategories(pgDb)
   })
   .then((result) => {
     lrTaxonomies = result
-    console.log('lrTaxonomies', lrTaxonomies)
     pgp.end()
   })
   .catch((error) => {
@@ -72,7 +71,6 @@ importCategories(pgDb)
 
 /*
 const getObjects = require('./src/getObjects.js')
-const buildTaxonomiesLr = require('./src/buildTaxonomiesLr.js')
 
 const buildTaxObjectsFauna = require('./src/buildTaxObjectsFauna.js')
 const buildTaxObjectsFlora = require('./src/buildTaxObjectsFlora.js')
@@ -88,11 +86,6 @@ let taxFlora = null
 let taxPilze = null
 
 getObjects(couchDb)
-  .then((result) => {
-    taxonomies = result
-    console.log('taxonomies', taxonomies.slice(0, 2))
-    return buildTaxonomiesLr(couchDb)
-  })
   .then((result) => {
     lrTaxonomies = result
     console.log('lrTaxonomies', lrTaxonomies.slice(0, 2))

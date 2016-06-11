@@ -2,35 +2,35 @@
 
 module.exports = [
   {
-    name: 'CSCF (2009)',
-    description: 'Index der Info Fauna. Eigenschaften von 21542 Tierarten',
-    last_updated: '2009.01.01',
-    links: '{"http://www.cscf.ch"}',
-    category: 'Fauna',
+    name: `CSCF (2009)`,
+    description: `Index der Info Fauna. Eigenschaften von 21542 Tierarten`,
+    last_updated: `2009.01.01`,
+    links: `{"http://www.cscf.ch"}`,
+    category: `Fauna`,
     is_category_standard: true
   },
   {
-    name: 'SISF Index 2 (2005)',
-    description: 'Synonymie-Index der Schweizer Flora. Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
-    last_updated: '2007.05.08',
-    links: '{"http://www.crsf.ch/documents/download/x/ISFS2_20051115.pdf"}',
-    category: 'Flora',
+    name: `SISF Index 2 (2005)`,
+    description: `Synonymie-Index der Schweizer Flora. Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
+    last_updated: `2007.05.08`,
+    links: `{"http://www.crsf.ch/documents/download/x/ISFS2_20051115.pdf"}`,
+    category: `Flora`,
     is_category_standard: true
   },
   {
-    name: 'Swissfunghi (2011)',
-    description: 'WSL, Swissfunghi, Beatrice Senn (Datenzentrum Moose Schweiz)',
-    last_updated: '2011.06.01',
-    links: '{"http://www.wsl.ch/dienstleistungen/inventare/pilze_flechten/swissfungi/index_DE"}',
-    category: 'Pilze',
+    name: `Swissfunghi (2011)`,
+    description: `WSL, Swissfunghi, Beatrice Senn (Datenzentrum Moose Schweiz)`,
+    last_updated: `2011.06.01`,
+    links: `{"http://www.wsl.ch/dienstleistungen/inventare/pilze_flechten/swissfungi/index_DE"}`,
+    category: `Pilze`,
     is_category_standard: true
   },
   {
-    name: 'NISM (2010)',
-    description: 'WSL, Swissfunghi, Beatrice Senn (Datenzentrum Moose Schweiz)',
-    last_updated: '2010.01.01',
-    links: '{"http://www.nism.uzh.ch"}',
-    category: 'Moose',
+    name: `NISM (2010)`,
+    description: `WSL, Swissfunghi, Beatrice Senn (Datenzentrum Moose Schweiz)`,
+    last_updated: `2010.01.01`,
+    links: `{"http://www.nism.uzh.ch"}`,
+    category: `Moose`,
     is_category_standard: true
   }
 ]

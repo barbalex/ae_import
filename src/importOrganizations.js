@@ -2,12 +2,16 @@
 
 module.exports = (pgDb) =>
   new Promise((resolve, reject) => {
-    const sql = `insert into ae.organization(name) values ('FNS Kt. ZH');`  /* eslint quotes:0 */
-    pgDb.none('truncate ae.organization cascade')
+    const sql = `
+    insert into
+      ae.organization (name)
+    values
+      ('FNS Kt. ZH');`
+    pgDb.none(`truncate ae.organization cascade`)
       .then(() => pgDb.none(sql))
-      .then(() => pgDb.many('select * from ae.organization'))
+      .then(() => pgDb.many(`select * from ae.organization`))
       .then((organizations) => {
-        console.log('organizations inserted')
+        console.log(`organizations inserted`)
         resolve(organizations)
       })
       .catch((error) =>

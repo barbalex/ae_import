@@ -10,8 +10,8 @@ CREATE TABLE ae.organization (
 );
 CREATE INDEX ON ae.organization USING btree ("name");
 
-DROP TABLE IF EXISTS ae."taxonomy" CASCADE;
-CREATE TABLE ae."taxonomy" (
+DROP TABLE IF EXISTS ae.taxonomy CASCADE;
+CREATE TABLE ae.taxonomy (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   description text DEFAULT NULL,

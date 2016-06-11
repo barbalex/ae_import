@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS ae.group CASCADE;
-CREATE TABLE ae.group (
+DROP TABLE IF EXISTS ae.category CASCADE;
+CREATE TABLE ae.category (
   name text PRIMARY KEY
 );
 
@@ -18,17 +18,17 @@ CREATE TABLE ae.taxonomy (
   links text[] DEFAULT NULL,
   last_updated date DEFAULT NULL,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
-  group text DEFAULT NULL REFERENCES ae.group (name) ON UPDATE CASCADE,
+  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   is_group_standard boolean DEFAULT FALSE
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
-CREATE INDEX ON ae.taxonomy USING btree (group);
+CREATE INDEX ON ae.taxonomy USING btree (category);
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  group text DEFAULT NULL REFERENCES ae.group (name) ON UPDATE CASCADE,
+  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -63,77 +63,77 @@ CREATE TABLE ae.property_collection (
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   last_updated date DEFAULT NULL,
   terms_of_use text DEFAULT NULL,
-  "importedBy" UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
+  imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
 );
 CREATE INDEX ON ae.property_collection USING btree (name);
 
-DROP TABLE IF EXISTS ae."relationCollection" CASCADE;
-CREATE TABLE ae."relationCollection" (
+DROP TABLE IF EXISTS ae.relation_collection CASCADE;
+CREATE TABLE ae.relation_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
-  "natureOfRelation" text NOT NULL,
+  nature_of_relation text NOT NULL,
   number_of_records integer DEFAULT NULL,
   property_fields text[] DEFAULT NULL,
   combining boolean DEFAULT FALSE,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   last_updated date DEFAULT NULL,
   terms_of_use text DEFAULT NULL,
-  "importedBy" UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
+  imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
 );
-CREATE INDEX ON ae."relationCollection" USING btree (name);
+CREATE INDEX ON ae.relation_collection USING btree (name);
 
-DROP TABLE IF EXISTS ae."objectPropertyCollection" CASCADE;
-CREATE TABLE ae."objectPropertyCollection" (
+DROP TABLE IF EXISTS ae.object_property_collection CASCADE;
+CREATE TABLE ae.object_property_collection (
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "propertyCollectionId" UUID NOT NULL REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "properties" jsonb DEFAULT NULL,
-  PRIMARY KEY (object_id, "propertyCollectionId")
+  property_collection_id UUID NOT NULL REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  properties jsonb DEFAULT NULL,
+  PRIMARY KEY (object_id, property_collection_id)
 );
 
-DROP TABLE IF EXISTS ae."objectRelationCollection" CASCADE;
-CREATE TABLE ae."objectRelationCollection" (
+DROP TABLE IF EXISTS ae.object_relation_collection CASCADE;
+CREATE TABLE ae.object_relation_collection (
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "relationCollectionId" UUID NOT NULL REFERENCES ae."relationCollection" (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (object_id, "relationCollectionId")
+  relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (object_id, relation_collection_id)
 );
 
-DROP TABLE IF EXISTS ae."relation" CASCADE;
-CREATE TABLE ae."relation" (
+DROP TABLE IF EXISTS ae.relation CASCADE;
+CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "relationCollectionId" UUID NOT NULL REFERENCES ae."relationCollection" (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "properties" jsonb DEFAULT NULL,
-  FOREIGN KEY (object_id, "relationCollectionId") REFERENCES ae."objectRelationCollection" (object_id, "relationCollectionId") ON DELETE CASCADE ON UPDATE CASCADE
+  relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  properties jsonb DEFAULT NULL,
+  FOREIGN KEY (object_id, relation_collection_id) REFERENCES ae.object_relation_collection (object_id, relation_collection_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS ae."relationPartner";
-CREATE TABLE ae."relationPartner" (
+DROP TABLE IF EXISTS ae.relation_partner;
+CREATE TABLE ae.relation_partner (
   object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "relationId" UUID NOT NULL REFERENCES ae.relation (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (object_id, "relationId")
+  relation_id UUID NOT NULL REFERENCES ae.relation (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (object_id, relation_id)
 );
 
-DROP TABLE IF EXISTS ae."orgPropertyCollectionWriter";
-CREATE TABLE ae."orgPropertyCollectionWriter" (
+DROP TABLE IF EXISTS ae.org_property_collection_writer;
+CREATE TABLE ae.org_property_collection_writer (
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "userId" UUID NOT NULL REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (organization_id, "userId")
+  user_id UUID NOT NULL REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (organization_id, user_id)
 );
 
-DROP TABLE IF EXISTS ae."orgHabitatWriter";
-CREATE TABLE ae."orgHabitatWriter" (
+DROP TABLE IF EXISTS ae.org_habitat_writer;
+CREATE TABLE ae.org_habitat_writer (
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "userId" UUID NOT NULL REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (organization_id, "userId")
+  user_id UUID NOT NULL REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (organization_id, user_id)
 );
 
-DROP TABLE IF EXISTS ae."orgAdminWriter";
-CREATE TABLE ae."orgAdminWriter" (
+DROP TABLE IF EXISTS ae.org_admin_writer;
+CREATE TABLE ae.org_admin_writer (
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "userId" UUID NOT NULL REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (organization_id, "userId")
+  user_id UUID NOT NULL REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (organization_id, user_id)
 );

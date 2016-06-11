@@ -33,13 +33,14 @@ const config = require('./configuration.js')
 const pgp = require('pg-promise')()
 const pgDb = pgp(config.pg.connectionString)
 
-// 1. import group
 const importGroups = require('./src/importGroups.js')
 const importOrganizations = require('./src/importOrganizations.js')
 const importUsers = require('./src/importUsers.js')
+const importTaxonomiesNonLr = require('./src/importTaxonomiesNonLr.js')
 let groups
 let organizations
 let users
+let taxonomies
 importGroups(pgDb)
   .then((result) => {
     groups = result
@@ -51,6 +52,11 @@ importGroups(pgDb)
   })
   .then((result) => {
     users = result
+    return importTaxonomiesNonLr(pgDb, organizations[0].id)
+  })
+  .then((result) => {
+    taxonomies = result
+    console.log('taxonomies', taxonomies)
     pgp.end()
   })
   .catch((error) => {

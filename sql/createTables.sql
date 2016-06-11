@@ -1,18 +1,18 @@
-DROP TABLE IF EXISTS ae."group" CASCADE;
-CREATE TABLE ae."group" (
+DROP TABLE IF EXISTS ae.group CASCADE;
+CREATE TABLE ae.group (
   name text PRIMARY KEY
 );
 
 DROP TABLE IF EXISTS ae."organization" CASCADE;
 CREATE TABLE ae."organization" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL
 );
 CREATE INDEX ON ae."organization" USING btree ("name");
 
 DROP TABLE IF EXISTS ae."taxonomy" CASCADE;
 CREATE TABLE ae."taxonomy" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   "description" text DEFAULT NULL,
   "links" text[] DEFAULT NULL,
@@ -27,14 +27,14 @@ CREATE INDEX ON ae.taxonomy USING btree ("group");
 
 DROP TABLE IF EXISTS ae."object" CASCADE;
 CREATE TABLE ae."object" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "group" text DEFAULT NULL REFERENCES ae.group (name) ON UPDATE CASCADE,
   "organizationId" UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS ae."user" CASCADE;
 CREATE TABLE ae."user" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   email text NOT NULL
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
@@ -42,7 +42,7 @@ CREATE TABLE ae."user" (
 
 DROP TABLE IF EXISTS ae."taxObject" CASCADE;
 CREATE TABLE ae."taxObject" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "taxonomyId" UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,
   "objectId" UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   "parentId" UUID DEFAULT NULL REFERENCES ae."taxObject" (id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -53,7 +53,7 @@ CREATE INDEX ON ae."taxObject" USING btree (name);
 
 DROP TABLE IF EXISTS ae."propertyCollection" CASCADE;
 CREATE TABLE ae."propertyCollection" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   "description" text DEFAULT NULL,
   "links" text[] DEFAULT NULL,
@@ -70,7 +70,7 @@ CREATE INDEX ON ae."propertyCollection" USING btree (name);
 
 DROP TABLE IF EXISTS ae."relationCollection" CASCADE;
 CREATE TABLE ae."relationCollection" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
   "description" text DEFAULT NULL,
   "links" text[] DEFAULT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE ae."objectRelationCollection" (
 
 DROP TABLE IF EXISTS ae."relation" CASCADE;
 CREATE TABLE ae."relation" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "objectId" UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   "relationCollectionId" UUID NOT NULL REFERENCES ae."relationCollection" (id) ON DELETE CASCADE ON UPDATE CASCADE,
   "properties" jsonb DEFAULT NULL,

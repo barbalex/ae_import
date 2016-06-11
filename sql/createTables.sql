@@ -8,7 +8,7 @@ CREATE TABLE ae.organization (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL
 );
-CREATE INDEX ON ae.organization USING btree ("name");
+CREATE INDEX ON ae.organization USING btree (name);
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
@@ -22,7 +22,7 @@ CREATE TABLE ae.taxonomy (
   "isGroupStandard" boolean DEFAULT FALSE
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
 );
-CREATE INDEX ON ae.taxonomy USING btree ("name");
+CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree ("group");
 
 DROP TABLE IF EXISTS ae."object" CASCADE;

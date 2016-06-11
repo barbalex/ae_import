@@ -56,7 +56,6 @@ importCategories(pgDb)
   })
   .then((result) => {
     taxonomies = result
-    console.log('taxonomies', taxonomies)
     pgp.end()
   })
   .catch((error) => {
@@ -66,7 +65,6 @@ importCategories(pgDb)
 
 /*
 const getObjects = require('./src/getObjects.js')
-const buildTaxonomiesNonLr = require('./src/buildTaxonomiesNonLr.js')
 const buildTaxonomiesLr = require('./src/buildTaxonomiesLr.js')
 
 const buildTaxObjectsFauna = require('./src/buildTaxObjectsFauna.js')
@@ -83,11 +81,6 @@ let taxFlora = null
 let taxPilze = null
 
 getObjects(couchDb)
-  .then((result) => {
-    objects = result
-    console.log('objects', objects.slice(0, 2))
-    return buildTaxonomiesNonLr(couchDb)
-  })
   .then((result) => {
     taxonomies = result
     console.log('taxonomies', taxonomies.slice(0, 2))

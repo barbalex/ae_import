@@ -13,9 +13,6 @@ module.exports = (pgDb, organization_id) =>
       .map((tax) => `('${_.values(tax).join("','")}')`)
       .join(',')
     const sql = `insert into ae.taxonomy(${fieldsSql}) values ${valueSql};`
-    console.log('fieldsSql', fieldsSql)
-    console.log('valueSql', valueSql)
-    console.log('sql', sql)
     pgDb.none('truncate ae.taxonomy cascade')
       .then(() => pgDb.none(sql))
       .then(() => pgDb.many('select * from ae.taxonomy'))

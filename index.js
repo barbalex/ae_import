@@ -36,9 +36,21 @@ const pgDb = pgp(config.pg.connectionString)
 // 1. import group
 const importGroups = require('./src/importGroups.js')
 const importOrganizations = require('./src/importOrganizations.js')
+const importUsers = require('./src/importUsers.js')
+let groups
+let organizations
+let users
 importGroups(pgDb)
-  .then(() => importOrganizations(pgDb))
-  .then(() => {
+  .then((result) => {
+    groups = result
+    return importOrganizations(pgDb)
+  })
+  .then((result) => {
+    organizations = result
+    return importUsers(pgDb)
+  })
+  .then((result) => {
+    users = result
     pgp.end()
   })
   .catch((error) => {

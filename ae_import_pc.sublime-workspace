@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"cre",
+				"createDatabase"
+			],
+			[
 				"conn",
 				"connection"
 			],
@@ -63,31 +67,31 @@
 			"file": "index.js",
 			"settings":
 			{
-				"buffer_size": 2644,
+				"buffer_size": 2870,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sql/createDatabase.sql",
+			"file": "src/importGroups.js",
 			"settings":
 			{
-				"buffer_size": 101,
+				"buffer_size": 503,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sql/createTables.sql",
+			"file": "src/importOrganizations.js",
 			"settings":
 			{
-				"buffer_size": 483,
+				"buffer_size": 447,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "dbConnection.js",
+			"file": "pgDbPass.json",
 			"settings":
 			{
-				"buffer_size": 99,
+				"buffer_size": 54,
 				"line_ending": "Windows"
 			}
 		}
@@ -138,12 +142,17 @@
 	"expanded_folders":
 	[
 		"/C/Users/alex/ae_import",
-		"/C/Users/alex/ae_import/sql"
+		"/C/Users/alex/ae_import/src"
 	],
 	"file_history":
 	[
 		"/C/Users/alex/ae_import/configuration.js",
+		"/C/Users/alex/ae_import/dbConnection.js",
+		"/C/Users/alex/ae_import/src/buildGroups.js",
+		"/C/Users/alex/ae_import/src/groups.js",
+		"/C/Users/alex/ae_import/sql/createDatabase.sql",
 		"/C/Users/alex/ae_import/pgDbPass.json",
+		"/C/Users/alex/ae_import/sql/createTables.sql",
 		"/C/Users/alex/ae_import/.gitignore",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/setParents.js",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/setParentInLrTaxObjects.js",
@@ -264,16 +273,11 @@
 		"/C/Users/alex/apflora_api/queries/tabelleUpdateBeob.js",
 		"/C/Users/alex/apflora_api/src/routes/beobPut.js",
 		"/C/Users/alex/apflora_api/src/routes/beobGetFromTableByString.js",
-		"/C/Users/alex/apflora_api/queries/tabelleSelectBeobString.js",
-		"/C/Users/alex/apflora_api/src/routes/beobGetFromTableByNumber.js",
-		"/C/Users/alex/apflora_api/src/routes/apfloraGetFromTableByString.js",
-		"/C/Users/alex/apflora_api/src/routes/apfloraGetFromTableByNumber.js",
-		"/C/Users/alex/apflora_api/src/routes/apfloraPost.js",
-		"/C/Users/alex/apflora_api/src/routes/apfloraPut.js"
+		"/C/Users/alex/apflora_api/queries/tabelleSelectBeobString.js"
 	],
 	"find":
 	{
-		"height": 42.0
+		"height": 48.0
 	},
 	"find_in_files":
 	{
@@ -294,6 +298,15 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"buildGroups",
+			"pgp",
+			"\"",
+			"buildGroups",
+			"group",
+			"propertyCollection",
+			"taxonomy",
+			"links",
+			"\"name\"",
 			"db",
 			"result",
 			"return reject",
@@ -412,16 +425,7 @@
 			"KEY",
 			"PRIMARY KEY",
 			"char",
-			"double precision precision",
-			"double",
-			"int(11)",
-			"tinyint(1)",
-			"smallint(5)",
-			"int(2)",
-			"int(7)",
-			"int(10)",
-			"longtext",
-			".MutWer IS"
+			"double precision precision"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -429,6 +433,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"importGroups",
+			"'",
+			"name",
 			"couchDb",
 			"reject",
 			"db",
@@ -553,10 +560,7 @@
 			"apberuebersicht",
 			"apber",
 			"ap_umsetzung_werte",
-			"ap_erfkrit_werte",
-			"ap_erfbeurtkrit_werte",
-			"ap_bearbstand_werte",
-			"ap"
+			"ap_erfkrit_werte"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -634,15 +638,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2644,
+						"buffer_size": 2870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								871,
-								871
+								1080,
+								1080
 							]
 						],
 						"settings":
@@ -652,61 +656,72 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 408.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "sql/createDatabase.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 101,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								35,
-								35
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/SQL/SQL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 816.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "sql/createTables.sql",
+					"buffer": 3,
+					"file": "src/importGroups.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 483,
+						"buffer_size": 503,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								419,
-								419
+								77,
+								77
+							],
+							[
+								261,
+								261
+							],
+							[
+								318,
+								318
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/importOrganizations.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								157,
+								157
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -717,11 +732,11 @@
 				},
 				{
 					"buffer": 5,
-					"file": "dbConnection.js",
+					"file": "pgDbPass.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 99,
+						"buffer_size": 54,
 						"regions":
 						{
 						},
@@ -734,7 +749,7 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

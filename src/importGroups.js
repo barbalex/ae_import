@@ -8,9 +8,10 @@ module.exports = (pgDb) =>
     const sql = `insert into ae.group(name) values ${valueSql};`
     pgDb.none('truncate ae.group cascade')
       .then(() => pgDb.none(sql))
-      .then(() => {
+      .then(() => pgDb.many('select * from ae.group'))
+      .then((groups) => {
         console.log('groups inserted')
-        resolve()
+        resolve(groups)
       })
       .catch((error) =>
         reject(`error inserting groups ${error}`)

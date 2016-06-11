@@ -5,9 +5,10 @@ module.exports = (pgDb) =>
     const sql = `insert into ae.organization(name) values ('FNS Kt. ZH');`  /* eslint quotes:0 */
     pgDb.none('truncate ae.organization cascade')
       .then(() => pgDb.none(sql))
-      .then(() => {
+      .then(() => pgDb.many('select * from ae.organization'))
+      .then((organizations) => {
         console.log('organizations inserted')
-        resolve()
+        resolve(organizations)
       })
       .catch((error) =>
         reject(`error inserting organizations ${error}`)

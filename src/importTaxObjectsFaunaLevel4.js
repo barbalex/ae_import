@@ -10,7 +10,7 @@ module.exports = (
   taxObjectsFaunaLevel1,
   taxObjectsFaunaLevel2,
   taxObjectsFaunaLevel3,
-  objects
+  couchObjects
 ) =>
   new Promise((resolve, reject) => {
     couchDb.view(`artendb/baumFauna`, {
@@ -33,17 +33,16 @@ module.exports = (
           (taxObj) => taxObj.name === familieName && taxObj.parent_id === ordnungObject.id
         )
         const name = key[3]
-        const parent_id = familieObject.id  /* eslint camelcase:0 */
         const objId = key[4]
-        const object = objects.find((obj) => obj._id === objId)
+        const object = couchObjects.find((obj) => obj._id === objId)
         const eigenschaften = object.Taxonomie.Eigenschaften
         return {
           id: uuid.v4(),
           taxonomy_id: taxonomie,
           name,
           object_id: objId,
-          object_properties: eigenschaften,
-          parent_id
+          object_properties: JSON.stringify(eigenschaften),
+          parent_id: familieObject.id
         }
       })
       const fieldsSql = _.keys(taxObjectsFaunaLevel4[0]).join(`,`)
@@ -56,10 +55,7 @@ module.exports = (
       values
         ${valueSql};`
       pgDb.none(sql)
-        .then(() => {
-          console.log(`taxObjectsFaunaLevel4 inserted, first object:`, taxObjectsFaunaLevel4[0])
-          resolve(taxObjectsFaunaLevel4)
-        })
+        .then(() => resolve(taxObjectsFaunaLevel4))
         .catch((err) =>
           reject(`error inserting taxObjectsFaunaLevel4 ${err}`)
         )

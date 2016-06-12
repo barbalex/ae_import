@@ -20,12 +20,12 @@ module.exports = (couchDb, pgDb, taxFauna, taxObjectsFaunaLevel1, taxObjectsFaun
           taxObj.name === ordnungName && taxObj.parent === klasseObject.id
         )
         const name = key[2]
-        const parent = ordnungObject.id
+        const parent_id = ordnungObject.id
         return {
           id: uuid.v4(),
           taxonomy_id: taxFauna.id,
           name,
-          parent
+          parent_id
         }
       })
       const fieldsSql = _.keys(taxObjectsFaunaLevel3[0]).join(`,`)

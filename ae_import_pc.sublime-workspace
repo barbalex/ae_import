@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"tax",
+				"taxonomy_id"
+			],
+			[
 				"cre",
 				"createDatabase"
 			],
@@ -51,7 +55,7 @@
 			"file": "index.js",
 			"settings":
 			{
-				"buffer_size": 3410,
+				"buffer_size": 3176,
 				"line_ending": "Windows"
 			}
 		},
@@ -59,31 +63,31 @@
 			"file": "src/importTaxonomiesLr.js",
 			"settings":
 			{
-				"buffer_size": 1718,
+				"buffer_size": 1838,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": ".eslintrc.json",
+			"file": "src/importTaxonomiesNonLr.js",
 			"settings":
 			{
-				"buffer_size": 664,
+				"buffer_size": 903,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sql/createTables.sql",
+			"file": "src/importTaxObjectsFauna.js",
 			"settings":
 			{
-				"buffer_size": 6843,
+				"buffer_size": 2031,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "insert into\n  ae.taxonomy (name,habitat_label,description,habitat_comments,habitat_nr_fns_min,habitat_nr_fns_max,category,is_category_standard,organization_id)\n  values\n    ('CH Delarze (2008): Allgemeine Umgebung (Areale)','Delarze 08 Umgebung','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','Die für die Beurteilung der Umgebung zu berücksichtigende Gesamtfläche muss mindestens 4 ha betragen.','15101','15200','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Spezialobjekte','Delarze 08 Objekte','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','Die folgenden Begriffe dienen der Bezeichnung spezieller Objekte.','15501','16000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1995)','FNS 95','','Für das NSGK? Faunaarten damit beschrieben Ursprünglich 10000 bis 10099','7001','7500','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH ETH Klötzli (1964): Feuchtgebietskartierung Neeracher Riet','FG-Inv. 64','','','18301','18600','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Flora Indicativa (2010): Lebensräume','Flora Ind. 10 Lebensräume','http://www.wsl.ch/floraindicativa/index_DE','Deutsche Namen wären praktischer…','17001','17200','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Dynamik','Delarze 08 Dynamik','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','Dynamik der Erosions- und Akkumulationsvorgänge. Die Aussage jeder Kodierung lehnt sich an die entsprechenden Lebensraumkategorien (Kapitel Gewässer, Wald, etc.) an.','15401','15500','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1977): Feuchtgebietskartierung, Verbuschungsstufen','FG-Inv. 77 Verbuschung','G:\\FNS\\_Migration\\BereichA\\Alex\\Biotope\\Kartierschlüssel\\Feuchtgebietskartierung_7677\\1978InventarFeuchtgebieteBerichtBurnandZüst.pdfnandZüst.pdf','war 10620 bis 10629','1501','1600','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (2008): Trockenstandorte Bachtel, Lebensräume','TS-Inv. 08 Lebensräume','G:\\FNS\\_Migration\\BereichA\\Alex\\Biotope\\Kartierschlüssel\\Bachtel_08_Schlüssel.pdf','','10001','11000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1976): Feuchtgebietskartierungen (Zusatzeinheiten zu FG77)','FG-Inv. 76','','In Pilotkartierung ausgeschiedene Flächeneinheiten die nicht pflanzensoziologischen Kriterien entsprechen.','16301','16400','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Flora Indicativa (2010): Geographische Gesamtverbreitung','Flora Ind. 10 Verbreitung','http://www.wsl.ch/floraindicativa/index_DE','lehnt an Flora alpina an. Deutsche Namen wären praktischer…','17201','17400','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1991): Trockenstandorte im Zürcher Oberland','TS-Inv. 91','G:\\FNS\\_Migration\\BereichA\\Alex\\Biotope\\Kartierschlüssel\\TS_Oberland_91','Ursprünglich 10&#39;500 bis 10599','5001','6000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1977): Feuchtgebietskartierung, Lebensräume','FG-Inv. 77 Lebensräume','G:\\FNS\\_Migration\\BereichA\\Alex\\Biotope\\Kartierschlüssel\\Feuchtgebietskartierung_7677nandZüst.pdf','Ursprünglich 1-52, 999 und 10&#39;400','1001','1500','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('Witt (1995): Wildpflanzen für jeden Garten','Witt 95','','Ursprünglich 10200 bis 10299','9001','10000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Agroscope (2008): Ziel- und Leitarten','Agroscope 08','ART - Definitionen zu den Artlisten: http://www.art.admin.ch/themen/00563/00677/00679/index.html?lang=desprungmarke0_9','Ursprünglich 10100 bis 10199','8001','9000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH Dickenmann/Winter (2007): Feuchtgebietskartierung','Dickenmann/Winter 07','','ENr-Bereiche unzusammenhängend. Unterer Bereich: 53-76. Oberen Bereich 10401 bis 10499 später hinzugefügt, um einen vollständigen Kartierschlüssel zu erhalten.','2001','3000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Lebensräume','Delarze 08 Lebensräume','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','vorher 77-348','1','1000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH Schwilch (1962): Vegetationskartierung Pfäffikersee','Schwilch 62','','Aus Landwirtschftspflegeplan Pfäffikersee, Vegetationskarte 1:5000 Quelle: pluspunkt, Bettina','16201','16300','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Flora Indicativa (2010): Pflanzengesellschaften','Flora Ind. 10 Gesellschaften','http://www.wsl.ch/floraindicativa/index_DE','lehnt an Flora alpina an','17401','18000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1995): Beziehungen zw. Flora und Lebensräumen','FNS 95','','Für das NSGK 1995 Floraarten damit beschrieben (?)','7501','8000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1977): Feuchtgebietskartierung, Düngerstufen','FG-Inv. 77 Düngerstufen','','Ursprünglich 10&#39;600 bis 10609','1701','1800','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH BAFU (1990-2007): Hochmoore von nationaler Bedeutung','HM-Inv. 90','BAFU - Verfügbare Geodaten im BAFU','','13001','14000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Grössenordnung','Delarze 08 Grösse','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','Die Angabe soll die minimale Ausdehnung des Biotops einschätzen (ab Beobachtungsstelle oder Schwerpunkt der Lebensraumeinheit).','15001','15100','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('Agrofutura (2004): Wiesenkartierschlüssel','Agrofutura 04','http://www.ag.ch/umwelt-aargau/pdf/UAG_So_17_3.pdf','','12001','13000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Hydrologie','Delarze 08 Hydrologie','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','Die Aussage jeder Kategorie lehnt sich an den entsprechenden Lebensraumbereich bzw. -typ (in Klammern) an.','15301','15400','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (2001): Feuchtgebietskartierung Drummlinlandschaft (Zusatzeinheiten zu FG77)','FG-Inv. 01','','Zusätzlich zum Basisschlüssel FG77 ausgeschiedene Flächeneinheiten','16401','16500','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Strukturen','Delarze 08 Strukturen','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','','14001','15000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH Abt. Wald (1986): Waldstandorte','ZH Wald 86','Ablage: 5.202 [4] N, Bibl. Naturschutz [4]','Ursprünglich 100000 bis 109999','6001','7000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH Delarze (2008): Anthropogene Störungen','Delarze 08 Störungen','http://www.cscf.ch/webdav/site/cscf/shared/documents/vademecum.pdf','','15201','15300','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH BAFU (2001): Trockenwiesen und -weiden von nationaler Bedeutung','TWW-Inv. 01','http://www.bafu.admin.ch/publikationen/publikation/00475/index.html?lang=de&downloadshop=NHzLpZig7t,lnp6I0NTU042l2Z6ln1acy4Zn4Z2qZpnO2Yuq2Z6gpJCDdH5_gGym162dpYbUzd,Gpd6emK2Oz9aGodetmqaN19XI2IdvoaCVZ,s-.pdf','Ursprünglich 200000 bis 209000 Ablage FNS: 5.814 [ 325 ] N, Bibl. Naturschutz [4]','3001','4000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (1977): Feuchtgebietskartierung, Verschilfungsstufen','FG-Inv. 77 Verschilfung','G:\\FNS\\_Migration\\BereichA\\Alex\\Biotope\\Kartierschlüssel\\Feuchtgebietskartierung_7677\\1978InventarFeuchtgebieteBerichtBurnandZüst.pdfnandZüst.pdf','Ursprünglich 10&#39;610 bis 10619','1601','1700','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (2008): Trockenstandorte Bachtel, Bewirtschaftung','TS-Inv. 08 Nutzung','G:\\FNS\\_Migration\\BereichA\\Alex\\Biotope\\Kartierschlüssel\\Bachtel_08_Schlüssel.pdf','Aus der Vegetationskartierung Bachtel 2008','11001','11100','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH FNS (2007): Aktionsplan Trockenwiesen und -weiden','AP TWW 07','','Zuweisung von Arten zu Lebensräumen und Strukturen Ursprünglich 10&#39;300 bis 10399','4001','5000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('ZH ETH Klötzli (1961): Feuchtgebietskartierung Flughafen','FG-Inv. 61','','','18001','18300','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH BAFU (1993): Auen von nationaler Bedeutung','Auen-Inv. 93','http://www.bafu.admin.ch/gis/02911/07403/index.html?lang=de','','16501','17000','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('Pro Natura (2009)','SAGLS 09','','Pro Natura (Hrsg.) (2009): Libellen schützen, Libellen fördern. Leitfaden für die Naturschutzpraxis. Beiträge zum Naturschutz in der Schweiz Nr. 31. ISSN 1421-5527. Basel.','16001','16100','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501'),\n    ('CH BAFU und BLW (2008): Umweltziele Landwirtschaft','UZL 08','http://www.bafu.admin.ch/publikationen/publikation/00097/index.html?lang=de&downloadshop=NHzLpZig7t,lnp6I0NTU042l2Z6ln1acy4Zn4Z2qZpnO2Yuq2Z6gpJCDdHx4gmym162dpYbUzd,Gpd6emK2Oz9aGodetmqaN19XI2IdvoaCVZ,s-.pdf','','16101','16200','Lebensräume','true','fa013df0-4f17-408f-bf00-5da52ff17501');",
+			"file": "src/importTaxObjectsFaunaLevel1.js",
 			"settings":
 			{
-				"buffer_size": 9632,
+				"buffer_size": 1094,
 				"line_ending": "Windows"
 			}
 		}
@@ -139,21 +143,42 @@
 	],
 	"file_history":
 	[
+		"/C/Users/alex/ae_import/src/importTaxonomiesNonLr.js",
+		"/C/Users/alex/ae_import/src/nonLrTaxonomies.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel1.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFauna.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel1.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel2.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel3.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel4.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel2.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel3.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel1.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel2.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel3.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel4.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsPilzeLevel1.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsPilzeLevel2.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFaunaLevel4.js",
+		"/C/Users/alex/ae_import/src/buildLrTaxonomieObject.js",
+		"/C/Users/alex/ae_import/src/importTaxonomiesLr.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel1.js",
+		"/C/Users/alex/ae_import/src/importUsers.js",
+		"/C/Users/alex/ae_import/src/importCategories.js",
+		"/C/Users/alex/ae_import/src/importOrganizations.js",
+		"/C/Users/alex/ae_import/sql/createTables.sql",
+		"/C/Users/alex/ae_import/src/rebuildObjects.js",
+		"/C/Users/alex/ae_import/.eslintrc.json",
 		"/C/Users/alex/ae_import/package.json",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/buildLrTaxonomieObject.js",
 		"/C/Users/alex/ae_import/.gitignore",
-		"/C/Users/alex/ae_import/src/importTaxonomiesNonLr.js",
-		"/C/Users/alex/ae_import/src/nonLrTaxonomies.js",
 		"/C/Users/alex/ae_import/src/importGroups.js",
 		"/C/Users/alex/ae_import/src/groups.js",
-		"/C/Users/alex/ae_import/src/importUsers.js",
-		"/C/Users/alex/ae_import/src/importOrganizations.js",
 		"/C/Users/alex/ae_import/pgDbPass.json",
 		"/C/Users/alex/ae_import/configuration.js",
 		"/C/Users/alex/ae_import/dbConnection.js",
 		"/C/Users/alex/ae_import/src/buildGroups.js",
 		"/C/Users/alex/ae_import/sql/createDatabase.sql",
-		"/C/Users/alex/ae_import/sql/createTables.sql",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/setParents.js",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/setParentInLrTaxObjects.js",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/rebuildObjects.js",
@@ -175,7 +200,6 @@
 		"/C/Users/alex/ae_structure_v1_to_v3/package.json",
 		"/C/Users/alex/ae_structure_v1_to_v3/.eslintrc.json",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/buildGroups.js",
-		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel1.js",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFauna.js",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel2.js",
 		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel3.js",
@@ -246,27 +270,7 @@
 		"/C/Users/alex/apflora_api/test/tpopMassnTypen.js",
 		"/C/Users/alex/apflora_api/src/routes/tpopMassnTypenGet.js",
 		"/C/Users/alex/apflora_api/queries/tpopMassnTypen.js",
-		"/C/Users/alex/apflora_api/test/tpopKoordFuerProgramm.js",
-		"/C/Users/alex/apflora_api/queries/tpopKoordFuerProgramm.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopKoordFuerProgrammGet.js",
-		"/C/Users/alex/apflora_api/queries/tpopmassnInsertKopie.js",
-		"/C/Users/alex/apflora_api/queries/tpopkontrInsertKopie.js",
-		"/C/Users/alex/apflora_api/queries/tpopInsertKopie.js",
-		"/C/Users/alex/apflora_api/test/tpopmassnInsertKopie.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopmassnPostKopie.js",
-		"/C/Users/alex/apflora_api/src/newGuid.js",
-		"/C/Users/alex/apflora/src/modules/erstelleGuid.js",
-		"/C/Users/alex/apflora_api/test/tpopkontrInsertKopie.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopkontrPostKopie.js",
-		"/C/Users/alex/apflora_api/test/tpopInsertKopie.js",
-		"/C/Users/alex/apflora_api/test/tpopKarteAlle.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopKarteAlleGet.js",
-		"/C/Users/alex/apflora_api/queries/tpopKarteAlle.js",
-		"/C/Users/alex/apflora_api/test/tpopKarte.js",
-		"/C/Users/alex/apflora_api/queries/tpopKarte.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopKarteGet.js",
-		"/C/Users/alex/apflora_api/test/popKarte.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopPostKopie.js"
+		"/C/Users/alex/apflora_api/test/tpopKoordFuerProgramm.js"
 	],
 	"find":
 	{
@@ -274,9 +278,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 366.0,
+		"height": 145.0,
 		"where_history":
 		[
+			"C:\\Users\\alex\\ae_import",
 			"C:\\Users\\alex\\ae_structure_v1_to_v3",
 			"C:\\Users\\alex\\apflora_api",
 			"C:\\Users\\alex\\apflora_api\\test",
@@ -291,6 +296,27 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"objects",
+			"'",
+			"buildTaxObjectsFaunaLevel1",
+			"buildTaxObjectsFaunaLevel2",
+			"buildTaxObjectsFaunaLevel3",
+			"buildTaxObjectsFaunaLevel4",
+			"taxObjectsFaunaLevel3",
+			"const uuid = require('node-uuid')",
+			"taxObjectsFaunaLevel2",
+			"taxObjectsFaunaLevel1",
+			"taxonomy",
+			"taxonomies",
+			"db",
+			"'",
+			"Taxonomie: taxFauna._id",
+			"buildTaxonomiesLr",
+			"'",
+			"`}\"",
+			"'}`",
+			"`{'",
+			"'",
 			"),    (",
 			"\n",
 			"),(",
@@ -397,28 +423,7 @@
 			"queryAdressen",
 			"exportView",
 			"queryBeobZuordnen",
-			"queryBeobNaechsteTpop",
-			"beobNaechsteTpop",
-			"queryBeobKarte",
-			"beobKarte",
-			"queryBeobDistzutpopEvab",
-			"queryApliste",
-			"queryApKarte",
-			"queryApInsert",
-			"queryTabelleDeleteApflora",
-			"apflora/tabelle=",
-			"queryAp",
-			"queryAnmeldung",
-			"aktualisiereArteigenschaften",
-			"\\t",
-			"queryAdressen",
-			"exportKontr",
-			"DistzuTPop",
-			"queryBeobNaechsteTpop",
-			"to_char",
-			", '9999999')",
-			"queryBeobKarte",
-			"timeout"
+			"queryBeobNaechsteTpop"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -426,6 +431,25 @@
 		"regex": false,
 		"replace_history":
 		[
+			"`",
+			"importTaxObjectsFaunaLevel1",
+			"importTaxObjectsFaunaLevel2",
+			"importTaxObjectsFaunaLevel3",
+			"importTaxObjectsFaunaLevel4",
+			"taxObjectsFaunaLevel4",
+			"const uuid = require(`node-uuid`)",
+			"taxObjectsFaunaLevel3",
+			"taxObjectsFaunaLevel2",
+			"tax_object",
+			"taxObjectsFaunaLevel1",
+			"couchDb",
+			"`",
+			"taxonomy_id: taxFauna.id",
+			"`",
+			"\"}`",
+			"`}\"",
+			"`{\"",
+			"`",
 			"),\n    (",
 			"",
 			"),\n    (",
@@ -534,26 +558,7 @@
 			"tpopmassn_typ_werte",
 			"adresse",
 			"tpopmassn_erfbeurt_werte",
-			"tpop",
-			"tpopmassnber",
-			"user",
-			"ziel",
-			"zielber",
-			"ziel_typ_werte",
-			"",
-			"zielber",
-			"ziel_typ_werte",
-			"ziel",
-			"user",
-			"tpopmassnber",
-			"tpopmassn_typ_werte",
-			"tpopmassn_erfbeurt_werte",
-			"tpopmassn",
-			"tpopkontrzaehl_methode_werte",
-			"tpopkontrzaehl_einheit_werte",
-			"tpopkontrzaehl",
-			"tpopkontr_typ_werte",
-			"tpopkontr_idbiotuebereinst_werte"
+			"tpop"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -564,7 +569,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -573,19 +578,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3410,
+						"buffer_size": 3176,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1470,
-								1470
-							],
-							[
-								1486,
-								1486
+								2387,
+								2387
 							]
 						],
 						"settings":
@@ -595,10 +596,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1224.0,
+						"translation.y": 1972.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -607,15 +608,45 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1718,
+						"buffer_size": 1838,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1432,
-								1432
+								150,
+								136
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 816.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/importTaxonomiesNonLr.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 903,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								796,
+								781
 							]
 						],
 						"settings":
@@ -628,94 +659,67 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": ".eslintrc.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 664,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								350,
-								350
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "sql/createTables.sql",
+					"file": "src/importTaxObjectsFauna.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6843,
+						"buffer_size": 2031,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6843,
-								6843
+								605,
+								605
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PostgreSQL Syntax Highlighting/PostgreSQL.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 837.0,
+						"translation.y": 102.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
+					"file": "src/importTaxObjectsFaunaLevel1.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9632,
+						"buffer_size": 1094,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								9632
+								108,
+								102
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -760,7 +764,7 @@
 	"project": "ae_import_pc.sublime-project",
 	"replace":
 	{
-		"height": 160.0
+		"height": 92.0
 	},
 	"save_all_on_build": true,
 	"select_file":

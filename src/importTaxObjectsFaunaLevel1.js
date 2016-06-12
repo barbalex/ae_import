@@ -24,7 +24,8 @@ module.exports = (couchDb, pgDb, taxFauna) =>
         ae.tax_object (${fieldsSql})
       values
         ${valueSql};`
-      pgDb.none(sql)
+      pgDb.none(`truncate ae.tax_object cascade`)
+        .then(() => pgDb.none(sql))
         .then(() => {
           console.log(`taxObjectsFaunaLevel1 inserted`)
           resolve(taxObjectsFaunaLevel1)

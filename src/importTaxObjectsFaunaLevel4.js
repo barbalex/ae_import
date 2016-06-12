@@ -33,7 +33,7 @@ module.exports = (
           (taxObj) => taxObj.name === familieName && taxObj.parent === ordnungObject.id
         )
         const name = key[3]
-        const parent = familieObject.id
+        const parent_id = familieObject.id
         const objId = key[4]
         const object = objects.find((obj) => obj._id === objId)
         const eigenschaften = object.Taxonomie.Eigenschaften
@@ -43,7 +43,7 @@ module.exports = (
           name,
           object_id: objId,
           object_properties: eigenschaften,
-          parent
+          parent_id
         }
       })
       const fieldsSql = _.keys(taxObjectsFaunaLevel4[0]).join(`,`)

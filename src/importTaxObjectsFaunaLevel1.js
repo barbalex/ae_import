@@ -26,10 +26,7 @@ module.exports = (couchDb, pgDb, taxFauna) =>
         ${valueSql};`
       pgDb.none(`truncate ae.tax_object cascade`)
         .then(() => pgDb.none(sql))
-        .then(() => {
-          console.log(`taxObjectsFaunaLevel1 inserted, first object:`, taxObjectsFaunaLevel1[0])
-          resolve(taxObjectsFaunaLevel1)
-        })
+        .then(() => resolve(taxObjectsFaunaLevel1))
         .catch((err) =>
           reject(`error inserting taxObjectsFaunaLevel1 ${err}`)
         )

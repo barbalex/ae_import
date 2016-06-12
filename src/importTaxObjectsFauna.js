@@ -5,17 +5,16 @@ const importTaxObjectsFaunaLevel2 = require(`./importTaxObjectsFaunaLevel2.js`)
 const importTaxObjectsFaunaLevel3 = require(`./importTaxObjectsFaunaLevel3.js`)
 const importTaxObjectsFaunaLevel4 = require(`./importTaxObjectsFaunaLevel4.js`)
 
-let taxObjectsFaunaLevel1 = null
-let taxObjectsFaunaLevel2 = null
-let taxObjectsFaunaLevel3 = null
-let taxObjectsFaunaLevel4 = null
+let taxObjectsFaunaLevel1
+let taxObjectsFaunaLevel2
+let taxObjectsFaunaLevel3
+let taxObjectsFaunaLevel4
 
-module.exports = (couchDb, pgDb, taxFauna, objects) =>
+module.exports = (couchDb, pgDb, taxFauna, couchObjects) =>
   new Promise((resolve, reject) => {
     importTaxObjectsFaunaLevel1(couchDb, pgDb, taxFauna)
       .then((result) => {
         taxObjectsFaunaLevel1 = result
-        console.log(`taxObjectsFaunaLevel1`, taxObjectsFaunaLevel1.slice(0, 2))
         return importTaxObjectsFaunaLevel2(
           couchDb,
           pgDb,
@@ -25,7 +24,6 @@ module.exports = (couchDb, pgDb, taxFauna, objects) =>
       })
       .then((result) => {
         taxObjectsFaunaLevel2 = result
-        console.log(`taxObjectsFaunaLevel2`, taxObjectsFaunaLevel2.slice(0, 2))
         return importTaxObjectsFaunaLevel3(
           couchDb,
           pgDb,
@@ -36,7 +34,6 @@ module.exports = (couchDb, pgDb, taxFauna, objects) =>
       })
       .then((result) => {
         taxObjectsFaunaLevel3 = result
-        console.log(`taxObjectsFaunaLevel3`, taxObjectsFaunaLevel3.slice(0, 2))
         return importTaxObjectsFaunaLevel4(
           couchDb,
           pgDb,
@@ -44,19 +41,14 @@ module.exports = (couchDb, pgDb, taxFauna, objects) =>
           taxObjectsFaunaLevel1,
           taxObjectsFaunaLevel2,
           taxObjectsFaunaLevel3,
-          objects
+          couchObjects
         )
       })
       .then((result) => {
         taxObjectsFaunaLevel4 = result
-        console.log(`taxObjectsFaunaLevel4`, taxObjectsFaunaLevel4.slice(0, 2))
-        console.log(`finished building fauna objects`)
-        resolve(
-          taxObjectsFaunaLevel1,
-          taxObjectsFaunaLevel2,
-          taxObjectsFaunaLevel3,
-          taxObjectsFaunaLevel4
-        )
+        const taxObjectsFauna = taxObjectsFaunaLevel1.concat(taxObjectsFaunaLevel2, taxObjectsFaunaLevel3, taxObjectsFaunaLevel4)
+        console.log(`${taxObjectsFauna.length} fauna taxonomy objects imported`)
+        resolve(taxObjectsFauna)
       })
       .catch((error) => reject(error))
   })

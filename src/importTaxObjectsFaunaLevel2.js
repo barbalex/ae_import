@@ -16,12 +16,11 @@ module.exports = (couchDb, pgDb, taxFauna, taxObjectsFaunaLevel1) =>
           taxObj.name === klasseName
         )
         const name = key[1]
-        const parent_id = klasseObject.id  /* eslint camelcase:0 */
         return {
           id: uuid.v4(),
           taxonomy_id: taxFauna.id,
           name,
-          parent_id
+          parent_id: klasseObject.id
         }
       })
       const fieldsSql = _.keys(taxObjectsFaunaLevel2[0]).join(`,`)
@@ -34,10 +33,7 @@ module.exports = (couchDb, pgDb, taxFauna, taxObjectsFaunaLevel1) =>
       values
         ${valueSql};`
       pgDb.none(sql)
-        .then(() => {
-          console.log(`taxObjectsFaunaLevel2 inserted, first object:`, taxObjectsFaunaLevel2[0])
-          resolve(taxObjectsFaunaLevel2)
-        })
+        .then(() => resolve(taxObjectsFaunaLevel2))
         .catch((err) =>
           reject(`error inserting taxObjectsFaunaLevel2 ${err}`)
         )

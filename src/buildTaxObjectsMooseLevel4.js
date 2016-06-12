@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require('lodash')
+const _ = require(`lodash`)
 const uuid = require(`node-uuid`)
 
 module.exports = (
@@ -21,15 +21,15 @@ module.exports = (
         const taxonomie = taxMoose._id
         const klasseObjektName = key[0]
         const klasseObject = taxObjectsMooseLevel1.find((taxObj) =>
-          taxObj.Name === klasseObjektName
+          taxObj.name === klasseObjektName
         )
         const familieObjektName = key[1]
         const familieObject = taxObjectsMooseLevel2.find((taxObj) =>
-          taxObj.Name === familieObjektName && taxObj.parent_id === klasseObject._id
+          taxObj.name === familieObjektName && taxObj.parent_id === klasseObject._id
         )
         const gattungName = key[2]
         const gattungObject = taxObjectsMooseLevel3.find((taxObj) =>
-          taxObj.Name === gattungName && taxObj.parent_id === familieObject._id
+          taxObj.name === gattungName && taxObj.parent_id === familieObject._id
         )
         const name = key[3]
         const parent = gattungObject._id
@@ -39,10 +39,9 @@ module.exports = (
         )
         const eigenschaften = object.Taxonomie.Eigenschaften
         return {
-          _id: uuid.v4(),
-          Typ: 'Taxonomie-Objekt',
-          Taxonomie: taxonomie,
-          Name: name,
+          id: uuid.v4(),
+          taxonomy_id: taxonomie,
+          name,
           Objekt: {
             id: objId,
             Eigenschaften: eigenschaften

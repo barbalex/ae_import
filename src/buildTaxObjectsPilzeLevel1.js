@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require('lodash')
+const _ = require(`lodash`)
 const uuid = require(`node-uuid`)
 
 module.exports = (db, taxPilze) =>
@@ -12,10 +12,9 @@ module.exports = (db, taxPilze) =>
       const names = _.map(result, (row) => row.key[0])
       const taxObjectsPilzeLevel1 = names.map((name) =>
         ({
-          _id: uuid.v4(),
-          Typ: 'Taxonomie-Objekt',
+          id: uuid.v4(),
           Taxonomie: taxPilze._id,
-          Name: name
+          name
         })
       )
       db.save(taxObjectsPilzeLevel1, (err, results) => {

@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require('lodash')
+const _ = require(`lodash`)
 const uuid = require(`node-uuid`)
 
 module.exports = (db, taxPilze, taxObjectsPilzeLevel1, objects) =>
@@ -13,7 +13,7 @@ module.exports = (db, taxPilze, taxObjectsPilzeLevel1, objects) =>
       const taxObjectsPilzeLevel2 = _.map(keys, (key) => {
         const taxonomie = taxPilze._id
         const gattungName = key[0]
-        const gattungObject = taxObjectsPilzeLevel1.find((taxObj) => taxObj.Name === gattungName)
+        const gattungObject = taxObjectsPilzeLevel1.find((taxObj) => taxObj.name === gattungName)
         const name = key[1]
         const parent = gattungObject._id
         const objId = key[2]
@@ -21,10 +21,9 @@ module.exports = (db, taxPilze, taxObjectsPilzeLevel1, objects) =>
         if (!object) console.log('no object found for objId', objId)
         const eigenschaften = object.Taxonomie.Eigenschaften
         return {
-          _id: uuid.v4(),
-          Typ: 'Taxonomie-Objekt',
-          Taxonomie: taxonomie,
-          Name: name,
+          id: uuid.v4(),
+          taxonomy_id: taxonomie,
+          name,
           Objekt: {
             id: objId,
             Eigenschaften: eigenschaften

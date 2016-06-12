@@ -41,6 +41,7 @@ const importTaxonomiesNonLr = require(`./src/importTaxonomiesNonLr.js`)
 const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
 const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
 const importTaxObjectsFlora = require(`./src/importTaxObjectsFlora.js`)
+const importTaxObjectsMoose = require(`./src/importTaxObjectsMoose.js`)
 
 let couchObjects
 let objects
@@ -107,6 +108,10 @@ getObjects(couchDb)
   })
   .then((result) => {
     taxObjectsFlora = result
+    return importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects)
+  })
+  .then((result) => {
+    taxObjectsMoose = result
     pgp.end()
   })
   .catch((error) => {

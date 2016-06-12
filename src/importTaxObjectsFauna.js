@@ -5,13 +5,13 @@ const importTaxObjectsFaunaLevel2 = require(`./importTaxObjectsFaunaLevel2.js`)
 const importTaxObjectsFaunaLevel3 = require(`./importTaxObjectsFaunaLevel3.js`)
 const importTaxObjectsFaunaLevel4 = require(`./importTaxObjectsFaunaLevel4.js`)
 
-let taxObjectsFaunaLevel1
-let taxObjectsFaunaLevel2
-let taxObjectsFaunaLevel3
-let taxObjectsFaunaLevel4
-
 module.exports = (couchDb, pgDb, taxFauna, couchObjects) =>
   new Promise((resolve, reject) => {
+    let taxObjectsFaunaLevel1
+    let taxObjectsFaunaLevel2
+    let taxObjectsFaunaLevel3
+    let taxObjectsFaunaLevel4
+
     importTaxObjectsFaunaLevel1(couchDb, pgDb, taxFauna)
       .then((result) => {
         taxObjectsFaunaLevel1 = result

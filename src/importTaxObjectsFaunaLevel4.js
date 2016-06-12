@@ -19,7 +19,6 @@ module.exports = (
       if (error) reject(`error querying view baumFauna: ${error}`)
       const keys = _.map(result, (row) => row.key)
       const taxObjectsFaunaLevel4 = _.map(keys, (key) => {
-        const taxonomie = taxFauna.id
         const klasseObjektName = key[0]
         const klasseObject = taxObjectsFaunaLevel1.find((taxObj) =>
           taxObj.name === klasseObjektName
@@ -38,7 +37,7 @@ module.exports = (
         const eigenschaften = object.Taxonomie.Eigenschaften
         return {
           id: uuid.v4(),
-          taxonomy_id: taxonomie,
+          taxonomy_id: taxFauna.id,
           name,
           object_id: objId,
           object_properties: JSON.stringify(eigenschaften),

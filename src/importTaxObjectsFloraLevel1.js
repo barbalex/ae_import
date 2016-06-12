@@ -24,11 +24,6 @@ module.exports = (couchDb, pgDb, taxFlora) =>
         ae.tax_object (${fieldsSql})
       values
         ${valueSql};`
-
-      console.log('taxObjectsFloraLevel1[0]', taxObjectsFloraLevel1[0])
-      console.log('taxFlora[0]', taxFlora[0])
-      console.log('taxFlora', taxFlora)
-
       pgDb.none(sql)
         .then(() => resolve(taxObjectsFloraLevel1))
         .catch((err) =>

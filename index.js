@@ -42,6 +42,7 @@ const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
 const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
 const importTaxObjectsFlora = require(`./src/importTaxObjectsFlora.js`)
 const importTaxObjectsMoose = require(`./src/importTaxObjectsMoose.js`)
+const importTaxObjectsPilze = require(`./src/importTaxObjectsPilze.js`)
 
 let couchObjects
 let objects
@@ -112,6 +113,10 @@ getObjects(couchDb)
   })
   .then((result) => {
     taxObjectsMoose = result
+    return importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects)
+  })
+  .then((result) => {
+    taxObjectsPilze = result
     pgp.end()
   })
   .catch((error) => {
@@ -120,13 +125,9 @@ getObjects(couchDb)
   })
 
 /*
-const buildTaxObjectsPilze = require(`./src/buildTaxObjectsPilze.js`)
-const buildTaxObjectsMoose = require(`./src/buildTaxObjectsMoose.js`)
 const rebuildObjects = require(`./src/rebuildObjects.js`)
 
 getObjects(couchDb)
-  .then(() => buildTaxObjectsPilze(couchDb, taxPilze, objects))
-  .then(() => buildTaxObjectsMoose(couchDb, taxPilze, objects))
   .then(() => rebuildObjects(couchDb, lrTaxonomies))
   .catch((error) => console.log(error))
 */

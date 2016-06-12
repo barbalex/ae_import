@@ -22,7 +22,7 @@ module.exports = (pgDb, organizationId) =>
     pgDb.none(`truncate ae.taxonomy cascade`)
       .then(() => pgDb.none(sql))
       .then(() => {
-        console.log(`${nonLrTaxonomies.length} nonLrTaxonomies inserted`)
+        console.log(`${nonLrTaxonomies.length} nonLrTaxonomies imported`)
         resolve(nonLrTaxonomies)
       })
       .catch((error) =>

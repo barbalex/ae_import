@@ -19,7 +19,7 @@ module.exports = (couchDb, pgDb, couchObjects, organizationId) =>
       ${valueSql};`
     pgDb.none(sql)
       .then(() => {
-        console.log(`${couchObjects.length} objects inserted`)
+        console.log(`${couchObjects.length} objects imported`)
         resolve(objects)
       })
       .catch((err) =>

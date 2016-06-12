@@ -11,7 +11,7 @@ module.exports = (pgDb) =>
       .then(() => pgDb.none(sql))
       .then(() => pgDb.many(`select * from ae.organization`))
       .then((organizations) => {
-        console.log(`1 organization inserted`)
+        console.log(`1 organization imported`)
         resolve(organizations)
       })
       .catch((error) =>

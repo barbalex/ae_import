@@ -14,7 +14,7 @@ module.exports = (pgDb) =>
       .then(() => pgDb.none(sql))
       .then(() => pgDb.many(`select * from ae.category`))
       .then((cat) => {
-        console.log(`${categories.length} categories inserted`)
+        console.log(`${categories.length} categories imported`)
         resolve(cat)
       })
       .catch((error) =>

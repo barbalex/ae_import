@@ -33,13 +33,16 @@ const pgp = require(`pg-promise`)()
 const pgDb = pgp(config.pg.connectionString)
 
 const getObjects = require(`./src/getObjects.js`)
+const importObjects = require(`./src/importObjects.js`)
 const importCategories = require(`./src/importCategories.js`)
 const importOrganizations = require(`./src/importOrganizations.js`)
 const importUsers = require(`./src/importUsers.js`)
 const importTaxonomiesNonLr = require(`./src/importTaxonomiesNonLr.js`)
 const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
 const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
+const importTaxObjectsFlora = require(`./src/importTaxObjectsFlora.js`)
 
+let couchObjects
 let objects
 let taxonomies
 let categories
@@ -49,6 +52,7 @@ let nonLrTaxonomies
 let lrTaxonomies
 let taxFauna
 let taxFlora
+let taxMoose
 let taxPilze
 let taxObjectsFauna
 let taxObjectsFlora
@@ -58,7 +62,7 @@ let taxObjectsLebensräume
 
 getObjects(couchDb)
   .then((result) => {
-    objects = result
+    couchObjects = result
     return importCategories(pgDb)
   })
   .then((result) => {
@@ -75,17 +79,34 @@ getObjects(couchDb)
   })
   .then((result) => {
     nonLrTaxonomies = result
-    taxFauna = nonLrTaxonomies.find((taxonomy) => taxonomy.name === `CSCF (2009)`)
-    taxFlora = nonLrTaxonomies.find((taxonomy) => taxonomy.name === `SISF Index 2 (2005)`)
-    taxPilze = nonLrTaxonomies.find((taxonomy) => taxonomy.name === `Swissfunghi (2011)`)
+    taxFauna = nonLrTaxonomies.find((tax) =>
+      tax.category === `Fauna`
+    )
+    taxFlora = nonLrTaxonomies.find((tax) =>
+      tax.category === `Flora`
+    )
+    taxMoose = nonLrTaxonomies.find((tax) =>
+      tax.category === `Moose`
+    )
+    taxPilze = nonLrTaxonomies.find((tax) =>
+      tax.category === `Pilze`
+    )
     return importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
   })
   .then((result) => {
     lrTaxonomies = result
-    return importTaxObjectsFauna(couchDb, pgDb, taxFauna, objects)
+    return importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
+  })
+  .then((result) => {
+    objects = result
+    return importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects)
   })
   .then((result) => {
     taxObjectsFauna = result
+    return importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects)
+  })
+  .then((result) => {
+    taxObjectsFlora = result
     pgp.end()
   })
   .catch((error) => {
@@ -94,15 +115,11 @@ getObjects(couchDb)
   })
 
 /*
-
-
-const buildTaxObjectsFlora = require(`./src/buildTaxObjectsFlora.js`)
 const buildTaxObjectsPilze = require(`./src/buildTaxObjectsPilze.js`)
 const buildTaxObjectsMoose = require(`./src/buildTaxObjectsMoose.js`)
 const rebuildObjects = require(`./src/rebuildObjects.js`)
 
 getObjects(couchDb)
-  .then(() => buildTaxObjectsFlora(couchDb, taxFlora, objects))
   .then(() => buildTaxObjectsPilze(couchDb, taxPilze, objects))
   .then(() => buildTaxObjectsMoose(couchDb, taxPilze, objects))
   .then(() => rebuildObjects(couchDb, lrTaxonomies))

@@ -25,10 +25,10 @@ module.exports = (db, doc, index, lrTaxonomies) => {
   if (eigenschaften.Parent) delete eigenschaften.Parent
   if (eigenschaften.Hierarchie) delete eigenschaften.Hierarchie
   const taxObj = {
-    _id: uuid.v4(),
+    id: uuid.v4(),
     Typ: 'Taxonomie-Objekt',
-    Taxonomie: taxonomie._id,
-    Name: name,
+    taxonomy_id: taxonomie._id,
+    name,
     Objekt: {
       id: doc._id,
       Eigenschaften: eigenschaften

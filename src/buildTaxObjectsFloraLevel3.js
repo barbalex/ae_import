@@ -18,7 +18,7 @@ module.exports = (db, taxFlora, taxObjectsFloraLevel1, taxObjectsFloraLevel2, ob
         )
         const gattungName = key[1]
         const gattungObject = taxObjectsFloraLevel2.find((taxObj) =>
-          taxObj.Name === gattungName && taxObj.parent === familieObject._id
+          taxObj.Name === gattungName && taxObj.parent_id === familieObject._id
         )
         const name = key[2]
         const parent = gattungObject._id

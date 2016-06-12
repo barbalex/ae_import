@@ -26,14 +26,14 @@ module.exports = (
         )
         const ordnungObjektName = key[1]
         const ordnungObject = taxObjectsFaunaLevel2.find((taxObj) =>
-          taxObj.name === ordnungObjektName && taxObj.parent === klasseObject.id
+          taxObj.name === ordnungObjektName && taxObj.parent_id === klasseObject.id
         )
         const familieName = key[2]
         const familieObject = taxObjectsFaunaLevel3.find(
-          (taxObj) => taxObj.name === familieName && taxObj.parent === ordnungObject.id
+          (taxObj) => taxObj.name === familieName && taxObj.parent_id === ordnungObject.id
         )
         const name = key[3]
-        const parent_id = familieObject.id
+        const parent_id = familieObject.id  /* eslint camelcase:0 */
         const objId = key[4]
         const object = objects.find((obj) => obj._id === objId)
         const eigenschaften = object.Taxonomie.Eigenschaften
@@ -57,7 +57,7 @@ module.exports = (
         ${valueSql};`
       pgDb.none(sql)
         .then(() => {
-          console.log(`taxObjectsFaunaLevel4 inserted`)
+          console.log(`taxObjectsFaunaLevel4 inserted, first object:`, taxObjectsFaunaLevel4[0])
           resolve(taxObjectsFaunaLevel4)
         })
         .catch((err) =>

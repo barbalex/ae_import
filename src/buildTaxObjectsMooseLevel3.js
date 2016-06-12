@@ -18,7 +18,7 @@ module.exports = (db, taxMoose, taxObjectsMooseLevel1, taxObjectsMooseLevel2) =>
         )
         const familieName = key[1]
         const familieObject = taxObjectsMooseLevel2.find((taxObj) =>
-          taxObj.Name === familieName && taxObj.parent === klasseObject._id
+          taxObj.Name === familieName && taxObj.parent_id === klasseObject._id
         )
         const name = key[2]
         const parent = familieObject._id

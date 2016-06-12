@@ -25,11 +25,11 @@ module.exports = (
         )
         const familieObjektName = key[1]
         const familieObject = taxObjectsMooseLevel2.find((taxObj) =>
-          taxObj.Name === familieObjektName && taxObj.parent === klasseObject._id
+          taxObj.Name === familieObjektName && taxObj.parent_id === klasseObject._id
         )
         const gattungName = key[2]
         const gattungObject = taxObjectsMooseLevel3.find((taxObj) =>
-          taxObj.Name === gattungName && taxObj.parent === familieObject._id
+          taxObj.Name === gattungName && taxObj.parent_id === familieObject._id
         )
         const name = key[3]
         const parent = gattungObject._id

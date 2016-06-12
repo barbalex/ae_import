@@ -44,7 +44,7 @@ module.exports = (couchDb, pgDb, organizationId) =>
           where
             category='Lebensräume'`))
         .then((lrTaxonomies) => {
-          console.log(`lr-taxonomies inserted`)
+          console.log(`${taxonomies.length} lr-taxonomies inserted`)
           resolve(lrTaxonomies)
         })
         .catch((err) =>

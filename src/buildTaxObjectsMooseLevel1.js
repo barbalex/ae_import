@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require('lodash')
+const _ = require(`lodash`)
 const uuid = require(`node-uuid`)
 
 module.exports = (db, taxMoose) =>
@@ -11,10 +11,9 @@ module.exports = (db, taxMoose) =>
       if (error) reject(`error querying view baumMoose: ${error}`)
       const names = _.map(result, (row) => row.key[0])
       const taxObjectsMooseLevel1 = names.map((name) => ({
-        _id: uuid.v4(),
-        Typ: 'Taxonomie-Objekt',
+        id: uuid.v4(),
         Taxonomie: taxMoose._id,
-        Name: name
+        name
       }))
       db.save(taxObjectsMooseLevel1, (err, results) => {
         if (err) reject(`error saving taxObjectsMooseLevel1 ${err}`)

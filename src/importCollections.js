@@ -7,6 +7,8 @@ const getPropertyCollectionsFromCouch = require('./getPropertyCollectionsFromCou
 const getFieldsOfPropertyCollectionsFromCouch = require('./getFieldsOfPropertyCollectionsFromCouch.js')
 
 const buildDatenstandFromString = (dstString) => {
+  if (!dstString) return null
+  if (!dstString.length) return null
   if (dstString.length === 4) return `${dstString}.01.01`
   if (dstString.length === 7) return `${dstString}.01`
   if (dstString.length === 10) return dstString
@@ -29,22 +31,21 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
         rawPropertyCollections = rawCollectionsArrays.filter((el) => el[0] === 'Datensammlung')
         rawRelationCollections = rawCollectionsArrays.filter((el) => el[0] === 'Beziehungssammlung')
         const cNames = _.uniq(rawCollectionsArrays.map((rC) => rC[1]))
-        console.log(`importCollections.js, cNames`, cNames)
         return getFieldsOfPropertyCollectionsFromCouch(couchDb, cNames)
       })
       .then((fieldsByCName) => {
         propertyCollections = rawPropertyCollections.map((pc) => {
           const id = uuid.v4()
           const name = pc[1]
-          const felder = pc[5]
-          const description = felder.Beschreibung
-          const links = `{"${felder.Link}"}`
+          const felder = pc[5] || {}
+          const description = felder.Beschreibung || null
+          const links = felder.Link ? `{"${felder.Link}"}` : null
           const number_of_records = rawPropertyCollectionsResult.find((row) => row.key === pc).value
           const property_fields = `{"${fieldsByCName[name].join('","')}"}`
           const combining = pc[2] || false
           const last_updated = buildDatenstandFromString(felder.Datenstand) || null
           const terms_of_use = felder.Nutzungsbedingungen || null
-          const imported_by = users.find((user) => user.email === `alex@gabriel-software.ch`)
+          const imported_by = users.find((user) => user.email === `alex@gabriel-software.ch`).id || null
           return {
             id,
             name,
@@ -71,6 +72,9 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           ${valueSql};`
         return pgDb.none(sqlPropertyCollections)
       })
-      .then(() => resolve(propertyCollections, relationCollections))
+      .then(() => {
+        console.log(`${propertyCollections.length} property collections exported`)
+        resolve(propertyCollections, relationCollections)
+      })
       .catch((error) => reject(`error importing property collections: ${error}`))
   })

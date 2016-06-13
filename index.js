@@ -18,6 +18,7 @@
  *
  */
 
+// initiate couchDb-connection
 const couchPass = require(`./couchPass.json`)
 const cradle = require(`cradle`)
 const connection = new (cradle.Connection)(`127.0.0.1`, 5984, {
@@ -28,6 +29,7 @@ const connection = new (cradle.Connection)(`127.0.0.1`, 5984, {
 })
 const couchDb = connection.database(`artendb`)
 
+// initialte postgres-connection
 const config = require(`./configuration.js`)
 const pgp = require(`pg-promise`)()
 const pgDb = pgp(config.pg.connectionString)

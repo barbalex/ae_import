@@ -4,7 +4,7 @@ const _ = require(`lodash`)
 
 module.exports = (couchDb) =>
   new Promise((resolve, reject) => {
-    couchDb.view(`artendb/ds_bs_prov`, { group_level: 2 }, (error, result) => {
+    couchDb.view(`artendb/ds_bs_prov`, { group_level: 3 }, (error, result) => {
       console.log(`result.rows`, result.rows)
       if (error) return reject(`error querying view ds_bs_prov: ${error}`)
       const collections = {

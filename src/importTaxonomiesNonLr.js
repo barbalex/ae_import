@@ -26,6 +26,6 @@ module.exports = (pgDb, organizationId) =>
         resolve(nonLrTaxonomies)
       })
       .catch((error) =>
-        reject(`error inserting nonLrTaxonomies ${error}`)
+        reject(`error importing nonLrTaxonomies ${error}`)
       )
   })

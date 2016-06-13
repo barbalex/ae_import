@@ -5,20 +5,20 @@ const setParentInLrTaxObjects = require(`./setParentInLrTaxObjects.js`)
 
 let docsWritten = 0
 
-module.exports = function (db, lrTaxonomies) {
+module.exports = function (couchDb, pgDb, lrTaxonomies) {
   function bulkSave(docs, end) {
-    db.save(docs, (error) => {
+    couchDb.save(docs, (error) => {
       if (error) return console.log(`error after bulk:`, error)
       docsWritten = docsWritten + docs.length
       console.log(`docsWritten`, docsWritten)
       if (end) {
         setTimeout(() => {
-          setParentInLrTaxObjects(db)
+          setParentInLrTaxObjects(couchDb)
         }, 40000)
       }
     })
   }
-  db.view(`artendb/objekte`, {
+  couchDb.view(`artendb/objekte`, {
     include_docs: true
   }, (error, res) => {
     if (error) console.log(error)
@@ -81,7 +81,7 @@ module.exports = function (db, lrTaxonomies) {
         })
 
         // build taxonomie-Objekte for LR
-        if (doc.Gruppe === `Lebensräume`) buildLrTaxonomieObject(db, doc, index, lrTaxonomies)
+        if (doc.Gruppe === `Lebensräume`) buildLrTaxonomieObject(couchDb, doc, index, lrTaxonomies)
 
         // remove Taxonomie(n)
         delete doc.Taxonomie

@@ -16,6 +16,6 @@ module.exports = (pgDb) =>
         resolve(users)
       })
       .catch((error) =>
-        reject(`error inserting users ${error}`)
+        reject(`error importing users ${error}`)
       )
   })

@@ -16,6 +16,6 @@ module.exports = (pgDb, organizationId, users) =>
         resolve(orgPropertyCollectionWriters)
       })
       .catch((error) =>
-        reject(`error inserting org_property_collection_writers ${error}`)
+        reject(`error importing org_property_collection_writers ${error}`)
       )
   })

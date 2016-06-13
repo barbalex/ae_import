@@ -28,7 +28,7 @@ module.exports = (couchDb, pgDb, taxFauna) =>
         .then(() => pgDb.none(sql))
         .then(() => resolve(taxObjectsFaunaLevel1))
         .catch((err) =>
-          reject(`error inserting taxObjectsFaunaLevel1 ${err}`)
+          reject(`error importing taxObjectsFaunaLevel1 ${err}`)
         )
     })
   })

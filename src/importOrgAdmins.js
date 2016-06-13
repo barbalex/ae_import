@@ -16,6 +16,6 @@ module.exports = (pgDb, organizationId, users) =>
         resolve(orgAdminWriters)
       })
       .catch((error) =>
-        reject(`error inserting org_admin_writers ${error}`)
+        reject(`error importing org_admin_writers ${error}`)
       )
   })

@@ -16,6 +16,6 @@ module.exports = (pgDb, organizationId, users) =>
         resolve(orgHabitatWriters)
       })
       .catch((error) =>
-        reject(`error inserting org_habitat_writers ${error}`)
+        reject(`error importing org_habitat_writers ${error}`)
       )
   })

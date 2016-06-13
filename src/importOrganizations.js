@@ -15,6 +15,6 @@ module.exports = (pgDb) =>
         resolve(organizations)
       })
       .catch((error) =>
-        reject(`error inserting organizations ${error}`)
+        reject(`error importing organizations ${error}`)
       )
   })

@@ -5,7 +5,7 @@
 		[
 			[
 				"tax",
-				"taxonomy_id"
+				"taxObjectsFloraLevel1"
 			],
 			[
 				"cre",
@@ -52,42 +52,18 @@
 	"buffers":
 	[
 		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 584,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "index.js",
 			"settings":
 			{
-				"buffer_size": 3176,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/importTaxonomiesLr.js",
-			"settings":
-			{
-				"buffer_size": 1838,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/importTaxonomiesNonLr.js",
-			"settings":
-			{
-				"buffer_size": 903,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/importTaxObjectsFauna.js",
-			"settings":
-			{
-				"buffer_size": 2031,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/importTaxObjectsFaunaLevel1.js",
-			"settings":
-			{
-				"buffer_size": 1094,
+				"buffer_size": 3656,
 				"line_ending": "Windows"
 			}
 		}
@@ -143,30 +119,45 @@
 	],
 	"file_history":
 	[
+		"/C/Users/alex/ae_import/src/importCategories.js",
+		"/C/Users/alex/ae_import/src/importObjects.js",
+		"/C/Users/alex/ae_import/src/importOrganizations.js",
+		"/C/Users/alex/ae_import/src/importTaxonomiesLr.js",
 		"/C/Users/alex/ae_import/src/importTaxonomiesNonLr.js",
-		"/C/Users/alex/ae_import/src/nonLrTaxonomies.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel1.js",
+		"/C/Users/alex/ae_import/src/importUsers.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsPilze.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsPilzeLevel1.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsPilzeLevel2.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsMoose.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsMooseLevel1.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsMooseLevel2.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsMooseLevel3.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsMooseLevel4.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFlora.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel3.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel2.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel1.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFauna.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel1.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel2.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel3.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel4.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel2.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel3.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel1.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel2.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel3.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel4.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsPilzeLevel1.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsPilzeLevel2.js",
-		"/C/Users/alex/ae_import/src/buildTaxObjectsFaunaLevel4.js",
-		"/C/Users/alex/ae_import/src/buildLrTaxonomieObject.js",
-		"/C/Users/alex/ae_import/src/importTaxonomiesLr.js",
-		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel1.js",
-		"/C/Users/alex/ae_import/src/importUsers.js",
-		"/C/Users/alex/ae_import/src/importCategories.js",
-		"/C/Users/alex/ae_import/src/importOrganizations.js",
 		"/C/Users/alex/ae_import/sql/createTables.sql",
+		"/C/Users/alex/ae_import/src/nonLrTaxonomies.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMoose.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsPilze.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsPilzeLevel2.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsPilzeLevel1.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel4.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel3.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel2.js",
+		"/C/Users/alex/ae_import/src/buildLrTaxonomieObject.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsMooseLevel1.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel3.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel1.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFloraLevel2.js",
+		"/C/Users/alex/ae_import/src/buildTaxObjectsFaunaLevel4.js",
+		"/C/Users/alex/ae_structure_v1_to_v3/src/buildTaxObjectsFaunaLevel1.js",
 		"/C/Users/alex/ae_import/src/rebuildObjects.js",
 		"/C/Users/alex/ae_import/.eslintrc.json",
 		"/C/Users/alex/ae_import/package.json",
@@ -255,26 +246,11 @@
 		"/C/Users/alex/apflora_api/test/apfloraInsertMultiple.js",
 		"/C/Users/alex/apflora_api/server.js",
 		"/C/Users/alex/apflora_api/queries/tabelleSelectApfloraNumber.js",
-		"/C/Users/alex/apflora_api/queries/tabelleSelectBeobNumber.js",
-		"/C/Users/alex/apf2_api/sql/create_databases.sql",
-		"/C/Users/alex/apflora_api/queries/feldkontrInsert.js",
-		"/C/Users/alex/apflora_api/test/feldkontrInsert.js",
-		"/C/Users/alex/apflora_api/queries/popInsertKopie.js",
-		"/C/Users/alex/apflora_api/test/apflora.js",
-		"/C/Users/alex/apflora_api/test/popInsertKopie.js",
-		"/C/Users/alex/apflora_api/src/routes/treeGet.js",
-		"/C/Users/alex/apflora_api/test/tree.js",
-		"/C/Users/alex/apflora_api/test/tpopsKarte.js",
-		"/C/Users/alex/apflora_api/queries/tpopsKarte.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopsKarteGet.js",
-		"/C/Users/alex/apflora_api/test/tpopMassnTypen.js",
-		"/C/Users/alex/apflora_api/src/routes/tpopMassnTypenGet.js",
-		"/C/Users/alex/apflora_api/queries/tpopMassnTypen.js",
-		"/C/Users/alex/apflora_api/test/tpopKoordFuerProgramm.js"
+		"/C/Users/alex/apflora_api/queries/tabelleSelectBeobNumber.js"
 	],
 	"find":
 	{
-		"height": 48.0
+		"height": 47.0
 	},
 	"find_in_files":
 	{
@@ -296,6 +272,45 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"inserted",
+			"^",
+			"build",
+			"taxObjectsFloraLevel3",
+			"objects",
+			"taxObjectsFloraLevel1",
+			"db",
+			"'",
+			"taxObjectsFaunaLevel4",
+			"taxObjectsFaunaLevel3",
+			"taxObjectsFaunaLevel2",
+			"taxObjectsFaunaLevel1",
+			"_id",
+			"objects",
+			"'",
+			"db",
+			"build",
+			"'",
+			"taxFlora",
+			"'",
+			"Fauna",
+			"objects",
+			"taxObjectsFaunaLevel4",
+			"taxObjectsFaunaLevel2",
+			"\n          Typ: 'Taxonomie-Objekt',",
+			"taxObj.Name",
+			"Taxonomie: taxonomie",
+			"taxObjectsFaunaLevel1",
+			"_id: uuid.v4()",
+			"Name: name",
+			"Taxonomie: taxFlora._id",
+			"\n        Typ: 'Taxonomie-Objekt',",
+			"'artendb/baumFlora'",
+			"const _ = require('lodash')",
+			"db",
+			"'",
+			"build",
+			"taxObj.parent",
+			"taxObject",
 			"objects",
 			"'",
 			"buildTaxObjectsFaunaLevel1",
@@ -384,46 +399,7 @@
 			"tpopInsertKopie",
 			"\"",
 			"apfloraPut",
-			"apfloraDelete.js",
-			"jberUebersicht.js",
-			"jber.js",
-			"jberUebersicht",
-			"\"",
-			"beobNichtZuordnen",
-			"connection",
-			"\"",
-			"apfDb from aplist",
-			"require('../routes')",
-			"'../src",
-			"'../queries",
-			"const mysql = require('mysql')\nconst config = require('../configuration')\nconst escapeStringForSql = require('./escapeStringForSql')\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: config.db.userName,\n  password: config.db.passWord,\n  database: 'apflora'\n})",
-			"const mysql = require('mysql')\nconst config = require('../configuration')\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: config.db.userName,\n  password: config.db.passWord,\n  database: 'beob'\n})",
-			"const mysql = require('mysql')\nconst config = require('../configuration')\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: config.db.userName,\n  password: config.db.passWord,\n  database: 'apflora'\n})",
-			"feldkontrPost",
-			"\"",
-			"beobDistzutpopEvabGet",
-			"apInsertPost",
-			"config",
-			"queryLrDelarze",
-			"queryTabelleInsertApflora",
-			"queryTabelleSelectBeobString",
-			"queryTabelleSelectApfloraString",
-			"./queries/qkTpopOhneMassnber.js",
-			"json2csv",
-			"queryBeobKarte",
-			"queryBeobDistzutpopEvab",
-			"queryApliste",
-			"queryApKarte",
-			"queryApInsert",
-			"queryAnmeldung",
-			"aktualisiereArteigenschaften",
-			"json2csv",
-			"adressen_get",
-			"exportView",
-			"queryAdressen",
-			"exportView",
-			"queryBeobZuordnen",
-			"queryBeobNaechsteTpop"
+			"apfloraDelete.js"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -431,6 +407,41 @@
 		"regex": false,
 		"replace_history":
 		[
+			"imported",
+			"",
+			"import",
+			"taxObjectsPilzeLevel2",
+			"couchObjects",
+			"taxObjectsPilzeLevel1",
+			"couchDb, pgDb",
+			"`",
+			"taxObjectsMooseLevel4",
+			"taxObjectsMooseLevel3",
+			"taxObjectsMooseLevel2",
+			"taxObjectsMooseLevel1",
+			"couchObjects",
+			"`",
+			"couchDb, pgDb",
+			"import",
+			"`",
+			"Flora",
+			"couchObjects",
+			"taxObjectsFloraLevel3",
+			"taxObjectsFloraLevel2",
+			"",
+			"taxObj.name",
+			"taxonomy_id: taxonomie",
+			"taxObjectsFloraLevel1",
+			"id: uuid.v4()",
+			"name",
+			"taxonomy_id: taxFlora._id",
+			"",
+			"`artendb/baumFlora`",
+			"const _ = require(`lodash`)",
+			"couchDb, pgDb",
+			"`",
+			"import",
+			"taxObj.parent_id",
 			"`",
 			"importTaxObjectsFaunaLevel1",
 			"importTaxObjectsFaunaLevel2",
@@ -523,70 +534,65 @@
 			"text",
 			".\"MutWer\" IS",
 			".\"MutWann\" IS",
-			"smallint",
-			"integer",
-			"smallint",
-			"integer",
-			"",
-			"Von wem wurde der Datensatz zuletzt geändert?",
-			"Wann wurde der Datensatz zuletzt geändert?",
-			"",
-			"''",
-			"",
-			"apber",
-			"apberuebersicht",
-			"assozart",
-			"ber",
-			"erfkrit",
-			"ap_erfbeurtkrit_werte",
-			"idealbiotop",
-			"ap",
-			"popber",
-			"popmassnber",
-			"pop",
-			"pop_status_werte",
-			"tpop_apberrelevant_werte",
-			"tpopber",
-			"pop_entwicklung_werte",
-			"tpopkontr",
-			"tpopkontr_typ_werte",
-			"adresse",
-			"pop_entwicklung_werte",
-			"tpopkontrzaehl_methode_werte",
-			"tpopkontrzaehl_einheit_werte",
-			"tpopmassn",
-			"tpopmassn_typ_werte",
-			"adresse",
-			"tpopmassn_erfbeurt_werte",
-			"tpop"
+			"smallint"
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "index.js",
+					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3176,
+						"buffer_size": 584,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2387,
-								2387
+								220,
+								220
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3656,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3294,
+								3294
 							]
 						],
 						"settings":
@@ -596,130 +602,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1972.0,
+						"translation.y": 2673.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/importTaxonomiesLr.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1838,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								150,
-								136
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 816.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/importTaxonomiesNonLr.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 903,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								796,
-								781
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/importTaxObjectsFauna.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2031,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								605,
-								605
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 102.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/importTaxObjectsFaunaLevel1.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1094,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								108,
-								102
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -727,7 +613,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 42.0
+		"height": 41.0
 	},
 	"input":
 	{
@@ -764,7 +650,7 @@
 	"project": "ae_import_pc.sublime-project",
 	"replace":
 	{
-		"height": 92.0
+		"height": 90.0
 	},
 	"save_all_on_build": true,
 	"select_file":

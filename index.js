@@ -37,6 +37,9 @@ const importObjects = require(`./src/importObjects.js`)
 const importCategories = require(`./src/importCategories.js`)
 const importOrganizations = require(`./src/importOrganizations.js`)
 const importUsers = require(`./src/importUsers.js`)
+const importOrgPropertyCollectionWriters = require(`./src/importOrgPropertyCollectionWriters.js`)
+const importOrgHabitatWriters = require(`./src/importOrgHabitatWriters.js`)
+const importOrgAdmins = require(`./src/importOrgAdmins.js`)
 const importTaxonomiesNonLr = require(`./src/importTaxonomiesNonLr.js`)
 const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
 const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
@@ -50,6 +53,9 @@ let taxonomies
 let categories
 let organizations
 let users
+let orgPropertyCollectionWriters
+let orgHabitatWriters
+let orgAdmins
 let nonLrTaxonomies
 let lrTaxonomies
 let taxFauna
@@ -77,6 +83,18 @@ getCouchObjects(couchDb)
   })
   .then((result) => {
     users = result
+    return importOrgPropertyCollectionWriters(pgDb, organizations[0].id, users)
+  })
+  .then((result) => {
+    orgPropertyCollectionWriters = result
+    return importOrgHabitatWriters(pgDb, organizations[0].id, users)
+  })
+  .then((result) => {
+    orgHabitatWriters = result
+    return importOrgAdmins(pgDb, organizations[0].id, users)
+  })
+  .then((result) => {
+    orgAdmins = result
     return importTaxonomiesNonLr(pgDb, organizations[0].id)
   })
   .then((result) => {

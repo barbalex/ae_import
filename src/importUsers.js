@@ -12,7 +12,7 @@ module.exports = (pgDb) =>
       .then(() => pgDb.none(sql))
       .then(() => pgDb.many(`select * from ae.user`))
       .then((users) => {
-        console.log(`1 user imported`)
+        console.log(`2 users imported`)
         resolve(users)
       })
       .catch((error) =>

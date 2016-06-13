@@ -3,8 +3,7 @@
 
 const _ = require(`lodash`)
 const uuid = require(`node-uuid`)
-const getPropertyCollectionsFromCouch = require('./getPropertyCollectionsFromCouch.js')
-const getFieldsOfPropertyCollectionsFromCouch = require('./getFieldsOfPropertyCollectionsFromCouch.js')
+const getCollectionsFromCouch = require('./getCollectionsFromCouch.js')
 
 const buildDatenstandFromString = (dstString) => {
   if (!dstString) return null
@@ -17,34 +16,25 @@ const buildDatenstandFromString = (dstString) => {
 
 module.exports = (couchDb, pgDb, organization_id, users) =>
   new Promise((resolve, reject) => {
-    let rawPropertyCollectionsResult
-    let rawPropertyCollections
-    let rawRelationCollections
+    let collections
     let sqlPropertyCollections
     let sqlRelationCollections
     let propertyCollections
     let relationCollections
-    getPropertyCollectionsFromCouch(couchDb)
+    getCollectionsFromCouch(couchDb)
       .then((result) => {
-        rawPropertyCollectionsResult = result
-        const rawCollectionsArrays = _.map(rawPropertyCollectionsResult, (row) => row.key)
-        rawPropertyCollections = rawCollectionsArrays.filter((el) => el[0] === 'Datensammlung')
-        rawRelationCollections = rawCollectionsArrays.filter((el) => el[0] === 'Beziehungssammlung')
-        const cNames = _.uniq(rawCollectionsArrays.map((rC) => rC[1]))
-        return getFieldsOfPropertyCollectionsFromCouch(couchDb, cNames)
-      })
-      .then((fieldsByCName) => {
-        propertyCollections = rawPropertyCollections.map((pc) => {
+        collections = result
+
+        propertyCollections = Object.keys(collections.pC).map((cName) => {
+          const props = collections.pC[cName].props
           const id = uuid.v4()
-          const name = pc[1]
-          const felder = pc[5] || {}
-          const description = felder.Beschreibung || null
-          const links = felder.Link ? `{"${felder.Link}"}` : null
-          const number_of_records = rawPropertyCollectionsResult.find((row) => row.key === pc).value
-          const property_fields = `{"${fieldsByCName[name].join('","')}"}`
-          const combining = pc[2] || false
-          const last_updated = buildDatenstandFromString(felder.Datenstand) || null
-          const terms_of_use = felder.Nutzungsbedingungen || null
+          const name = cName
+          const description = props.Beschreibung || null
+          const links = props.Link ? `{"${props.Link}"}` : null
+          const number_of_records = collections.pC[cName].rows
+          const combining = props.zusammenfassend || false
+          const last_updated = buildDatenstandFromString(props.Datenstand) || null
+          const terms_of_use = props.Nutzungsbedingungen || null
           const imported_by = users.find((user) => user.email === `alex@gabriel-software.ch`).id || null
           return {
             id,
@@ -52,7 +42,6 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
             description,
             links,
             number_of_records,
-            property_fields,
             combining,
             organization_id,
             last_updated,

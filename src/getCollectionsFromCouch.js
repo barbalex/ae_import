@@ -12,8 +12,12 @@ module.exports = (couchDb) =>
         row.key.push(numberOfRecords)
         return row.key
       })
-      const colsPC = cols.filter((c) => c[0] === `pC`)
-      const colsRC = cols.filter((c) => c[0] === `rC`)
-      resolve(colsPC, colsRC)
+      const colspc = cols.filter((c) => c[0] === `pC`)
+      const colsrc = cols.filter((c) => c[0] === `rC`)
+      const container = {
+        colspc,
+        colsrc
+      }
+      resolve(container)
     })
   })

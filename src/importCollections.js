@@ -20,11 +20,13 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
     let sqlRelationCollections
     let propertyCollections
     let relationCollections
+    let colsPC
     let colsRC
 
     getCollectionsFromCouch(couchDb)
-      .then((colsPC, resultRC) => {
-        colsRC = resultRC
+      .then(({ colspc, colsrc }) => {
+        colsRC = colsrc
+        colsPC = colspc
         // build property collections
         propertyCollections = colsPC.map((c) => {
           const id = uuid.v4()
@@ -69,7 +71,7 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           const name = c[1]
           const description = c[2] || null
           const links = c[3] ? `{"${c[3]}"}` : null
-          const number_of_records = c[7]
+          const number_of_records = c[8]
           const combining = c[4] || false
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
@@ -96,7 +98,7 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           .join(`,`)
         sqlRelationCollections = `
         insert into
-          ae.property_collection (${fieldsSql})
+          ae.relation_collection (${fieldsSql})
         values
           ${valueSql};`
         return pgDb.none(sqlRelationCollections)

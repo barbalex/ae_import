@@ -12,7 +12,7 @@ module.exports = (pgDb, organizationId) =>
     })
     const fieldsSql = _.keys(nonLrTaxonomies[0]).join(`,`)
     const valueSql = nonLrTaxonomies
-      .map((tax) => `('${_.values(tax).join("','")}')`)  /* eslint quotes:0 */
+      .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
       .join(`,`)
     const sql = `
     insert into

@@ -29,7 +29,7 @@ module.exports = (couchDb, pgDb, taxFauna, taxObjectsFaunaLevel1, taxObjectsFaun
       })
       const fieldsSql = _.keys(taxObjectsFaunaLevel3[0]).join(`,`)
       const valueSql = taxObjectsFaunaLevel3
-        .map((tax) => `('${_.values(tax).join("','")}')`)  /* eslint quotes:0 */
+        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
         .join(`,`)
       const sql = `
       insert into

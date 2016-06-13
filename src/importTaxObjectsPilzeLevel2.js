@@ -33,7 +33,7 @@ module.exports = (couchDb, pgDb, taxPilze, taxObjectsPilzeLevel1, couchObjects) 
       })
       const fieldsSql = _.keys(taxObjectsPilzeLevel2[0]).join(`,`)
       const valueSql = taxObjectsPilzeLevel2
-        .map((tax) => `('${_.values(tax).join("','")}')`)  /* eslint quotes:0 */
+        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
         .join(`,`)
       const sql = `
       insert into

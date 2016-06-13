@@ -1,7 +1,6 @@
 'use strict'
 
 const _ = require(`lodash`)
-const replaceLineBreaks = require(`./replaceLineBreaks.js`)
 
 module.exports = (couchDb, pgDb, organizationId) =>
   new Promise((resolve, reject) => {
@@ -17,8 +16,8 @@ module.exports = (couchDb, pgDb, organizationId) =>
         return {
           name: doc.Taxonomie.Eigenschaften.Taxonomie,
           habitat_label: doc.Taxonomie.Eigenschaften[`Einheit-Abkürzung`],
-          description: doc.Taxonomie.Eigenschaften.Beschreibung,
-          habitat_comments: replaceLineBreaks(doc.Taxonomie.Eigenschaften.Bemerkungen),
+          description: doc.Taxonomie.Eigenschaften.Beschreibung || null,
+          habitat_comments: doc.Taxonomie.Eigenschaften.Bemerkungen || null,
           habitat_nr_fns_min: doc.Taxonomie.Eigenschaften[`Einheit-Nrn FNS von`],
           habitat_nr_fns_max: doc.Taxonomie.Eigenschaften[`Einheit-Nrn FNS bis`],
           category: `Lebensräume`,
@@ -28,7 +27,7 @@ module.exports = (couchDb, pgDb, organizationId) =>
       })
       const fieldsSql = _.keys(taxonomies[0]).join(`,`)
       const valueSql = taxonomies
-        .map((tax) => `('${_.values(tax).join("','")}')`)  /* eslint quotes:0 */
+        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
         .join(`,`)
       const sql = `
       insert into

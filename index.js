@@ -32,7 +32,7 @@ const config = require(`./configuration.js`)
 const pgp = require(`pg-promise`)()
 const pgDb = pgp(config.pg.connectionString)
 
-const getObjects = require(`./src/getObjects.js`)
+const getCouchObjects = require(`./src/getCouchObjects.js`)
 const importObjects = require(`./src/importObjects.js`)
 const importCategories = require(`./src/importCategories.js`)
 const importOrganizations = require(`./src/importOrganizations.js`)
@@ -62,7 +62,7 @@ let taxObjectsMoose
 let taxObjectsPilze
 let taxObjectsLebensräume
 
-getObjects(couchDb)
+getCouchObjects(couchDb)
   .then((result) => {
     couchObjects = result
     return importCategories(pgDb)
@@ -127,7 +127,7 @@ getObjects(couchDb)
 /*
 const rebuildObjects = require(`./src/rebuildObjects.js`)
 
-getObjects(couchDb)
+getCouchObjects(couchDb)
   .then(() => rebuildObjects(couchDb, lrTaxonomies))
   .catch((error) => console.log(error))
 */

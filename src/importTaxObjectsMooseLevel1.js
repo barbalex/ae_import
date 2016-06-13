@@ -17,7 +17,7 @@ module.exports = (couchDb, pgDb, taxMoose) =>
       }))
       const fieldsSql = _.keys(taxObjectsMooseLevel1[0]).join(`,`)
       const valueSql = taxObjectsMooseLevel1
-        .map((tax) => `('${_.values(tax).join("','")}')`)  /* eslint quotes:0 */
+        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
         .join(`,`)
       const sql = `
       insert into

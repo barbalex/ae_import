@@ -34,7 +34,7 @@ module.exports = (couchDb, pgDb, taxFlora, taxObjectsFloraLevel1, taxObjectsFlor
       })
       const fieldsSql = _.keys(taxObjectsFloraLevel3[0]).join(`,`)
       const valueSql = taxObjectsFloraLevel3
-        .map((tax) => `('${_.values(tax).join("','")}')`)  /* eslint quotes:0 */
+        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
         .join(`,`)
       const sql = `
       insert into

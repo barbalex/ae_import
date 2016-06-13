@@ -6,7 +6,7 @@ module.exports = (pgDb) =>
     insert into
       ae.user (name, email)
     values
-      ('Alexander Gabriel', 'gabriel@gabriel-software.ch'),
+      ('Alexander Gabriel', 'alex@gabriel-software.ch'),
       ('Andreas Lienhard', 'andreas.lienhard@bd.zh.ch');`
     pgDb.none(`truncate ae.user cascade`)
       .then(() => pgDb.none(sql))

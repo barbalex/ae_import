@@ -40,7 +40,7 @@ module.exports = (couchDb, pgDb, taxMoose, taxObjectsMooseLevel1, taxObjectsMoos
       pgDb.none(sql)
         .then(() => resolve(taxObjectsMooseLevel3))
         .catch((err) =>
-          reject(`error inserting taxObjectsMooseLevel3 ${err}`)
+          reject(`error importing taxObjectsMooseLevel3 ${err}`)
         )
     })
   })

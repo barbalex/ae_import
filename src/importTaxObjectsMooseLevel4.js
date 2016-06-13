@@ -58,7 +58,7 @@ module.exports = (
       pgDb.none(sql)
         .then(() => resolve(taxObjectsMooseLevel4))
         .catch((err) =>
-          reject(`error inserting taxObjectsMooseLevel4 ${err}`)
+          reject(`error importing taxObjectsMooseLevel4 ${err}`)
         )
     })
   })

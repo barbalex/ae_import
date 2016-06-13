@@ -56,7 +56,7 @@ module.exports = (
       pgDb.none(sql)
         .then(() => resolve(taxObjectsFaunaLevel4))
         .catch((err) =>
-          reject(`error inserting taxObjectsFaunaLevel4 ${err}`)
+          reject(`error importing taxObjectsFaunaLevel4 ${err}`)
         )
     })
   })

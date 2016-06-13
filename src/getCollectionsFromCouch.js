@@ -4,13 +4,9 @@ module.exports = (couchDb) =>
   new Promise((resolve, reject) => {
     couchDb.view(`artendb/ds_bs_prov`, { group: true }, (error, result) => {
       if (error) return reject(`error querying view ds_bs_prov: ${error}`)
-      const collections = {
-        pC: [],
-        rC: []
-      }
-      if (!result) return resolve(collections)
-      if (!result.rows) return resolve(collections)
-      if (!result.rows.length) return resolve(collections)
+      if (!result) return resolve([], [])
+      if (!result.rows) return resolve([], [])
+      if (!result.rows.length) return resolve([], [])
       const cols = result.rows.map((row, index) => {
         const numberOfRecords = result.rows[index].value
         row.key.push(numberOfRecords)

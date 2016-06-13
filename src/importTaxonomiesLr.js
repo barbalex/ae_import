@@ -47,7 +47,7 @@ module.exports = (couchDb, pgDb, organizationId) =>
           resolve(lrTaxonomies)
         })
         .catch((err) =>
-          reject(`error inserting lr-taxonomies ${err}`)
+          reject(`error importing lr-taxonomies ${err}`)
         )
     })
   })

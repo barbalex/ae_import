@@ -22,19 +22,17 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
     let propertyCollections
     let relationCollections
     getCollectionsFromCouch(couchDb)
-      .then((result) => {
-        collections = result
-
-        propertyCollections = Object.keys(collections.pC).map((cName) => {
-          const props = collections.pC[cName].props
+      .then((colsPC, colsRC) => {
+        console.log('colsPC', colsPC)
+        propertyCollections = colsPC.map((c) => {
           const id = uuid.v4()
-          const name = cName
-          const description = props.Beschreibung || null
-          const links = props.Link ? `{"${props.Link}"}` : null
-          const number_of_records = collections.pC[cName].rows
-          const combining = props.zusammenfassend || false
-          const last_updated = buildDatenstandFromString(props.Datenstand) || null
-          const terms_of_use = props.Nutzungsbedingungen || null
+          const name = c[1]
+          const description = c[2] || null
+          const links = c[3] ? `{"${c[3]}"}` : null
+          const number_of_records = c[7]
+          const combining = c[4] || false
+          const last_updated = buildDatenstandFromString(c[5]) || null
+          const terms_of_use = c[6] || null
           const imported_by = users.find((user) => user.email === `alex@gabriel-software.ch`).id || null
           return {
             id,

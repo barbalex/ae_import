@@ -23,6 +23,6 @@ module.exports = (couchDb, pgDb, couchObjects, organizationId) =>
         resolve(objects)
       })
       .catch((err) =>
-        reject(`error inserting objects ${err}`)
+        reject(`error importing objects ${err}`)
       )
   })

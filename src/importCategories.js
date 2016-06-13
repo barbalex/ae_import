@@ -18,6 +18,6 @@ module.exports = (pgDb) =>
         resolve(cat)
       })
       .catch((error) =>
-        reject(`error inserting categories ${error}`)
+        reject(`error importing categories ${error}`)
       )
   })

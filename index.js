@@ -49,6 +49,8 @@ const importTaxObjectsFlora = require(`./src/importTaxObjectsFlora.js`)
 const importTaxObjectsMoose = require(`./src/importTaxObjectsMoose.js`)
 const importTaxObjectsPilze = require(`./src/importTaxObjectsPilze.js`)
 const importCollections = require(`./src/importCollections.js`)
+const correctPropertyCollections = require(`./src/correctPropertyCollections.js`)
+const correctRelationCollections = require(`./src/correctRelationCollections.js`)
 
 let couchObjects
 let objects
@@ -143,8 +145,12 @@ getCouchObjects(couchDb)
     return importCollections(couchDb, pgDb, organizations[0].id, users)
   })
   .then((result) => {
-    propertyCollections = result[0]
-    relationCollections = result[1]
+    propertyCollections = result.propertyCollections
+    relationCollections = result.relationCollections
+    return correctPropertyCollections(pgDb)
+  })
+  .then(() => correctRelationCollections(pgDb))
+  .then(() => {
     pgp.end()
   })
   .catch((error) => {

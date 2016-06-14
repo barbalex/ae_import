@@ -7,11 +7,7 @@ module.exports = (couchDb) =>
       if (!result) return resolve([], [])
       if (!result.rows) return resolve([], [])
       if (!result.rows.length) return resolve([], [])
-      const cols = result.rows.map((row, index) => {
-        const numberOfRecords = result.rows[index].value
-        row.key.push(numberOfRecords)
-        return row.key
-      })
+      const cols = result.rows.map((row) => row.key)
       const colspc = cols.filter((c) => c[0] === `pC`)
       const colsrc = cols.filter((c) => c[0] === `rC`)
       const container = {

@@ -1,5 +1,4 @@
 'use strict'
-/* eslint camelcase:0 quotes:0 */
 
 const extractObjectCollectionsFromCouchObjects = require(`./extractObjectCollectionsFromCouchObjects.js`)
 
@@ -9,8 +8,8 @@ module.exports = (pgDb, couchObjects) =>
     let relationCollections
     let objectPropertyCollections
     let objectRelationCollections
-    const relations = []
-    const relationPartners = []
+    let relations
+    let relationPartners
 
     pgDb.any(`SELECT * FROM ae.property_collection`)
       .then((resultPC) => {
@@ -21,15 +20,26 @@ module.exports = (pgDb, couchObjects) =>
         relationCollections = resultRC
         return pgDb.none(`truncate ae.object_property_collection cascade`)
       })
+      .then(() => pgDb.none(`truncate ae.object_relation_collection cascade`))
+      .then(() => pgDb.none(`truncate ae.relation cascade`))
+      .then(() => pgDb.none(`truncate ae.relation_partner cascade`))
       .then(() =>
-        pgDb.none(`truncate ae.object_relation_collection cascade`)
+        extractObjectCollectionsFromCouchObjects(
+          couchObjects,
+          propertyCollections,
+          relationCollections
+        )
       )
-      .then(() =>
-        extractObjectCollectionsFromCouchObjects(couchObjects, propertyCollections, relationCollections)
-      )
-      .then(({ objectPropertyCollectionsToPass, objectRelationCollectionsToPass }) => {
+      .then(({
+        objectPropertyCollectionsToPass,
+        objectRelationCollectionsToPass,
+        relationsToPass,
+        relationPartnersToPass
+      }) => {
         objectPropertyCollections = objectPropertyCollectionsToPass
         objectRelationCollections = objectRelationCollectionsToPass
+        relations = relationsToPass
+        relationPartners = relationPartnersToPass
         // write objectPropertyCollections
         const valueSql = objectPropertyCollections
           .map((val) =>
@@ -73,6 +83,50 @@ module.exports = (pgDb, couchObjects) =>
       })
       .then(() => {
         console.log(`${objectRelationCollections.length} object relation collections imported`)
+        // write relations
+        const valueSql = relations
+          .map((val) =>
+            `('${val.id}','${val.object_id}','${val.relation_collection_id}')`
+          )
+          .join(`,`)
+        const sql = `
+          insert into
+            ae.relation (id,object_id,relation_collection_id)
+          values
+            ${valueSql};`
+        return pgDb.none(sql)
+      })
+      .then(() =>
+        Promise.all(relations.map((val) => {
+          const sql = `
+            UPDATE
+              ae.relation
+            SET
+              properties = $1
+            WHERE
+              id = $2
+          `
+          return pgDb.none(sql, [val.properties, val.id])
+        }))
+      )
+      .then(() => {
+        console.log(`${relations.length} relations imported`)
+        // write relationPartners
+        const valueSql = relationPartners
+          .map((val) =>
+            `('${val.object_id}','${val.relation_id}')`
+          )
+          .join(`,`)
+        const sql = `
+          insert into
+            ae.relation_partner (object_id,relation_id)
+          values
+            ${valueSql};`
+        return pgDb.none(sql)
+      })
+      .then(() => {
+        console.log(`${relationPartners.length} relationPartners imported`)
+        console.log(`PostgreSQL wellcomes arteigenschaften.ch!`)
         resolve()
       })
       .catch((error) => reject(error))

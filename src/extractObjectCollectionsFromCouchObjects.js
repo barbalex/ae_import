@@ -1,9 +1,20 @@
 'use strict'
 /* eslint camelcase:0 */
 
-module.exports = (couchObjects, propertyCollections, relationCollections) => {
+const uuid = require(`node-uuid`)
+const _ = require(`lodash`)
+
+module.exports = (
+  couchObjects,
+  propertyCollections,
+  relationCollections
+) => {
   const objectPropertyCollections = []
   const objectRelationCollections = []
+  const relations = []
+  const relationPartners = []
+
+  const couchObjectsIds = couchObjects.map((o) => o._id)
 
   couchObjects.forEach((couchObject) => {
     if (couchObject.Eigenschaftensammlungen) {
@@ -43,6 +54,7 @@ module.exports = (couchObjects, propertyCollections, relationCollections) => {
         }
       })
     }
+
     if (couchObject.Beziehungssammlungen) {
       const object_id = couchObject._id
       couchObject.Beziehungssammlungen.forEach((couchRC) => {
@@ -51,6 +63,47 @@ module.exports = (couchObjects, propertyCollections, relationCollections) => {
         if (object_id && correspondingRC && correspondingRC.id) {
           const relation_collection_id = correspondingRC.id
           objectRelationCollections.push({ object_id, relation_collection_id })
+
+          // build relations
+          if (couchRC.Beziehungen && couchRC.Beziehungen.length) {
+            couchRC.Beziehungen.forEach((couchRelation) => {
+              const id = uuid.v4()
+              const idsObjects = []
+              let properties = null
+              const couchProperties = _.clone(couchRelation)
+              if (couchProperties.Beziehungspartner) {
+                delete couchProperties.Beziehungspartner
+
+                // build relation partner
+                couchRelation.Beziehungspartner.forEach((couchRelPartner) => {
+                  if (couchRelPartner.GUID) {
+                    /**
+                     * make sure every object is included at most
+                     * once per relation
+                     * and that an object exists for every guid
+                     */
+                    if (
+                      !_.includes(idsObjects, couchRelPartner.GUID) &&
+                      _.includes(couchObjectsIds, couchRelPartner.GUID)
+                    ) {
+                      relationPartners.push({
+                        object_id: couchRelPartner.GUID,
+                        relation_id: id
+                      })
+                      idsObjects.push(couchRelPartner.GUID)
+                    }
+                  }
+                })
+              }
+              if (Object.keys(couchProperties).length > 0) {
+                properties = couchProperties
+              }
+              if (idsObjects.length > 0) {
+                // dont push any relations without partners
+                relations.push({ id, object_id, relation_collection_id, properties })
+              }
+            })
+          }
         } else {
           console.log(`Pc ${couchRC.Name} not added:`, { correspondingRC, couchObject })
         }
@@ -59,6 +112,8 @@ module.exports = (couchObjects, propertyCollections, relationCollections) => {
   })
   return {
     objectPropertyCollectionsToPass: objectPropertyCollections,
-    objectRelationCollectionsToPass: objectRelationCollections
+    objectRelationCollectionsToPass: objectRelationCollections,
+    relationsToPass: relations,
+    relationPartnersToPass: relationPartners
   }
 }

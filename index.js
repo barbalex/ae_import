@@ -112,10 +112,3 @@ getCouchObjects(couchDb)
     pgp.end()
   })
 
-/*
-const rebuildObjects = require(`./src/rebuildObjects.js`)
-
-getCouchObjects(couchDb)
-  .then(() => rebuildObjects(couchDb, lrTaxonomies))
-  .catch((error) => console.log(error))
-*/

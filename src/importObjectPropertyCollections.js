@@ -13,7 +13,7 @@ const _ = require(`lodash`)
    }
  */
 
-module.exports = (pgDb, objects) =>
+module.exports = (pgDb, couchObjects) =>
   new Promise((resolve, reject) => {
     let propertyCollections
     let relationCollections
@@ -23,29 +23,55 @@ module.exports = (pgDb, objects) =>
     const relationPartners = []
 
     pgDb.any(`SELECT * FROM ae.property_collection`)
-      .then((data) => {
-        propertyCollections = data
+      .then((resultPC) => {
+        propertyCollections = resultPC
         return pgDb.any(`Select * from ae.relation_collection`)
       })
-      .then((data) => {
-        relationCollections = data
-        objects.forEach((object) => {
-          const pCs = object.Eigenschaftensammlungen
-          if (pCs) {
-            pCs.forEach((pC) => {
+      .then((resultRC) => {
+        relationCollections = resultRC
+        console.log('couchObjects[0]', couchObjects[0])
+        console.log('propertyCollections[0]', propertyCollections[0])
+        couchObjects.forEach((couchObject, cOIndex) => {
+          if (couchObject.Eigenschaftensammlungen) {
+            const object_id = couchObject._id
+            couchObject.Eigenschaftensammlungen.forEach((couchPC, cPCIndex) => {
               // add object_property_collection
-              const object_id = object._id
-              let property_collection_id = propertyCollections.find((c) => c.name === pC.Name)
-              if (pC.Name === `Schutz` && pC.Beschreibung === `Informationen zu 54 Lebensräumen`) {
-                property_collection_id = propertyCollections.find((c) => c.name === `FNS Schutz (2009)`)
+              let pcNameToSearchFor = couchPC.Name
+              if (couchPC.Name === `Schutz` && couchPC.Beschreibung === `Informationen zu 54 Lebensräumen`) {
+                pcNameToSearchFor = `FNS Schutz (2009)`
               }
-              objectPropertyCollections.push({ object_id, property_collection_id })
+              const correspondingPC = propertyCollections.find((pc) => pc.name === pcNameToSearchFor)
+              if (cOIndex === 0 && cPCIndex === 0) {
+                console.log('pcNameToSearchFor', pcNameToSearchFor)
+                console.log('correspondingPC', correspondingPC)
+              }
+              if (object_id && correspondingPC && correspondingPC.id) {
+                const property_collection_id = correspondingPC.id
+                const properties = (
+                  couchPC.Eigenschaften &&
+                  Object.keys(couchPC.Eigenschaften) &&
+                  Object.keys(couchPC.Eigenschaften).length > 0 ?
+                  JSON.stringify(couchPC.Eigenschaften) :
+                  null
+                )
+                // objectPropertyCollections.push({ object_id, property_collection_id, properties })
+                objectPropertyCollections.push({ object_id, property_collection_id })
+              } else {
+                console.log(`Pc ${couchPC.Name} not added:`, { object_id, correspondingPC })
+              }
             })
           }
-          const rCs = object.Beziehungssammlungen
-          if (rCs) {
-            rCs.forEach((rc) => {
-              // todo
+          if (couchObject.Beziehungssammlungen) {
+            const object_id = couchObject._id
+            couchObject.Beziehungssammlungen.forEach((couchRC) => {
+              // add object_relation_collection
+              const correspondingRC = relationCollections.find((rc) => rc.name === couchRC.Name)
+              if (object_id && correspondingRC && correspondingRC.id) {
+                const relation_collection_id = correspondingRC.id
+                objectRelationCollections.push({ object_id, relation_collection_id })
+              } else {
+                console.log(`Pc ${couchRC.Name} not added:`, { correspondingRC, couchObject })
+              }
             })
           }
         })
@@ -59,6 +85,20 @@ module.exports = (pgDb, objects) =>
         const sql = `
         insert into
           ae.object_property_collection (${fieldsSql})
+        values
+          ${valueSql};`
+        return pgDb.none(sql)
+      })
+      .then(() => {
+        // write objectRelationCollections
+        console.log('objectRelationCollections[0]', objectRelationCollections[0])
+        const fieldsSql = _.keys(objectRelationCollections[0]).join(`,`)
+        const valueSql = objectRelationCollections
+          .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+          .join(`,`)
+        const sql = `
+        insert into
+          ae.object_relation_collection (${fieldsSql})
         values
           ${valueSql};`
         return pgDb.none(sql)

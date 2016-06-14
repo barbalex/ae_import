@@ -23,7 +23,9 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
     let colsPC
     let colsRC
 
-    getCollectionsFromCouch(couchDb)
+    pgDb.none(`truncate ae.property_collection cascade`)
+      .then(() => pgDb.none(`truncate ae.relation_collection cascade`))
+      .then(() => getCollectionsFromCouch(couchDb))
       .then(({ colspc, colsrc }) => {
         colsRC = colsrc
         colsPC = colspc

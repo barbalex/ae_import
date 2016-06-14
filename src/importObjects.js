@@ -17,7 +17,8 @@ module.exports = (couchDb, pgDb, couchObjects, organizationId) =>
       ae.object (id,category,organization_id)
     values
       ${valueSql};`
-    pgDb.none(sql)
+    pgDb.none(`truncate ae.object cascade`)
+      .then(() => pgDb.none(sql))
       .then(() => {
         console.log(`${couchObjects.length} objects imported`)
         resolve(objects)

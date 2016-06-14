@@ -52,7 +52,7 @@ CREATE TABLE ae.tax_object (
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   parent_id UUID DEFAULT NULL REFERENCES ae.tax_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text NOT NULL,
-  object_properties jsonb DEFAULT NULL
+  properties jsonb DEFAULT NULL
 );
 CREATE INDEX ON ae.tax_object USING btree (name);
 

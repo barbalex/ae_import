@@ -29,8 +29,10 @@ module.exports = (pgDb, couchObjects) =>
       })
       .then((resultRC) => {
         relationCollections = resultRC
-        // console.log('couchObjects[0]', couchObjects[0])
-        // console.log('propertyCollections[0]', propertyCollections[0])
+        return pgDb.none(`truncate ae.object_property_collection cascade`)
+      })
+      .then(() => pgDb.none(`truncate ae.object_relation_collection cascade`))
+      .then(() => {
         couchObjects.forEach((couchObject) => {
           if (couchObject.Eigenschaftensammlungen) {
             const object_id = couchObject._id
@@ -88,23 +90,21 @@ module.exports = (pgDb, couchObjects) =>
           ${valueSql};`
         return pgDb.none(sql)
       })
-      .then(() => {
-        console.log(`${objectPropertyCollections.length} object property collections imported`)
-        const actions = objectPropertyCollections.map((val, index) => {
+      .then(() =>
+        Promise.all(objectPropertyCollections.map((val) => {
           const sql = `
             UPDATE
               ae.object_property_collection
             SET
               properties = $1
             WHERE
-              object_id = '${val.object_id}'
+              object_id = $2
           `
-          if (index === 0) console.log('sql', sql)
-          return pgDb.none(sql, [val.properties])
-        })
-        return Promise.all(actions)
-      })
+          return pgDb.none(sql, [val.properties, val.object_id])
+        }))
+      )
       .then(() => {
+        console.log(`${objectPropertyCollections.length} object property collections imported`)
         // write objectRelationCollections
         const fieldsSql = _.keys(objectRelationCollections[0]).join(`,`)
         const valueSql = objectRelationCollections

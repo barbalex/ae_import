@@ -36,26 +36,41 @@ module.exports = (
         const object = couchObjects.find((obj) =>
           obj._id === objId
         )
-        const eigenschaften = object.Taxonomie.Eigenschaften
+        const properties = object.Taxonomie.Eigenschaften
         return {
           id: uuid.v4(),
           taxonomy_id: taxMoose.id,
           name,
           object_id: objId,
-          object_properties: JSON.stringify(eigenschaften),
+          properties,
           parent_id: gattungObject.id
         }
       })
-      const fieldsSql = _.keys(taxObjectsMooseLevel4[0]).join(`,`)
       const valueSql = taxObjectsMooseLevel4
-        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
+        .map((val) =>
+          `('${val.id}','${val.taxonomy_id}','${val.name}','${val.object_id}','${val.parent_id}')`
+        )
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (${fieldsSql})
+        ae.tax_object (id,taxonomy_id,name,object_id,parent_id)
       values
         ${valueSql};`
+
       pgDb.none(sql)
+        .then(() =>
+          Promise.all(taxObjectsMooseLevel4.map((val) => {
+            const sql2 = `
+              UPDATE
+                ae.tax_object
+              SET
+                properties = $1
+              WHERE
+                id = $2
+            `
+            return pgDb.none(sql2, [val.properties, val.id])
+          }))
+        )
         .then(() => resolve(taxObjectsMooseLevel4))
         .catch((err) =>
           reject(`error importing taxObjectsMooseLevel4 ${err}`)

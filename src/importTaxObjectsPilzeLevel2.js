@@ -21,26 +21,41 @@ module.exports = (couchDb, pgDb, taxPilze, taxObjectsPilzeLevel1, couchObjects) 
           obj._id === objId
         )
         if (!object) console.log(`no object found for objId`, objId)
-        const eigenschaften = object.Taxonomie.Eigenschaften
+        const properties = object.Taxonomie.Eigenschaften
         return {
           id: uuid.v4(),
           taxonomy_id: taxPilze.id,
           name,
           object_id: objId,
-          object_properties: JSON.stringify(eigenschaften),
+          properties,
           parent_id: gattungObject.id
         }
       })
-      const fieldsSql = _.keys(taxObjectsPilzeLevel2[0]).join(`,`)
       const valueSql = taxObjectsPilzeLevel2
-        .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
+        .map((val) =>
+          `('${val.id}','${val.taxonomy_id}','${val.name}','${val.object_id}','${val.parent_id}')`
+        )
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (${fieldsSql})
+        ae.tax_object (id,taxonomy_id,name,object_id,parent_id)
       values
         ${valueSql};`
+
       pgDb.none(sql)
+        .then(() =>
+          Promise.all(taxObjectsPilzeLevel2.map((val) => {
+            const sql2 = `
+              UPDATE
+                ae.tax_object
+              SET
+                properties = $1
+              WHERE
+                id = $2
+            `
+            return pgDb.none(sql2, [val.properties, val.id])
+          }))
+        )
         .then(() => resolve(taxObjectsPilzeLevel2))
         .catch((err) =>
           reject(`error importing taxObjectsPilzeLevel2 ${err}`)

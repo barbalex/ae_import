@@ -2,6 +2,7 @@
 /* eslint camelcase:0 */
 
 const _ = require(`lodash`)
+const removeBadCharactersFromJsonB = require(`./removeBadCharactersFromJsonB.js`)
 
 /**
  * TODO: correct property name part "Mitelland" to "Mittelland"
@@ -29,33 +30,37 @@ module.exports = (pgDb, couchObjects) =>
       })
       .then((resultRC) => {
         relationCollections = resultRC
-        console.log('couchObjects[0]', couchObjects[0])
-        console.log('propertyCollections[0]', propertyCollections[0])
-        couchObjects.forEach((couchObject, cOIndex) => {
+        // console.log('couchObjects[0]', couchObjects[0])
+        // console.log('propertyCollections[0]', propertyCollections[0])
+        couchObjects.forEach((couchObject) => {
           if (couchObject.Eigenschaftensammlungen) {
             const object_id = couchObject._id
-            couchObject.Eigenschaftensammlungen.forEach((couchPC, cPCIndex) => {
+            couchObject.Eigenschaftensammlungen.forEach((couchPC) => {
               // add object_property_collection
               let pcNameToSearchFor = couchPC.Name
               if (couchPC.Name === `Schutz` && couchPC.Beschreibung === `Informationen zu 54 Lebensräumen`) {
                 pcNameToSearchFor = `FNS Schutz (2009)`
               }
               const correspondingPC = propertyCollections.find((pc) => pc.name === pcNameToSearchFor)
-              if (cOIndex === 0 && cPCIndex === 0) {
-                console.log('pcNameToSearchFor', pcNameToSearchFor)
-                console.log('correspondingPC', correspondingPC)
-              }
               if (object_id && correspondingPC && correspondingPC.id) {
                 const property_collection_id = correspondingPC.id
-                const properties = (
+                let properties = null
+                if (
                   couchPC.Eigenschaften &&
                   Object.keys(couchPC.Eigenschaften) &&
-                  Object.keys(couchPC.Eigenschaften).length > 0 ?
-                  JSON.stringify(couchPC.Eigenschaften) :
-                  null
-                )
-                // objectPropertyCollections.push({ object_id, property_collection_id, properties })
-                objectPropertyCollections.push({ object_id, property_collection_id })
+                  Object.keys(couchPC.Eigenschaften).length > 0
+                ) {
+                  properties = couchPC.Eigenschaften
+                  Object.keys(properties).forEach((key) => {
+                    properties[key] = removeBadCharactersFromJsonB(properties[key])
+                  })
+                  properties = properties
+                }
+                objectPropertyCollections.push({
+                  object_id,
+                  property_collection_id,
+                  properties
+                })
               } else {
                 console.log(`Pc ${couchPC.Name} not added:`, { object_id, correspondingPC })
               }
@@ -78,13 +83,12 @@ module.exports = (pgDb, couchObjects) =>
       })
       .then(() => {
         // write objectPropertyCollections
-        const fieldsSql = _.keys(objectPropertyCollections[0]).join(`,`)
         const valueSql = objectPropertyCollections
-          .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
+          .map((val) => `('${val.object_id}','${val.property_collection_id}','${JSON.stringify(val.properties)}')`)  /* eslint quotes:0 */
           .join(`,`)
         const sql = `
         insert into
-          ae.object_property_collection (${fieldsSql})
+          ae.object_property_collection (object_id,property_collection_id,properties)
         values
           ${valueSql};`
         return pgDb.none(sql)
@@ -94,7 +98,7 @@ module.exports = (pgDb, couchObjects) =>
         console.log('objectRelationCollections[0]', objectRelationCollections[0])
         const fieldsSql = _.keys(objectRelationCollections[0]).join(`,`)
         const valueSql = objectRelationCollections
-          .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+          .map((val) => `('${_.values(val).join("','").replace(/'',/g, 'null,')}')`)
           .join(`,`)
         const sql = `
         insert into

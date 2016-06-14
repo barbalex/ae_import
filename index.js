@@ -51,39 +51,23 @@ const importTaxObjectsPilze = require(`./src/importTaxObjectsPilze.js`)
 const importCollections = require(`./src/importCollections.js`)
 const correctPropertyCollections = require(`./src/correctPropertyCollections.js`)
 const correctRelationCollections = require(`./src/correctRelationCollections.js`)
+const importObjectPropertyCollections = require(`./src/importObjectPropertyCollections.js`)
 
 let couchObjects
-let objects
-let taxonomies
-let categories
 let organizations
 let users
-let orgPropertyCollectionWriters
-let orgHabitatWriters
-let orgAdmins
 let nonLrTaxonomies
-let lrTaxonomies
 let taxFauna
 let taxFlora
 let taxMoose
 let taxPilze
-let taxObjectsFauna
-let taxObjectsFlora
-let taxObjectsMoose
-let taxObjectsPilze
-let taxObjectsLebensräume
-let propertyCollections
-let relationCollections
 
 getCouchObjects(couchDb)
   .then((result) => {
     couchObjects = result
     return importCategories(pgDb)
   })
-  .then((result) => {
-    categories = result
-    return importOrganizations(pgDb)
-  })
+  .then(() => importOrganizations(pgDb))
   .then((result) => {
     organizations = result
     return importUsers(pgDb)
@@ -92,18 +76,9 @@ getCouchObjects(couchDb)
     users = result
     return importOrgPropertyCollectionWriters(pgDb, organizations[0].id, users)
   })
-  .then((result) => {
-    orgPropertyCollectionWriters = result
-    return importOrgHabitatWriters(pgDb, organizations[0].id, users)
-  })
-  .then((result) => {
-    orgHabitatWriters = result
-    return importOrgAdmins(pgDb, organizations[0].id, users)
-  })
-  .then((result) => {
-    orgAdmins = result
-    return importTaxonomiesNonLr(pgDb, organizations[0].id)
-  })
+  .then(() => importOrgHabitatWriters(pgDb, organizations[0].id, users))
+  .then(() => importOrgAdmins(pgDb, organizations[0].id, users))
+  .then(() => importTaxonomiesNonLr(pgDb, organizations[0].id))
   .then((result) => {
     nonLrTaxonomies = result
     taxFauna = nonLrTaxonomies.find((tax) =>
@@ -120,36 +95,15 @@ getCouchObjects(couchDb)
     )
     return importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
   })
-  .then((result) => {
-    lrTaxonomies = result
-    return importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
-  })
-  .then((result) => {
-    objects = result
-    return importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects)
-  })
-  .then((result) => {
-    taxObjectsFauna = result
-    return importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects)
-  })
-  .then((result) => {
-    taxObjectsFlora = result
-    return importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects)
-  })
-  .then((result) => {
-    taxObjectsMoose = result
-    return importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects)
-  })
-  .then((result) => {
-    taxObjectsPilze = result
-    return importCollections(couchDb, pgDb, organizations[0].id, users)
-  })
-  .then((result) => {
-    propertyCollections = result.propertyCollections
-    relationCollections = result.relationCollections
-    return correctPropertyCollections(pgDb)
-  })
+  .then(() => importObjects(couchDb, pgDb, couchObjects, organizations[0].id))
+  .then(() => importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects))
+  .then(() => importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects))
+  .then(() => importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects))
+  .then(() => importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects))
+  .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
+  .then(() => correctPropertyCollections(pgDb))
   .then(() => correctRelationCollections(pgDb))
+  .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()
   })

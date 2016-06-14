@@ -126,7 +126,7 @@ module.exports = (pgDb, couchObjects) =>
       })
       .then(() => {
         console.log(`${relationPartners.length} relationPartners imported`)
-        console.log(`PostgreSQL wellcomes arteigenschaften.ch!`)
+        console.log(`PostgreSQL welcomes arteigenschaften.ch!`)
         resolve()
       })
       .catch((error) => reject(error))

@@ -4,6 +4,58 @@
 		"selected_items":
 		[
 			[
+				"cou",
+				"couchRelPartner"
+			],
+			[
+				"obje",
+				"object_id"
+			],
+			[
+				"rela",
+				"relation_id"
+			],
+			[
+				"rel",
+				"relationPartners"
+			],
+			[
+				"pro",
+				"properties"
+			],
+			[
+				"obj",
+				"object_id"
+			],
+			[
+				"prop",
+				"properties"
+			],
+			[
+				"object",
+				"objectPropertyCollections"
+			],
+			[
+				"corr",
+				"correspondingPC"
+			],
+			[
+				"correct",
+				"correctRelationCollections"
+			],
+			[
+				"pr",
+				"property_collection"
+			],
+			[
+				"gisL",
+				"gisLayerPc"
+			],
+			[
+				"pCs",
+				"propertyCollections"
+			],
+			[
 				"cols",
 				"colsRC"
 			],
@@ -22,10 +74,6 @@
 			[
 				"le",
 				"length"
-			],
-			[
-				"prop",
-				"propertyCollections"
 			],
 			[
 				"org",
@@ -60,10 +108,6 @@
 				"beobId"
 			],
 			[
-				"pro",
-				"programmAp"
-			],
-			[
 				"J",
 				"JBerJahr"
 			],
@@ -95,31 +139,23 @@
 			"file": "index.js",
 			"settings":
 			{
-				"buffer_size": 4713,
+				"buffer_size": 4076,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/importCollections.js",
+			"file": "src/importObjectPropertyCollections.js",
 			"settings":
 			{
-				"buffer_size": 3877,
+				"buffer_size": 4289,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sql/createTables.sql",
+			"file": "src/extractObjectCollectionsFromCouchObjects.js",
 			"settings":
 			{
-				"buffer_size": 6765,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/getCollectionsFromCouch.js",
-			"settings":
-			{
-				"buffer_size": 768,
+				"buffer_size": 4430,
 				"line_ending": "Windows"
 			}
 		}
@@ -152,7 +188,7 @@
 	},
 	"console":
 	{
-		"height": 223.0,
+		"height": 938.0,
 		"history":
 		[
 			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
@@ -175,7 +211,18 @@
 	],
 	"file_history":
 	[
+		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel4.js",
 		"/C/Users/alex/ae_import/sql/createTables.sql",
+		"/C/Users/alex/ae_import/src/importCategories.js",
+		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
+		"/C/Users/alex/ae_import/src/importObjects.js",
+		"/C/Users/alex/ae_import/src/importCollections.js",
+		"/C/Users/alex/ae_import/src/removeBadCharactersFromJsonB.js",
+		"/C/Users/alex/ae_import/src/getCouchObjects.js",
+		"/C/Users/alex/ae_import/src/correctRelationCollections.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsFauna.js",
+		"/C/Users/alex/ae_import/src/correctPropertyCollections.js",
+		"/C/Users/alex/ae_import/src/getCollectionsFromCouch.js",
 		"/C/Users/alex/ae_import/src/importTaxonomiesLr.js",
 		"/C/Users/alex/ae_import/src/getFieldsOfPropertyCollectionsFromCouch.js",
 		"/C/Users/alex/ae_import/src/getFieldsOfCollectionFromCouch.js",
@@ -188,8 +235,6 @@
 		"/C/Users/alex/ae_import/src/importOrgHabitatWriters.js",
 		"/C/Users/alex/ae_import/src/importOrganizations.js",
 		"/C/Users/alex/ae_import/src/importOrgAdmins.js",
-		"/C/Users/alex/ae_import/src/importObjects.js",
-		"/C/Users/alex/ae_import/src/importCategories.js",
 		"/C/Users/alex/ae_import/src/importUsers.js",
 		"/C/Users/alex/ae_import/src/importTaxonomiesNonLr.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsPilzeLevel2.js",
@@ -200,7 +245,6 @@
 		"/C/Users/alex/ae_import/src/importTaxObjectsMooseLevel1.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel2.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel1.js",
-		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel4.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel3.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel1.js",
 		"/C/Users/alex/ae_import/src/replaceLineBreaks.js",
@@ -210,7 +254,6 @@
 		"/C/Users/alex/ae_import/src/importTaxObjectsPilze.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsMoose.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFlora.js",
-		"/C/Users/alex/ae_import/src/importTaxObjectsFauna.js",
 		"/C/Users/alex/ae_import/src/nonLrTaxonomies.js",
 		"/C/Users/alex/ae_import/src/buildTaxObjectsMoose.js",
 		"/C/Users/alex/ae_import/src/buildTaxObjectsPilze.js",
@@ -295,14 +338,7 @@
 		"/C/Users/alex/.ssh/alex",
 		"/C/Users/alex/.ssh/alex.ppk",
 		"/C/Users/alex/apflora_api/sql/triggers.sql",
-		"/C/Users/alex/apflora_api/sql/createViews.sql",
-		"/C/Users/alex/apflora_api/sql/create_tables_beob.sql",
-		"/C/Users/alex/apflora_api/sql/create_tables_apflora.sql",
-		"/C/Users/alex/apflora_api/sql/countRows.sql",
-		"/C/Users/alex/apflora_api/queries/tabelleInsertApflora.js",
-		"/C/Users/alex/apf2_api/sql/create_tables_apflora.sql",
-		"/C/Users/alex/apf2_api/sql/triggers.sql",
-		"/C/Users/alex/apflora_api/src/routes/apflora.js"
+		"/C/Users/alex/apflora_api/sql/createViews.sql"
 	],
 	"find":
 	{
@@ -328,6 +364,70 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"truncate ae.relation",
+			"object_relation_collection",
+			"objectRelationCollections",
+			"relations",
+			"objectPropertyCollections",
+			"objectRelationCollections",
+			"relations",
+			"relationPartners",
+			"relations",
+			"propertyCollections",
+			"objectPropertyCollections",
+			"extractObjectCollectionsFromCouchObject",
+			"object_properties",
+			"truncate ae.",
+			"ae.property_collection",
+			"truncate ae.",
+			"ae.group",
+			"truncate",
+			"myVariable",
+			"replace",
+			"variable",
+			"json",
+			"properties",
+			"jsonb",
+			"tax",
+			"'",
+			"removeBadCharactersFromJsonB",
+			"ds_bs_prov",
+			"nameToSearchFor",
+			"couchPCs",
+			"co",
+			"c",
+			"rCs",
+			"object",
+			"pCs",
+			"property",
+			"Property",
+			"property",
+			"pC",
+			"objects",
+			"taxObjectsLebensräume",
+			"taxonomies",
+			"categories",
+			"orgAdmins",
+			"lrTaxonomies",
+			"propertyCollections",
+			"taxObjectsPilze",
+			"taxObjectsMoose",
+			"taxObjectsFlora",
+			"taxObjectsFauna",
+			"objects",
+			"propertyCollections",
+			"last_updated",
+			"eingInCollections[0].last_updated",
+			"offArt",
+			"SISF Index 2 (2005): offizielle Art",
+			"gueltNam",
+			"eingIn",
+			"SISF Index 2 (2005): eingeschlossen in",
+			"gisLayer",
+			"Pc",
+			"property",
+			"jahresarten",
+			"number_of_records",
 			"colsRC",
 			"relationCollections",
 			"propertyCollections",
@@ -391,71 +491,7 @@
 			"_id",
 			"objects",
 			"'",
-			"db",
-			"build",
-			"'",
-			"taxFlora",
-			"'",
-			"Fauna",
-			"objects",
-			"taxObjectsFaunaLevel4",
-			"taxObjectsFaunaLevel2",
-			"\n          Typ: 'Taxonomie-Objekt',",
-			"taxObj.Name",
-			"Taxonomie: taxonomie",
-			"taxObjectsFaunaLevel1",
-			"_id: uuid.v4()",
-			"Name: name",
-			"Taxonomie: taxFlora._id",
-			"\n        Typ: 'Taxonomie-Objekt',",
-			"'artendb/baumFlora'",
-			"const _ = require('lodash')",
-			"db",
-			"'",
-			"build",
-			"taxObj.parent",
-			"taxObject",
-			"objects",
-			"'",
-			"buildTaxObjectsFaunaLevel1",
-			"buildTaxObjectsFaunaLevel2",
-			"buildTaxObjectsFaunaLevel3",
-			"buildTaxObjectsFaunaLevel4",
-			"taxObjectsFaunaLevel3",
-			"const uuid = require('node-uuid')",
-			"taxObjectsFaunaLevel2",
-			"taxObjectsFaunaLevel1",
-			"taxonomy",
-			"taxonomies",
-			"db",
-			"'",
-			"Taxonomie: taxFauna._id",
-			"buildTaxonomiesLr",
-			"'",
-			"`}\"",
-			"'}`",
-			"`{'",
-			"'",
-			"),    (",
-			"\n",
-			"),(",
-			"\n",
-			"\"",
-			"\n",
-			"\"\"",
-			"node-uuid",
-			"'",
-			"group",
-			"groups",
-			"group",
-			"db",
-			",\n    'Organisation mit Schreibrecht': 'FNS Kt. ZH'",
-			"Standardtaxonomie:",
-			"Gruppe:",
-			"Link:",
-			"Datenstand:",
-			"Beschreibung:",
-			"\n    Typ: 'Taxonomie',"
+			"db"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -463,6 +499,40 @@
 		"regex": false,
 		"replace_history":
 		[
+			"relationPartners",
+			"relations",
+			"extractObjectCollectionsFromCouchObjects",
+			"properties",
+			"variable",
+			"myVariable",
+			"jsonb",
+			"json",
+			"val",
+			"`",
+			"pcNameToSearchFor",
+			"rc",
+			"pc",
+			"couchPC",
+			"couchRC",
+			"couchRCs",
+			"couchObject",
+			"couchPCs",
+			"relation",
+			"Relation",
+			"relation",
+			"c",
+			"couchObjects",
+			"objectPropertyCollections",
+			"`2007.05.08`",
+			"syn",
+			"SISF Index 2 (2005): synonym",
+			"offArt",
+			"gueltNam",
+			"SISF Index 2 (2005): gültige Namen",
+			"eingIn",
+			"Rc",
+			"relation",
+			"schutz",
 			"relationCollections",
 			"colsRC",
 			"colsPC",
@@ -556,41 +626,7 @@
 			"",
 			"isGroupStandard:",
 			"group:",
-			"links:",
-			"lastUpdated:",
-			"description:",
-			"",
-			"name:",
-			"users",
-			"user",
-			"importGroups",
-			"'",
-			"name",
-			"couchDb",
-			"reject",
-			"db",
-			"sourceDb",
-			"sourceDb.save",
-			".view('artendb",
-			"sourceDb, aeDb",
-			"aeDb",
-			"db",
-			"sourceDb",
-			"connection",
-			"buildTaxonomiesNonLr",
-			"buildTaxonomiesLr",
-			"'",
-			"BeobNichtZuordnen",
-			"'",
-			"require('../src/routes')",
-			"'..",
-			"'../../queries",
-			"const pg = require('pg')\nconst config = require('../configuration')\nconst connectionString = config.pg.connectionString",
-			"'",
-			"beobDistzutpopInfospeziesGet",
-			"apPost",
-			"adressenGet",
-			"  "
+			"links:"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -601,7 +637,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -626,7 +662,7 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 7233.0,
+						"translation.y": 435.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
@@ -638,15 +674,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4713,
+						"buffer_size": 4076,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1987,
-								1994
+								3812,
+								3812
 							]
 						],
 						"settings":
@@ -656,7 +692,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4059.0,
+						"translation.y": 2277.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -664,79 +700,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/importCollections.js",
+					"file": "src/importObjectPropertyCollections.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3877,
+						"buffer_size": 4289,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2525,
-								2525
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2027.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "sql/createTables.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6765,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3578,
-								3585
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PostgreSQL Syntax Highlighting/PostgreSQL.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2277.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/getCollectionsFromCouch.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 768,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								629,
-								629
+								4215,
+								4215
 							]
 						],
 						"settings":
@@ -750,6 +726,68 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/extractObjectCollectionsFromCouchObjects.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3858,
+								3868
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2654.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/extractObjectCollectionsFromCouchObjects.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								329,
+								344
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

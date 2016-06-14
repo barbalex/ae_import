@@ -1,8 +1,7 @@
 'use strict'
-/* eslint camelcase:0 */
+/* eslint camelcase:0 quotes:0 */
 
 const _ = require(`lodash`)
-const removeBadCharactersFromJsonB = require(`./removeBadCharactersFromJsonB.js`)
 
 /**
  * TODO: correct property name part "Mitelland" to "Mittelland"
@@ -51,10 +50,6 @@ module.exports = (pgDb, couchObjects) =>
                   Object.keys(couchPC.Eigenschaften).length > 0
                 ) {
                   properties = couchPC.Eigenschaften
-                  Object.keys(properties).forEach((key) => {
-                    properties[key] = removeBadCharactersFromJsonB(properties[key])
-                  })
-                  properties = properties
                 }
                 objectPropertyCollections.push({
                   object_id,
@@ -84,18 +79,33 @@ module.exports = (pgDb, couchObjects) =>
       .then(() => {
         // write objectPropertyCollections
         const valueSql = objectPropertyCollections
-          .map((val) => `('${val.object_id}','${val.property_collection_id}','${JSON.stringify(val.properties)}')`)  /* eslint quotes:0 */
+          .map((val) => `('${val.object_id}','${val.property_collection_id}')`)
           .join(`,`)
         const sql = `
         insert into
-          ae.object_property_collection (object_id,property_collection_id,properties)
+          ae.object_property_collection (object_id,property_collection_id)
         values
           ${valueSql};`
         return pgDb.none(sql)
       })
       .then(() => {
+        console.log(`${objectPropertyCollections.length} object property collections imported`)
+        const actions = objectPropertyCollections.map((val, index) => {
+          const sql = `
+            UPDATE
+              ae.object_property_collection
+            SET
+              properties = $1
+            WHERE
+              object_id = '${val.object_id}'
+          `
+          if (index === 0) console.log('sql', sql)
+          return pgDb.none(sql, [val.properties])
+        })
+        return Promise.all(actions)
+      })
+      .then(() => {
         // write objectRelationCollections
-        console.log('objectRelationCollections[0]', objectRelationCollections[0])
         const fieldsSql = _.keys(objectRelationCollections[0]).join(`,`)
         const valueSql = objectRelationCollections
           .map((val) => `('${_.values(val).join("','").replace(/'',/g, 'null,')}')`)
@@ -107,6 +117,9 @@ module.exports = (pgDb, couchObjects) =>
           ${valueSql};`
         return pgDb.none(sql)
       })
-      .then(() => resolve())
+      .then(() => {
+        console.log(`${objectRelationCollections.length} object relation collections imported`)
+        resolve()
+      })
       .catch((error) => reject(error))
   })

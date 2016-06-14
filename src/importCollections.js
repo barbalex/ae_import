@@ -30,10 +30,15 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
         // build property collections
         propertyCollections = colsPC.map((c) => {
           const id = uuid.v4()
-          const name = c[1]
+          let name = c[1]
           const description = c[2] || null
+          /**
+           * correct an error in the data
+           */
+          if (name === `Schutz` && description === `Informationen zu 54 Lebensräumen`) {
+            name = `FNS Schutz (2009)`
+          }
           const links = c[3] ? `{"${c[3]}"}` : null
-          const number_of_records = c[7]
           const combining = c[4] || false
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
@@ -43,7 +48,6 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
             name,
             description,
             links,
-            number_of_records,
             combining,
             organization_id,
             last_updated,
@@ -71,7 +75,6 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           const name = c[1]
           const description = c[2] || null
           const links = c[3] ? `{"${c[3]}"}` : null
-          const number_of_records = c[8]
           const combining = c[4] || false
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
@@ -82,7 +85,6 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
             name,
             description,
             links,
-            number_of_records,
             combining,
             organization_id,
             last_updated,
@@ -105,7 +107,7 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
       })
       .then(() => {
         console.log(`${relationCollections.length} relation collections exported`)
-        resolve(propertyCollections, relationCollections)
+        resolve({ propertyCollections, relationCollections })
       })
       .catch((error) => reject(`error importing property collections: ${error}`))
   })

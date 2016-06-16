@@ -39,9 +39,8 @@ const importObjects = require(`./src/importObjects.js`)
 const importCategories = require(`./src/importCategories.js`)
 const importOrganizations = require(`./src/importOrganizations.js`)
 const importUsers = require(`./src/importUsers.js`)
-const importOrgPropertyCollectionWriters = require(`./src/importOrgPropertyCollectionWriters.js`)
-const importOrgHabitatWriters = require(`./src/importOrgHabitatWriters.js`)
-const importOrgAdmins = require(`./src/importOrgAdmins.js`)
+const importOrganizationUsers = require(`./src/importOrganizationUsers.js`)
+const importRoles = require(`./src/importRoles.js`)
 const importTaxonomiesNonLr = require(`./src/importTaxonomiesNonLr.js`)
 const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
 const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
@@ -65,19 +64,18 @@ let taxPilze
 getCouchObjects(couchDb)
   .then((result) => {
     couchObjects = result
-    return //importCategories(pgDb)
+    return importCategories(pgDb)
   })
-  /*.then(() => importOrganizations(pgDb))
+  .then(() => importOrganizations(pgDb))
   .then((result) => {
     organizations = result
     return importUsers(pgDb)
   })
   .then((result) => {
     users = result
-    return importOrgPropertyCollectionWriters(pgDb, organizations[0].id, users)
+    return importOrganizationUsers(pgDb, organizations[0].id, users)
   })
-  .then(() => importOrgHabitatWriters(pgDb, organizations[0].id, users))
-  .then(() => importOrgAdmins(pgDb, organizations[0].id, users))
+  .then(() => importRoles(pgDb))
   .then(() => importTaxonomiesNonLr(pgDb, organizations[0].id))
   .then((result) => {
     nonLrTaxonomies = result
@@ -102,9 +100,9 @@ getCouchObjects(couchDb)
   .then(() => importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects))
   .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
   .then(() => correctPropertyCollections(pgDb))
-  .then(() => correctRelationCollections(pgDb))*/
+  .then(() => correctRelationCollections(pgDb))
   // dont know why but when this is done directly after above
-  // an error occures...
+  // an error occurs...
   .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()

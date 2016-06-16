@@ -103,6 +103,8 @@ getCouchObjects(couchDb)
   .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
   .then(() => correctPropertyCollections(pgDb))
   .then(() => correctRelationCollections(pgDb))*/
+  // dont know why but when this is done directly after above
+  // an error occures...
   .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()

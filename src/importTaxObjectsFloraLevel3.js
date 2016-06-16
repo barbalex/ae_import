@@ -39,7 +39,7 @@ module.exports = (couchDb, pgDb, taxFlora, taxObjectsFloraLevel1, taxObjectsFlor
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (id,taxonomy_id,name,object_id,parent_id)
+        ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)
       values
         ${valueSql};`
 
@@ -48,7 +48,7 @@ module.exports = (couchDb, pgDb, taxFlora, taxObjectsFloraLevel1, taxObjectsFlor
           Promise.all(taxObjectsFloraLevel3.map((val) => {
             const sql2 = `
               UPDATE
-                ae.tax_object
+                ae.taxonomy_object
               SET
                 properties = $1
               WHERE

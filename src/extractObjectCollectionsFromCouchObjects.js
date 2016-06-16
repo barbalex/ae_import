@@ -20,7 +20,7 @@ module.exports = (
     if (couchObject.Eigenschaftensammlungen) {
       const object_id = couchObject._id
       couchObject.Eigenschaftensammlungen.forEach((couchPC) => {
-        // add object_property_collection
+        // add property_collection_object
         let pcNameToSearchFor = couchPC.Name
         if (couchPC.Name === `Schutz` && couchPC.Beschreibung === `Informationen zu 54 Lebensräumen`) {
           pcNameToSearchFor = `FNS Schutz (2009)`
@@ -58,7 +58,7 @@ module.exports = (
     if (couchObject.Beziehungssammlungen) {
       const object_id = couchObject._id
       couchObject.Beziehungssammlungen.forEach((couchRC) => {
-        // add object_relation_collection
+        // add relation_collection_object
         const correspondingRC = relationCollections.find((rc) => rc.name === couchRC.Name)
         if (object_id && correspondingRC && correspondingRC.id) {
           const relation_collection_id = correspondingRC.id

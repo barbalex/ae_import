@@ -53,7 +53,7 @@ module.exports = (
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (id,taxonomy_id,name,object_id,parent_id)
+        ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)
       values
         ${valueSql};`
 
@@ -62,7 +62,7 @@ module.exports = (
           Promise.all(taxObjectsMooseLevel4.map((val) => {
             const sql2 = `
               UPDATE
-                ae.tax_object
+                ae.taxonomy_object
               SET
                 properties = $1
               WHERE

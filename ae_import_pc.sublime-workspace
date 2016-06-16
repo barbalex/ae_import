@@ -131,8 +131,16 @@
 			"file": "/D/Google Drive/artendb/push.txt",
 			"settings":
 			{
-				"buffer_size": 7648,
+				"buffer_size": 7315,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 612,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -144,10 +152,20 @@
 			}
 		},
 		{
-			"file": "src/importObjectPropertyCollections.js",
+			"contents": "Searching 51 files for \"tax_object\" (case sensitive, whole word)\n\nC:\\Users\\alex\\ae_import\\sql\\createTables.sql:\n   46  );\n   47  \n   48: DROP TABLE IF EXISTS ae.tax_object CASCADE;\n   49: CREATE TABLE ae.tax_object (\n   50    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n   51    taxonomy_id UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,\n   52    object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE RESTRICT ON UPDATE CASCADE,\n   53:   parent_id UUID DEFAULT NULL REFERENCES ae.tax_object (id) ON DELETE CASCADE ON UPDATE CASCADE,\n   54    name text NOT NULL,\n   55    properties jsonb DEFAULT NULL\n   56  );\n   57: CREATE INDEX ON ae.tax_object USING btree (name);\n   58  \n   59  DROP TABLE IF EXISTS ae.property_collection CASCADE;\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFaunaLevel1.js:\n   22        const sql = `\n   23        insert into\n   24:         ae.tax_object (${fieldsSql})\n   25        values\n   26          ${valueSql};`\n   27:       pgDb.none(`truncate ae.tax_object cascade`)\n   28          .then(() => pgDb.none(sql))\n   29          .then(() => resolve(taxObjectsFaunaLevel1))\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFaunaLevel2.js:\n   30        const sql = `\n   31        insert into\n   32:         ae.tax_object (${fieldsSql})\n   33        values\n   34          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFaunaLevel3.js:\n   34        const sql = `\n   35        insert into\n   36:         ae.tax_object (${fieldsSql})\n   37        values\n   38          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFaunaLevel4.js:\n   52        const sql = `\n   53        insert into\n   54:         ae.tax_object (id,taxonomy_id,name,object_id,parent_id)\n   55        values\n   56          ${valueSql};`\n   ..\n   61              const sql2 = `\n   62                UPDATE\n   63:                 ae.tax_object\n   64                SET\n   65                  properties = $1\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFloraLevel1.js:\n   22        const sql = `\n   23        insert into\n   24:         ae.tax_object (${fieldsSql})\n   25        values\n   26          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFloraLevel2.js:\n   30        const sql = `\n   31        insert into\n   32:         ae.tax_object (${fieldsSql})\n   33        values\n   34          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsFloraLevel3.js:\n   40        const sql = `\n   41        insert into\n   42:         ae.tax_object (id,taxonomy_id,name,object_id,parent_id)\n   43        values\n   44          ${valueSql};`\n   ..\n   49              const sql2 = `\n   50                UPDATE\n   51:                 ae.tax_object\n   52                SET\n   53                  properties = $1\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsMooseLevel1.js:\n   22        const sql = `\n   23        insert into\n   24:         ae.tax_object (${fieldsSql})\n   25        values\n   26          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsMooseLevel2.js:\n   31        const sql = `\n   32        insert into\n   33:         ae.tax_object (${fieldsSql})\n   34        values\n   35          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsMooseLevel3.js:\n   35        const sql = `\n   36        insert into\n   37:         ae.tax_object (${fieldsSql})\n   38        values\n   39          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsMooseLevel4.js:\n   54        const sql = `\n   55        insert into\n   56:         ae.tax_object (id,taxonomy_id,name,object_id,parent_id)\n   57        values\n   58          ${valueSql};`\n   ..\n   63              const sql2 = `\n   64                UPDATE\n   65:                 ae.tax_object\n   66                SET\n   67                  properties = $1\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsPilzeLevel1.js:\n   24        const sql = `\n   25        insert into\n   26:         ae.tax_object (${fieldsSql})\n   27        values\n   28          ${valueSql};`\n\nC:\\Users\\alex\\ae_import\\src\\importTaxObjectsPilzeLevel2.js:\n   39        const sql = `\n   40        insert into\n   41:         ae.tax_object (id,taxonomy_id,name,object_id,parent_id)\n   42        values\n   43          ${valueSql};`\n   ..\n   48              const sql2 = `\n   49                UPDATE\n   50:                 ae.tax_object\n   51                SET\n   52                  properties = $1\n\n22 matches across 14 files\n\n\nSearching 51 files for \"object_property_collection\" (case sensitive, whole word)\n\nC:\\Users\\alex\\ae_import\\sql\\createTables.sql:\n   88  CREATE INDEX ON ae.relation_collection USING btree (name);\n   89  \n   90: DROP TABLE IF EXISTS ae.object_property_collection CASCADE;\n   91: CREATE TABLE ae.object_property_collection (\n   92    object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,\n   93    property_collection_id UUID NOT NULL REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,\n\nC:\\Users\\alex\\ae_import\\src\\extractObjectCollectionsFromCouchObjects.js:\n   21        const object_id = couchObject._id\n   22        couchObject.Eigenschaftensammlungen.forEach((couchPC) => {\n   23:         // add object_property_collection\n   24          let pcNameToSearchFor = couchPC.Name\n   25          if (couchPC.Name === `Schutz` && couchPC.Beschreibung === `Informationen zu 54 Lebensräumen`) {\n\nC:\\Users\\alex\\ae_import\\src\\importObjectPropertyCollections.js:\n   19        .then((resultRC) => {\n   20          relationCollections = resultRC\n   21:         return pgDb.none(`truncate ae.object_property_collection cascade`)\n   22        })\n   23        .then(() => pgDb.none(`truncate ae.object_relation_collection cascade`))\n   ..\n   49          const sql = `\n   50            insert into\n   51:             ae.object_property_collection (object_id,property_collection_id)\n   52            values\n   53              ${valueSql};`\n   ..\n   58            const sql = `\n   59              UPDATE\n   60:               ae.object_property_collection\n   61              SET\n   62                properties = $1\n\n6 matches across 3 files\n\n\nSearching 51 files for \"object_relation_collection\" (case sensitive, whole word)\n\nC:\\Users\\alex\\ae_import\\sql\\createTables.sql:\n   96  );\n   97  \n   98: DROP TABLE IF EXISTS ae.object_relation_collection CASCADE;\n   99: CREATE TABLE ae.object_relation_collection (\n  100    object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,\n  101    relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,\n  ...\n  109    relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,\n  110    properties jsonb DEFAULT NULL,\n  111:   FOREIGN KEY (object_id, relation_collection_id) REFERENCES ae.object_relation_collection (object_id, relation_collection_id) ON DELETE CASCADE ON UPDATE CASCADE\n  112  );\n  113  \n\nC:\\Users\\alex\\ae_import\\src\\extractObjectCollectionsFromCouchObjects.js:\n   59        const object_id = couchObject._id\n   60        couchObject.Beziehungssammlungen.forEach((couchRC) => {\n   61:         // add object_relation_collection\n   62          const correspondingRC = relationCollections.find((rc) => rc.name === couchRC.Name)\n   63          if (object_id && correspondingRC && correspondingRC.id) {\n\nC:\\Users\\alex\\ae_import\\src\\importObjectPropertyCollections.js:\n   21          return pgDb.none(`truncate ae.property_collection_object cascade`)\n   22        })\n   23:       .then(() => pgDb.none(`truncate ae.object_relation_collection cascade`))\n   24        .then(() => pgDb.none(`truncate ae.relation cascade`))\n   25        .then(() => pgDb.none(`truncate ae.relation_partner cascade`))\n   ..\n   77          const sql = `\n   78            insert into\n   79:             ae.object_relation_collection (object_id,relation_collection_id)\n   80            values\n   81              ${valueSql};`\n\n6 matches across 3 files\n",
 			"settings":
 			{
-				"buffer_size": 4289,
+				"buffer_size": 7994,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "sql/createTables.sql",
+			"settings":
+			{
+				"buffer_size": 6694,
 				"line_ending": "Windows"
 			}
 		},
@@ -156,6 +174,126 @@
 			"settings":
 			{
 				"buffer_size": 4430,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importObjectPropertyCollections.js",
+			"settings":
+			{
+				"buffer_size": 4288,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sql/createDatabase.sql",
+			"settings":
+			{
+				"buffer_size": 80,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFaunaLevel1.js",
+			"settings":
+			{
+				"buffer_size": 1116,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFaunaLevel2.js",
+			"settings":
+			{
+				"buffer_size": 1312,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFaunaLevel3.js",
+			"settings":
+			{
+				"buffer_size": 1540,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFaunaLevel4.js",
+			"settings":
+			{
+				"buffer_size": 2346,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFloraLevel1.js",
+			"settings":
+			{
+				"buffer_size": 1046,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFloraLevel2.js",
+			"settings":
+			{
+				"buffer_size": 1316,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsFloraLevel3.js",
+			"settings":
+			{
+				"buffer_size": 2105,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsMooseLevel1.js",
+			"settings":
+			{
+				"buffer_size": 1046,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsMooseLevel2.js",
+			"settings":
+			{
+				"buffer_size": 1348,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsMooseLevel3.js",
+			"settings":
+			{
+				"buffer_size": 1576,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsMooseLevel4.js",
+			"settings":
+			{
+				"buffer_size": 2364,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsPilzeLevel1.js",
+			"settings":
+			{
+				"buffer_size": 1083,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/importTaxObjectsPilzeLevel2.js",
+			"settings":
+			{
+				"buffer_size": 1979,
 				"line_ending": "Windows"
 			}
 		}
@@ -211,10 +349,11 @@
 	],
 	"file_history":
 	[
+		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
+		"/C/Users/alex/ae_import/src/extractObjectCollectionsFromCouchObjects.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFaunaLevel4.js",
 		"/C/Users/alex/ae_import/sql/createTables.sql",
 		"/C/Users/alex/ae_import/src/importCategories.js",
-		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
 		"/C/Users/alex/ae_import/src/importObjects.js",
 		"/C/Users/alex/ae_import/src/importCollections.js",
 		"/C/Users/alex/ae_import/src/removeBadCharactersFromJsonB.js",
@@ -337,8 +476,7 @@
 		"/D/Google Drive/apflora/v2/installDb.txt",
 		"/C/Users/alex/.ssh/alex",
 		"/C/Users/alex/.ssh/alex.ppk",
-		"/C/Users/alex/apflora_api/sql/triggers.sql",
-		"/C/Users/alex/apflora_api/sql/createViews.sql"
+		"/C/Users/alex/apflora_api/sql/triggers.sql"
 	],
 	"find":
 	{
@@ -364,6 +502,12 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"object_relation_collection",
+			"object_property_collection",
+			"tax_object",
+			"pgDb",
+			"PostgreSQL wellcomes arteigenschaften.ch",
+			"PostgreSQL wellcomes arteigenschaften.ch!",
 			"truncate ae.relation",
 			"object_relation_collection",
 			"objectRelationCollections",
@@ -485,13 +629,7 @@
 			"db",
 			"'",
 			"taxObjectsFaunaLevel4",
-			"taxObjectsFaunaLevel3",
-			"taxObjectsFaunaLevel2",
-			"taxObjectsFaunaLevel1",
-			"_id",
-			"objects",
-			"'",
-			"db"
+			"taxObjectsFaunaLevel3"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -499,6 +637,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"relation_collection_object",
+			"property_collection_object",
+			"taxonomy_object",
 			"relationPartners",
 			"relations",
 			"extractObjectCollectionsFromCouchObjects",
@@ -623,10 +764,7 @@
 			"taxonomies",
 			"taxonomy",
 			"pgDb",
-			"",
-			"isGroupStandard:",
-			"group:",
-			"links:"
+			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -637,7 +775,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -646,15 +784,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7648,
+						"buffer_size": 7315,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6433,
-								6433
+								0,
+								0
 							]
 						],
 						"settings":
@@ -662,14 +800,44 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 435.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 612,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								585,
+								595
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "index.js",
 					"semi_transient": false,
 					"settings":
@@ -681,8 +849,8 @@
 						"selection":
 						[
 							[
-								3812,
-								3812
+								1612,
+								1612
 							]
 						],
 						"settings":
@@ -692,27 +860,236 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2277.0,
+						"translation.y": 740.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "src/importObjectPropertyCollections.js",
+					"buffer": 3,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4289,
+						"buffer_size": 7994,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										161,
+										171
+									],
+									[
+										204,
+										214
+									],
+									[
+										525,
+										535
+									],
+									[
+										682,
+										692
+									],
+									[
+										912,
+										922
+									],
+									[
+										1023,
+										1033
+									],
+									[
+										1277,
+										1287
+									],
+									[
+										1483,
+										1493
+									],
+									[
+										1689,
+										1699
+									],
+									[
+										1885,
+										1895
+									],
+									[
+										2091,
+										2101
+									],
+									[
+										2297,
+										2307
+									],
+									[
+										2503,
+										2513
+									],
+									[
+										2699,
+										2709
+									],
+									[
+										2905,
+										2915
+									],
+									[
+										3111,
+										3121
+									],
+									[
+										3317,
+										3327
+									],
+									[
+										3523,
+										3533
+									],
+									[
+										3719,
+										3729
+									],
+									[
+										3925,
+										3935
+									],
+									[
+										4131,
+										4141
+									],
+									[
+										4327,
+										4337
+									],
+									[
+										4665,
+										4691
+									],
+									[
+										4724,
+										4750
+									],
+									[
+										5190,
+										5216
+									],
+									[
+										5571,
+										5597
+									],
+									[
+										5796,
+										5822
+									],
+									[
+										6002,
+										6028
+									],
+									[
+										6294,
+										6320
+									],
+									[
+										6353,
+										6379
+									],
+									[
+										6843,
+										6869
+									],
+									[
+										7172,
+										7198
+									],
+									[
+										7581,
+										7607
+									],
+									[
+										7849,
+										7875
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								6117,
+								6117
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 3,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ 	].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6224.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "sql/createTables.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6694,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4215,
-								4215
+								0,
+								6694
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PostgreSQL Syntax Highlighting/PostgreSQL.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/extractObjectCollectionsFromCouchObjects.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -720,6 +1097,64 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/importObjectPropertyCollections.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4288,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								254,
+								254
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "sql/createDatabase.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 80,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								80,
+								54
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PostgreSQL Syntax Highlighting/PostgreSQL.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -729,56 +1164,24 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/extractObjectCollectionsFromCouchObjects.js",
+					"buffer": 8,
+					"file": "src/importTaxObjectsFaunaLevel1.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4430,
+						"buffer_size": 1116,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3858,
-								3868
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"history_list_is_closing": true,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2654.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/extractObjectCollectionsFromCouchObjects.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4430,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								329,
-								344
-							]
-						],
-						"settings":
-						{
-							"history_list_is_closing": true,
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -787,7 +1190,367 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/importTaxObjectsFaunaLevel2.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1312,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1062,
+								1077
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 297.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/importTaxObjectsFaunaLevel3.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1540,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/importTaxObjectsFaunaLevel4.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/importTaxObjectsFloraLevel1.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "src/importTaxObjectsFloraLevel2.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1316,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "src/importTaxObjectsFloraLevel3.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2105,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "src/importTaxObjectsMooseLevel1.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "src/importTaxObjectsMooseLevel2.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "src/importTaxObjectsMooseLevel3.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1576,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "src/importTaxObjectsMooseLevel4.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2364,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "src/importTaxObjectsPilzeLevel1.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1083,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "src/importTaxObjectsPilzeLevel2.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1979,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]

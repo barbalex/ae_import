@@ -45,16 +45,16 @@ CREATE TABLE ae.user (
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 
-DROP TABLE IF EXISTS ae.tax_object CASCADE;
-CREATE TABLE ae.tax_object (
+DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;
+CREATE TABLE ae.taxonomy_object (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   taxonomy_id UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE RESTRICT ON UPDATE CASCADE,
-  parent_id UUID DEFAULT NULL REFERENCES ae.tax_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  parent_id UUID DEFAULT NULL REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text NOT NULL,
   properties jsonb DEFAULT NULL
 );
-CREATE INDEX ON ae.tax_object USING btree (name);
+CREATE INDEX ON ae.taxonomy_object USING btree (name);
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
@@ -87,16 +87,16 @@ CREATE TABLE ae.relation_collection (
 );
 CREATE INDEX ON ae.relation_collection USING btree (name);
 
-DROP TABLE IF EXISTS ae.object_property_collection CASCADE;
-CREATE TABLE ae.object_property_collection (
+DROP TABLE IF EXISTS ae.property_collection_object CASCADE;
+CREATE TABLE ae.property_collection_object (
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   property_collection_id UUID NOT NULL REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   properties jsonb DEFAULT NULL,
   PRIMARY KEY (object_id, property_collection_id)
 );
 
-DROP TABLE IF EXISTS ae.object_relation_collection CASCADE;
-CREATE TABLE ae.object_relation_collection (
+DROP TABLE IF EXISTS ae.relation_collection_object CASCADE;
+CREATE TABLE ae.relation_collection_object (
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (object_id, relation_collection_id)
@@ -108,7 +108,7 @@ CREATE TABLE ae.relation (
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   properties jsonb DEFAULT NULL,
-  FOREIGN KEY (object_id, relation_collection_id) REFERENCES ae.object_relation_collection (object_id, relation_collection_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (object_id, relation_collection_id) REFERENCES ae.relation_collection_object (object_id, relation_collection_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS ae.relation_partner;

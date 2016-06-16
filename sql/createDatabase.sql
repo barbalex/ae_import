@@ -1,4 +1,3 @@
 CREATE DATABASE ae encoding 'UTF8';
 CREATE SCHEMA ae;
-CREATE SCHEMA views;
 CREATE EXTENSION pgcrypto;

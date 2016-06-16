@@ -65,9 +65,9 @@ let taxPilze
 getCouchObjects(couchDb)
   .then((result) => {
     couchObjects = result
-    return importCategories(pgDb)
+    return //importCategories(pgDb)
   })
-  .then(() => importOrganizations(pgDb))
+  /*.then(() => importOrganizations(pgDb))
   .then((result) => {
     organizations = result
     return importUsers(pgDb)
@@ -102,7 +102,7 @@ getCouchObjects(couchDb)
   .then(() => importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects))
   .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
   .then(() => correctPropertyCollections(pgDb))
-  .then(() => correctRelationCollections(pgDb))
+  .then(() => correctRelationCollections(pgDb))*/
   .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()

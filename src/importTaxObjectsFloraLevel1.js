@@ -21,7 +21,7 @@ module.exports = (couchDb, pgDb, taxFlora) =>
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (${fieldsSql})
+        ae.taxonomy_object (${fieldsSql})
       values
         ${valueSql};`
       pgDb.none(sql)

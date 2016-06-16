@@ -21,10 +21,10 @@ module.exports = (couchDb, pgDb, taxFauna) =>
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (${fieldsSql})
+        ae.taxonomy_object (${fieldsSql})
       values
         ${valueSql};`
-      pgDb.none(`truncate ae.tax_object cascade`)
+      pgDb.none(`truncate ae.taxonomy_object cascade`)
         .then(() => pgDb.none(sql))
         .then(() => resolve(taxObjectsFaunaLevel1))
         .catch((err) =>

@@ -34,7 +34,7 @@ module.exports = (couchDb, pgDb, taxMoose, taxObjectsMooseLevel1, taxObjectsMoos
         .join(`,`)
       const sql = `
       insert into
-        ae.tax_object (${fieldsSql})
+        ae.taxonomy_object (${fieldsSql})
       values
         ${valueSql};`
       pgDb.none(sql)

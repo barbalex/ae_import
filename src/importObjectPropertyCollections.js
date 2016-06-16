@@ -18,11 +18,11 @@ module.exports = (pgDb, couchObjects) =>
       })
       .then((resultRC) => {
         relationCollections = resultRC
-        return pgDb.none(`truncate ae.object_property_collection cascade`)
+        return pgDb.none(`truncate ae.property_collection_object`)
       })
-      .then(() => pgDb.none(`truncate ae.object_relation_collection cascade`))
+      .then(() => pgDb.none(`truncate ae.relation_collection_object cascade`))
       .then(() => pgDb.none(`truncate ae.relation cascade`))
-      .then(() => pgDb.none(`truncate ae.relation_partner cascade`))
+      .then(() => pgDb.none(`truncate ae.relation_partner`))
       .then(() =>
         extractObjectCollectionsFromCouchObjects(
           couchObjects,
@@ -48,7 +48,7 @@ module.exports = (pgDb, couchObjects) =>
           .join(`,`)
         const sql = `
           insert into
-            ae.object_property_collection (object_id,property_collection_id)
+            ae.property_collection_object (object_id,property_collection_id)
           values
             ${valueSql};`
         return pgDb.none(sql)
@@ -57,7 +57,7 @@ module.exports = (pgDb, couchObjects) =>
         Promise.all(objectPropertyCollections.map((val) => {
           const sql = `
             UPDATE
-              ae.object_property_collection
+              ae.property_collection_object
             SET
               properties = $1
             WHERE
@@ -76,7 +76,7 @@ module.exports = (pgDb, couchObjects) =>
           .join(`,`)
         const sql = `
           insert into
-            ae.object_relation_collection (object_id,relation_collection_id)
+            ae.relation_collection_object (object_id,relation_collection_id)
           values
             ${valueSql};`
         return pgDb.none(sql)

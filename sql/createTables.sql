@@ -41,7 +41,8 @@ DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name text NOT NULL,
-  email text NOT NULL
+  email text NOT NULL,
+  password text NOT NULL,
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 

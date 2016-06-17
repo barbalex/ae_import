@@ -10,7 +10,12 @@ const buildDatenstandFromString = (dstString) => {
   if (!dstString.length) return null
   if (dstString.length === 4) return `${dstString}.01.01`
   if (dstString.length === 7) return `${dstString}.01`
-  if (dstString.length === 10) return dstString
+  if (dstString.length === 10) {
+    // check if form is '2001.01.01' or '01.01.2001'
+    const dateArray = dstString.split(`.`)
+    if (dateArray[0].length === 4) return dstString
+    return dateArray.reverse().join('.')
+  }
   return null
 }
 

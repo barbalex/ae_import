@@ -64,12 +64,13 @@ let taxFlora
 let taxMoose
 let taxPilze
 
-rebuildTables(pgDb)
-  .then(() => getCouchObjects(couchDb))
+/*rebuildTables(pgDb)
+  .then(() => getCouchObjects(couchDb))*/
+getCouchObjects(couchDb)
   .then((result) => {
     couchObjects = result
-    return importCategories(pgDb)
-  })
+    return //importCategories(pgDb)
+  })/*
   .then(() => importOrganizations(pgDb))
   .then((result) => {
     organizations = result
@@ -108,7 +109,7 @@ rebuildTables(pgDb)
   .then(() => addUniqueNameConstraintToCollections(pgDb))
   // dont know why but when next is done directly after above
   // an error occurs...
-  .then(() => wait500ms())
+  .then(() => wait500ms())*/
   .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()

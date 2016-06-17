@@ -26,7 +26,7 @@ module.exports = (pgDb) =>
         eingInRc = {
           name: eingInCollections[0].name,
           description: `D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
-          links: `{"{http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html}"}`,
+          links: `{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}`,
           combining: eingInCollections[0].combining,
           organization_id: eingInCollections[0].organization_id,
           last_updated: `2007.05.08`,
@@ -55,7 +55,7 @@ module.exports = (pgDb) =>
         gueltNamRc = {
           name: gueltNamCollections[0].name,
           description: `D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
-          links: `{"{http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html}"}`,
+          links: `{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}`,
           combining: gueltNamCollections[0].combining,
           organization_id: gueltNamCollections[0].organization_id,
           last_updated: `2007.05.08`,
@@ -84,7 +84,7 @@ module.exports = (pgDb) =>
         offArtRc = {
           name: offArtCollections[0].name,
           description: `D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
-          links: `{"{http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html}"}`,
+          links: `{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}`,
           combining: offArtCollections[0].combining,
           organization_id: offArtCollections[0].organization_id,
           last_updated: `2007.05.08`,
@@ -113,7 +113,7 @@ module.exports = (pgDb) =>
         synRc = {
           name: synCollections[0].name,
           description: `D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
-          links: `{"{http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html}"}`,
+          links: `{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}`,
           combining: synCollections[0].combining,
           organization_id: synCollections[0].organization_id,
           last_updated: `2007.05.08`,

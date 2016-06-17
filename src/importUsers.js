@@ -4,10 +4,10 @@ module.exports = (pgDb) =>
   new Promise((resolve, reject) => {
     const sql = `
     insert into
-      ae.user (name, email)
+      ae.user (name,email,password)
     values
-      ('Alexander Gabriel', 'alex@gabriel-software.ch'),
-      ('Andreas Lienhard', 'andreas.lienhard@bd.zh.ch');`
+      ('Alexander Gabriel', 'alex@gabriel-software.ch', 'secret'),
+      ('Andreas Lienhard', 'andreas.lienhard@bd.zh.ch', 'secret');`
     pgDb.none(`truncate ae.user cascade`)
       .then(() => pgDb.none(sql))
       .then(() => pgDb.many(`select * from ae.user`))

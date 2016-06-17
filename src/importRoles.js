@@ -6,7 +6,9 @@ module.exports = (pgDb) =>
     insert into
       ae.role (name)
     values
-      ('orgAdmin', 'orgHabitatWriter', 'orgCollectionWriter');`
+      ('orgAdmin'),
+      ('orgHabitatWriter'),
+      ('orgCollectionWriter');`
     pgDb.none(`truncate ae.role cascade`)
       .then(() => pgDb.none(sql))
       .then(() => {

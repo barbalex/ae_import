@@ -40,7 +40,7 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           if (name === `Schutz` && description === `Informationen zu 54 Lebensräumen`) {
             name = `FNS Schutz (2009)`
           }
-          const links = c[3] ? `{"${c[3]}"}` : null
+          const links = c[3] ? `{"${c[3].replace(/"/g, '')}"}` : null
           const combining = c[4] || false
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
@@ -70,13 +70,13 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
         return pgDb.none(sqlPropertyCollections)
       })
       .then(() => {
-        console.log(`${propertyCollections.length} property collections exported`)
+        console.log(`${propertyCollections.length} property collections imported`)
         // build relation collections
         relationCollections = colsRC.map((c) => {
           const id = uuid.v4()
           const name = c[1]
           const description = c[2] || null
-          const links = c[3] ? `{"${c[3]}"}` : null
+          const links = c[3] ? `{"${c[3].replace(/"/g, '')}"}` : null
           const combining = c[4] || false
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
@@ -108,7 +108,7 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
         return pgDb.none(sqlRelationCollections)
       })
       .then(() => {
-        console.log(`${relationCollections.length} relation collections exported`)
+        console.log(`${relationCollections.length} relation collections imported`)
         resolve({ propertyCollections, relationCollections })
       })
       .catch((error) => reject(`error importing property collections: ${error}`))

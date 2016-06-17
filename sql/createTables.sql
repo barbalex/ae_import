@@ -20,12 +20,11 @@ CREATE TABLE ae.taxonomy (
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   is_category_standard boolean DEFAULT FALSE,
-  -- TODO: check length of this field in ms-access then set it here
-  habitat_label text DEFAULT NULL,
+  habitat_label varchar(50) DEFAULT NULL,
   habitat_comments text DEFAULT NULL,
   habitat_nr_fns_min integer DEFAULT NULL,
   habitat_nr_fns_max integer DEFAULT NULL
-  --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
+  CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
@@ -40,8 +39,8 @@ CREATE TABLE ae.object (
 DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name text NOT NULL,
-  email text NOT NULL,
+  name text NOT NULL UNIQUE,
+  email text NOT NULL UNIQUE,
   password text NOT NULL,
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
@@ -60,6 +59,7 @@ CREATE INDEX ON ae.taxonomy_object USING btree (name);
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  -- later add UNIQUE
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -68,13 +68,14 @@ CREATE TABLE ae.property_collection (
   last_updated date DEFAULT NULL,
   terms_of_use text DEFAULT NULL,
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
-  --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
+  --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.property_collection USING btree (name);
 
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;
 CREATE TABLE ae.relation_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  -- later add UNIQUE
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -84,7 +85,7 @@ CREATE TABLE ae.relation_collection (
   last_updated date DEFAULT NULL,
   terms_of_use text DEFAULT NULL,
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
-  --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/',''))=0)
+  --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.relation_collection USING btree (name);
 
@@ -119,17 +120,17 @@ CREATE TABLE ae.relation_partner (
   PRIMARY KEY (object_id, relation_id)
 );
 
+DROP TABLE IF EXISTS ae.role CASCADE;
+CREATE TABLE ae.role (
+  name text PRIMARY KEY
+);
+
 DROP TABLE IF EXISTS ae.organization_user;
 CREATE TABLE ae.organization_user (
   organization_id UUID REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
   user_id UUID REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
   role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (organization_id, user_id, role)
-);
-
-DROP TABLE IF EXISTS ae.role;
-CREATE TABLE ae.role (
-  name text PRIMARY KEY
 );
 
 DROP TABLE IF EXISTS ae.org_property_collection_writer;

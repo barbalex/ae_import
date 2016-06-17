@@ -34,6 +34,7 @@ const config = require(`./configuration.js`)
 const pgp = require(`pg-promise`)()
 const pgDb = pgp(config.pg.connectionString)
 
+const rebuildTables = require(`./src/rebuildTables.js`)
 const getCouchObjects = require(`./src/getCouchObjects.js`)
 const importObjects = require(`./src/importObjects.js`)
 const importCategories = require(`./src/importCategories.js`)
@@ -51,6 +52,8 @@ const importCollections = require(`./src/importCollections.js`)
 const correctPropertyCollections = require(`./src/correctPropertyCollections.js`)
 const correctRelationCollections = require(`./src/correctRelationCollections.js`)
 const importObjectPropertyCollections = require(`./src/importObjectPropertyCollections.js`)
+const addUniqueNameConstraintToCollections = require(`./src/addUniqueNameConstraintToCollections.js`)
+const wait500ms = require(`./src/wait500ms.js`)
 
 let couchObjects
 let organizations
@@ -61,7 +64,8 @@ let taxFlora
 let taxMoose
 let taxPilze
 
-getCouchObjects(couchDb)
+rebuildTables(pgDb)
+  .then(() => getCouchObjects(couchDb))
   .then((result) => {
     couchObjects = result
     return importCategories(pgDb)
@@ -73,9 +77,9 @@ getCouchObjects(couchDb)
   })
   .then((result) => {
     users = result
-    return importOrganizationUsers(pgDb, organizations[0].id, users)
+    importRoles(pgDb)
   })
-  .then(() => importRoles(pgDb))
+  .then(() => importOrganizationUsers(pgDb, organizations[0].id, users))
   .then(() => importTaxonomiesNonLr(pgDb, organizations[0].id))
   .then((result) => {
     nonLrTaxonomies = result
@@ -101,8 +105,10 @@ getCouchObjects(couchDb)
   .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
   .then(() => correctPropertyCollections(pgDb))
   .then(() => correctRelationCollections(pgDb))
-  // dont know why but when this is done directly after above
+  .then(() => addUniqueNameConstraintToCollections(pgDb))
+  // dont know why but when next is done directly after above
   // an error occurs...
+  .then(() => wait500ms())
   .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()

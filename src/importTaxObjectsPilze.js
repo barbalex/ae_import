@@ -22,7 +22,7 @@ module.exports = (couchDb, pgDb, taxPilze, couchObjects) =>
       .then((result) => {
         taxObjectsPilzeLevel2 = result
         const taxObjectsPilze = taxObjectsPilzeLevel1.concat(taxObjectsPilzeLevel2)
-        console.log(`${taxObjectsPilze.length} pilze taxonomy objects exported`)
+        console.log(`${taxObjectsPilze.length} pilze taxonomy objects imported`)
         resolve(taxObjectsPilze)
       })
       .catch((error) => reject(error))

@@ -8,7 +8,7 @@ module.exports = (pgDb, organizationId, users) =>
     insert into
       ae.organization_user (organization_id,user_id,role)
     values
-      ('${organizationId}', '${ag.id}', 'orgHabitatWriter')
+      ('${organizationId}', '${ag.id}', 'orgHabitatWriter'),
       ('${organizationId}', '${ag.id}', 'orgCollectionWriter'),
       ('${organizationId}', '${ag.id}', 'orgAdmin'),
       ('${organizationId}', '${al.id}', 'orgAdmin'),

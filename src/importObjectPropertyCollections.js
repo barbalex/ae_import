@@ -1,6 +1,7 @@
 'use strict'
 
 const extractObjectCollectionsFromCouchObjects = require(`./extractObjectCollectionsFromCouchObjects.js`)
+const wait5s = require(`./wait5s.js`)
 
 module.exports = (pgDb, couchObjects) =>
   new Promise((resolve, reject) => {
@@ -53,6 +54,7 @@ module.exports = (pgDb, couchObjects) =>
             ${valueSql};`
         return pgDb.none(sql)
       })
+      .then(() => wait5s())
       .then(() =>
         Promise.all(objectPropertyCollections.map((val) => {
           const sql = `
@@ -96,6 +98,7 @@ module.exports = (pgDb, couchObjects) =>
             ${valueSql};`
         return pgDb.none(sql)
       })
+      .then(() => wait5s())
       .then(() =>
         Promise.all(relations.map((val) => {
           const sql = `

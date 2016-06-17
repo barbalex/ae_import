@@ -1,19 +1,20 @@
 'use strict'
 
-const fs = require(`fs`)
 const path = require(`path`)
+const exec = require(`child_process`).exec
+const pgDbPass = require(`../pgDbPass.json`)
 
-module.exports = (pgDb) =>
+module.exports = () =>
   new Promise((resolve, reject) => {
     const filename = path.join(__dirname, `../sql/createTables.sql`)
-    const queries = fs.readFileSync(filename).toString()
-      .replace(/(\r\n|\n|\r)/gm, ` `) // remove newlines
-      .replace(/\s+/g, ` `) // excess white space
-      .split(`;`) // split into all statements
-      .map(Function.prototype.call, String.prototype.trim)
-      .filter((el) => el.length !== 0) // remove any empty ones
-
-    Promise.all(queries.map((query) => pgDb.none(query)))
-      .then(() => resolve())
-      .catch((error) => reject(`error rebuilding tables: ${error}`))
+    const cmd1 = `set PGPASSWORD="${pgDbPass.pass}"`
+    const cmd2 = `psql -U postgres -d ae -a -f ${filename}`
+    exec(cmd1, (error) => {
+      if (error) return reject(`error rebuilding tables: ${error}`)
+      exec(cmd2, (error2) => {
+        if (error2) return reject(`error rebuilding tables: ${error2}`)
+        console.log(`database structure rebuilt`)
+        resolve()
+      })
+    })
   })

@@ -2,5 +2,5 @@
 
 module.exports = () =>
   new Promise((resolve) => {
-    setTimeout(() => resolve(), 500)
+    setTimeout(() => resolve(), 5000)
   })

@@ -53,7 +53,7 @@ const correctPropertyCollections = require(`./src/correctPropertyCollections.js`
 const correctRelationCollections = require(`./src/correctRelationCollections.js`)
 const importObjectPropertyCollections = require(`./src/importObjectPropertyCollections.js`)
 const addUniqueNameConstraintToCollections = require(`./src/addUniqueNameConstraintToCollections.js`)
-const wait500ms = require(`./src/wait500ms.js`)
+const wait5s = require(`./src/wait5s.js`)
 
 let couchObjects
 let organizations
@@ -64,7 +64,7 @@ let taxFlora
 let taxMoose
 let taxPilze
 
-rebuildTables(pgDb)
+rebuildTables()
   .then(() => getCouchObjects(couchDb))
   .then((result) => {
     couchObjects = result
@@ -108,7 +108,10 @@ rebuildTables(pgDb)
   .then(() => addUniqueNameConstraintToCollections(pgDb))
   // dont know why but when next is done directly after above
   // an error occurs...
-  .then(() => wait500ms())
+  .then(() => wait5s())
+  .then(() => wait5s())
+  .then(() => wait5s())
+  .then(() => wait5s())
   .then(() => importObjectPropertyCollections(pgDb, couchObjects))
   .then(() => {
     pgp.end()

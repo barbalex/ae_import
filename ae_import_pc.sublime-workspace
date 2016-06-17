@@ -147,15 +147,15 @@
 			"file": "index.js",
 			"settings":
 			{
-				"buffer_size": 3940,
+				"buffer_size": 4318,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sql/createTables.sql",
+			"file": "src/importObjectPropertyCollections.js",
 			"settings":
 			{
-				"buffer_size": 6253,
+				"buffer_size": 4366,
 				"line_ending": "Windows"
 			}
 		}
@@ -211,8 +211,21 @@
 	],
 	"file_history":
 	[
-		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
+		"/C/Users/alex/ae_import/2uaopaud.l5p.txt",
+		"/C/Users/alex/ae_import/src/rebuildTables.js",
+		"/C/Users/alex/ae_import/src/wait5s.js",
 		"/C/Users/alex/ae_import/sql/createTables.sql",
+		"/C/Users/alex/ae_import/src/correctRelationCollections.js",
+		"/C/Users/alex/ae_import/src/wait500ms.js",
+		"/C/Users/alex/ae_import/src/addUniqueNameConstraintToCollections.js",
+		"/C/Users/alex/ae_import/src/importOrganizationUsers.js",
+		"/C/Users/alex/ae_import/src/importUsers.js",
+		"/C/Users/alex/ae_import/src/importRoles.js",
+		"/C/Users/alex/ae_import/src/importCollections.js",
+		"/C/Users/alex/ae_import/src/importTaxObjectsPilze.js",
+		"/C/Users/alex/ae_import/src/correctPropertyCollections.js",
+		"/C/Users/alex/ae_import/src/getPropertyCollectionsFromCouch.js",
+		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
 		"/C/Users/alex/ae_import/src/extractObjectCollectionsFromCouchObjects.js",
 		"/C/Users/alex/ae_import/sql/createDatabase.sql",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel3.js",
@@ -230,30 +243,24 @@
 		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel2.js",
 		"/C/Users/alex/ae_import/src/importCategories.js",
 		"/C/Users/alex/ae_import/src/importObjects.js",
-		"/C/Users/alex/ae_import/src/importCollections.js",
 		"/C/Users/alex/ae_import/src/removeBadCharactersFromJsonB.js",
 		"/C/Users/alex/ae_import/src/getCouchObjects.js",
-		"/C/Users/alex/ae_import/src/correctRelationCollections.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFauna.js",
-		"/C/Users/alex/ae_import/src/correctPropertyCollections.js",
 		"/C/Users/alex/ae_import/src/getCollectionsFromCouch.js",
 		"/C/Users/alex/ae_import/src/importTaxonomiesLr.js",
 		"/C/Users/alex/ae_import/src/getFieldsOfPropertyCollectionsFromCouch.js",
 		"/C/Users/alex/ae_import/src/getFieldsOfCollectionFromCouch.js",
-		"/C/Users/alex/ae_import/src/getPropertyCollectionsFromCouch.js",
 		"/C/Users/alex/ae_import/src/rebuildObjects.js",
 		"/C/Users/alex/ae_import/package.json",
 		"/C/Users/alex/ae_import/src/importOrgPropertyCollectionWriters.js",
 		"/C/Users/alex/ae_import/src/importOrgHabitatWriters.js",
 		"/C/Users/alex/ae_import/src/importOrganizations.js",
 		"/C/Users/alex/ae_import/src/importOrgAdmins.js",
-		"/C/Users/alex/ae_import/src/importUsers.js",
 		"/C/Users/alex/ae_import/src/importTaxonomiesNonLr.js",
 		"/C/Users/alex/ae_import/src/replaceLineBreaks.js",
 		"/C/Users/alex/ae_import/src/setParents.js",
 		"/C/Users/alex/ae_import/src/setParentInLrTaxObjects.js",
 		"/C/Users/alex/ae_import/src/buildLrTaxonomieObject.js",
-		"/C/Users/alex/ae_import/src/importTaxObjectsPilze.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsMoose.js",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFlora.js",
 		"/C/Users/alex/ae_import/src/nonLrTaxonomies.js",
@@ -331,14 +338,7 @@
 		"/C/Users/alex/.ssh/alex.pub",
 		"/C/Users/alex/apflora_api/pgPlugin.js",
 		"/C/Users/alex/apflora_api/.gitignore",
-		"/C/Users/alex/apflora_api/dbConnection.js",
-		"/C/Users/alex/apflora_api/sql/create_databases.sql",
-		"/C/Users/alex/AppData/Roaming/postgresql/pgpass.conf",
-		"/D/Google Drive/apflora/v2/createDbStructure.txt",
-		"/D/Google Drive/apflora/v2/installDb.txt",
-		"/C/Users/alex/.ssh/alex",
-		"/C/Users/alex/.ssh/alex.ppk",
-		"/C/Users/alex/apflora_api/sql/triggers.sql"
+		"/C/Users/alex/apflora_api/dbConnection.js"
 	],
 	"find":
 	{
@@ -364,6 +364,21 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"wait500ms",
+			"'",
+			"category",
+			"'",
+			"\"",
+			"{http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html}",
+			"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html",
+			"exported",
+			"proper_links",
+			"CONSTRAINT",
+			"getPropertyCollectionsFromCouch",
+			"CONSTRAINT",
+			"--CONSTRAINT",
+			"/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w-_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)/",
+			"UNIQUE",
 			"relation_collection_object",
 			"object_relation_collection",
 			"object_property_collection",
@@ -476,22 +491,7 @@
 			"orgPropertyCollectionWriters",
 			"org_property_collection_writer",
 			"'",
-			"`('${_.values(tax).join(\"','\")}')`)",
-			"),(",
-			"\n",
-			"),(",
-			"\n",
-			"replaceLineBreaks",
-			"getObjects",
-			"inserted",
-			"^",
-			"build",
-			"taxObjectsFloraLevel3",
-			"objects",
-			"taxObjectsFloraLevel1",
-			"db",
-			"'",
-			"taxObjectsFaunaLevel4"
+			"`('${_.values(tax).join(\"','\")}')`)"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -499,6 +499,13 @@
 		"regex": false,
 		"replace_history":
 		[
+			"wait5s",
+			"\"",
+			"`",
+			"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html",
+			"imported",
+			"CONSTRAINT",
+			"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w-_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[\\w]*))?)",
 			"relation_collection_object",
 			"property_collection_object",
 			"taxonomy_object",
@@ -619,14 +626,7 @@
 			"`",
 			"),\n    (",
 			"",
-			"),\n    (",
-			"",
-			" ",
-			"",
-			"taxonomies",
-			"taxonomy",
-			"pgDb",
-			""
+			"),\n    ("
 		],
 		"reverse": false,
 		"show_context": true,
@@ -704,15 +704,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3940,
+						"buffer_size": 4318,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3940,
-								3940
+								2511,
+								2511
 							]
 						],
 						"settings":
@@ -722,7 +722,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1169.0,
+						"translation.y": 1683.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -730,29 +730,29 @@
 				},
 				{
 					"buffer": 3,
-					"file": "sql/createTables.sql",
+					"file": "src/importObjectPropertyCollections.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6253,
+						"buffer_size": 4366,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								230,
-								234
+								4203,
+								4219
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PostgreSQL Syntax Highlighting/PostgreSQL.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3465.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

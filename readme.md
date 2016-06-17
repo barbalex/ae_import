@@ -1,6 +1,8 @@
 #arteigenschaften.ch, Strukturanpassung
 
-Diese Anwendung nimmt die Dokumente von arteigenschaften.ch (Version 1) und baut sie für arteigenschaften.ch Version 3 um und importiert sie in eine PostgreSQL Datenbank:
+Diese Anwendung nimmt die Dokumente von arteigenschaften.ch (Version 1),<br/>
+baut sie für arteigenschaften.ch Version 3 um<br/>
+und importiert sie in eine PostgreSQL Datenbank:
 
 ### Neu ist:
 

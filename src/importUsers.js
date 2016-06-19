@@ -1,15 +1,20 @@
 'use strict'
 
+const hashPassword = require('./hashPassword.js')
+
 module.exports = (pgDb) =>
   new Promise((resolve, reject) => {
-    const sql = `
-    insert into
-      ae.user (name,email,password)
-    values
-      ('Alexander Gabriel', 'alex@gabriel-software.ch', 'secret'),
-      ('Andreas Lienhard', 'andreas.lienhard@bd.zh.ch', 'secret');`
     pgDb.none(`truncate ae.user cascade`)
-      .then(() => pgDb.none(sql))
+      .then(() => hashPassword('secret'))
+      .then((hash) => {
+        const sql = `
+        insert into
+          ae.user (name,email,password)
+        values
+          ('Alexander Gabriel', 'alex@gabriel-software.ch', '${hash}'),
+          ('Andreas Lienhard', 'andreas.lienhard@bd.zh.ch', '${hash}');`
+        pgDb.none(sql)
+      })
       .then(() => pgDb.many(`select * from ae.user`))
       .then((users) => {
         console.log(`2 users imported`)

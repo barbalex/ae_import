@@ -71,6 +71,26 @@ CREATE TABLE ae.property_collection (
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.property_collection USING btree (name);
+ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
+CREATE POLICY
+  property_collection_reader
+  ON ae.property_collection
+  FOR SELECT
+  TO PUBLIC;
+CREATE POLICY
+  property_collection_writer
+  ON ae.property_collection
+  FOR ALL
+  TO org_collection_writer, org_admin
+  USING (current_user IN (
+    SELECT
+      organization.id
+    FROM
+      ae.organization
+    
+  ))
+  WITH CHECK 
+
 
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;
 CREATE TABLE ae.relation_collection (

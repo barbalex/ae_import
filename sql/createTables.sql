@@ -72,26 +72,40 @@ CREATE TABLE ae.property_collection (
 );
 CREATE INDEX ON ae.property_collection USING btree (name);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS property_collection_reader ON ae.property_collection;
 CREATE POLICY
   property_collection_reader
   ON ae.property_collection
   FOR SELECT
   TO PUBLIC;
+DROP POLICY IF EXISTS property_org_collection_writer ON ae.property_collection;
 CREATE POLICY
-  property_collection_writer
+  property_org_collection_writer
   ON ae.property_collection
   FOR ALL
   TO org_collection_writer, org_admin
-  USING (current_user IN (
-    SELECT
-      ae.organization_user.user_id
-    FROM
-      ae.organization_user
-    WHERE
-      ae.organization_user.organization_id = organization_id AND
-      ae.organization_user.role = 'orgCollectionWriter'
-  ))
-  WITH CHECK ()
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  )
 
 
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;

@@ -84,12 +84,14 @@ CREATE POLICY
   TO org_collection_writer, org_admin
   USING (current_user IN (
     SELECT
-      organization.id
+      ae.organization_user.user_id
     FROM
-      ae.organization
-    
+      ae.organization_user
+    WHERE
+      ae.organization_user.organization_id = organization_id AND
+      ae.organization_user.role = 'orgCollectionWriter'
   ))
-  WITH CHECK 
+  WITH CHECK ()
 
 
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;

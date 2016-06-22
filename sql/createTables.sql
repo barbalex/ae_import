@@ -105,7 +105,7 @@ CREATE POLICY
         ae.organization_user.organization_id = organization_id AND
         ae.organization_user.role = 'orgCollectionWriter'
     )
-  )
+  );
 
 
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;
@@ -124,6 +124,41 @@ CREATE TABLE ae.relation_collection (
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.relation_collection USING btree (name);
+ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS relation_collection_reader ON ae.relation_collection;
+CREATE POLICY
+  relation_collection_reader
+  ON ae.relation_collection
+  FOR SELECT
+  TO PUBLIC;
+DROP POLICY IF EXISTS relation_org_collection_writer ON ae.relation_collection;
+CREATE POLICY
+  relation_org_collection_writer
+  ON ae.relation_collection
+  FOR ALL
+  TO org_collection_writer, org_admin
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  );
 
 DROP TABLE IF EXISTS ae.property_collection_object CASCADE;
 CREATE TABLE ae.property_collection_object (

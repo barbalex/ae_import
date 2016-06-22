@@ -344,6 +344,71 @@ CREATE TABLE ae.relation_partner (
   relation_id UUID REFERENCES ae.relation (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (object_id, relation_id)
 );
+ALTER TABLE ae.relation_partner ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS relation_partner_reader ON ae.relation_partner;
+CREATE POLICY
+  relation_partner_reader
+  ON ae.relation_partner
+  FOR SELECT
+  TO PUBLIC;
+DROP POLICY IF EXISTS relation_partner_org_writer ON ae.relation_partner;
+CREATE POLICY
+  relation_partner_org_writer
+  ON ae.relation_partner
+  FOR ALL
+  TO org_collection_writer, org_admin
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      INNER JOIN
+        (ae.relation_collection
+        INNER JOIN
+          (ae.relation_collection_object
+          INNER JOIN
+            (ae.relation
+            INNER JOIN
+              ae.relation_partner
+              ON ae.relation_partner.relation_id = ae.relation.id)
+            ON ae.relation_collection_object.object_id = ae.relation.object_id AND
+            ae.relation_collection_object.relation_collection_id = ae.relation.relation_collection_id)
+          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
+        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
+      WHERE
+        ae.relation_partner.object_id = object_id AND
+        ae.relation_partner.relation_id = relation_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      INNER JOIN
+        (ae.relation_collection
+        INNER JOIN
+          (ae.relation_collection_object
+          INNER JOIN
+            (ae.relation
+            INNER JOIN
+              ae.relation_partner
+              ON ae.relation_partner.relation_id = ae.relation.id)
+            ON ae.relation_collection_object.object_id = ae.relation.object_id AND
+            ae.relation_collection_object.relation_collection_id = ae.relation.relation_collection_id)
+          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
+        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
+      WHERE
+        ae.relation_partner.object_id = object_id AND
+        ae.relation_partner.relation_id = relation_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  );
+
+
 
 DROP TABLE IF EXISTS ae.role CASCADE;
 CREATE TABLE ae.role (

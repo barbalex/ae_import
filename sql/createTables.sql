@@ -167,6 +167,48 @@ CREATE TABLE ae.property_collection_object (
   properties jsonb DEFAULT NULL,
   PRIMARY KEY (object_id, property_collection_id)
 );
+ALTER TABLE ae.property_collection_object ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS property_collection_object_reader ON ae.property_collection_object;
+CREATE POLICY
+  property_collection_object_reader
+  ON ae.property_collection_object
+  FOR SELECT
+  TO PUBLIC;
+DROP POLICY IF EXISTS property_org_collection_object_writer ON ae.property_collection_object;
+CREATE POLICY
+  property_org_collection_object_writer
+  ON ae.property_collection_object
+  FOR ALL
+  TO org_collection_writer, org_admin
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      INNER JOIN
+        (ae.property_collection
+        INNER JOIN
+          ae.property_collection_object
+          ON property_collection_object.property_collection_id = ae.property_collection.id)
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
+      WHERE
+        ae.property_collection_object.object_id = object_id AND
+        ae.property_collection_object.property_collection_id = property_collection_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  );
 
 DROP TABLE IF EXISTS ae.relation_collection_object CASCADE;
 CREATE TABLE ae.relation_collection_object (

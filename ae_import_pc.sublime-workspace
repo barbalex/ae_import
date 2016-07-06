@@ -139,39 +139,15 @@
 			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 612,
+				"buffer_size": 667,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "index.js",
+			"file": ".eslintrc.json",
 			"settings":
 			{
-				"buffer_size": 4318,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/importObjectPropertyCollections.js",
-			"settings":
-			{
-				"buffer_size": 4366,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "readme.md",
-			"settings":
-			{
-				"buffer_size": 223,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/importTaxObjectsFaunaLevel3.js",
-			"settings":
-			{
-				"buffer_size": 1540,
+				"buffer_size": 716,
 				"line_ending": "Windows"
 			}
 		}
@@ -221,12 +197,13 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/alex/ae_import",
-		"/C/Users/alex/ae_import/sql",
-		"/C/Users/alex/ae_import/src"
+		"/C/Users/alex/ae_import"
 	],
 	"file_history":
 	[
+		"/C/Users/alex/ae_import/index.js",
+		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
+		"/C/Users/alex/ae_import/readme.md",
 		"/C/Users/alex/ae_import/2uaopaud.l5p.txt",
 		"/C/Users/alex/ae_import/src/rebuildTables.js",
 		"/C/Users/alex/ae_import/src/wait5s.js",
@@ -241,7 +218,6 @@
 		"/C/Users/alex/ae_import/src/importTaxObjectsPilze.js",
 		"/C/Users/alex/ae_import/src/correctPropertyCollections.js",
 		"/C/Users/alex/ae_import/src/getPropertyCollectionsFromCouch.js",
-		"/C/Users/alex/ae_import/src/importObjectPropertyCollections.js",
 		"/C/Users/alex/ae_import/src/extractObjectCollectionsFromCouchObjects.js",
 		"/C/Users/alex/ae_import/sql/createDatabase.sql",
 		"/C/Users/alex/ae_import/src/importTaxObjectsFloraLevel3.js",
@@ -352,9 +328,7 @@
 		"/C/Users/alex/apflora_api/queries/tabelleUpdateApflora.js",
 		"/C/Users/alex/apflora_api/queries/beobKarte.js",
 		"/C/Users/alex/.ssh/alex.pub",
-		"/C/Users/alex/apflora_api/pgPlugin.js",
-		"/C/Users/alex/apflora_api/.gitignore",
-		"/C/Users/alex/apflora_api/dbConnection.js"
+		"/C/Users/alex/apflora_api/pgPlugin.js"
 	],
 	"find":
 	{
@@ -653,7 +627,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -681,7 +655,7 @@
 						"translation.y": 6945.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -690,15 +664,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 612,
+						"buffer_size": 667,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								585,
-								595
+								601,
+								601
 							]
 						],
 						"settings":
@@ -711,125 +685,37 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "index.js",
-					"semi_transient": false,
+					"file": ".eslintrc.json",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 4318,
+						"buffer_size": 716,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2511,
-								2511
+								0,
+								716
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1683.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/importObjectPropertyCollections.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4366,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4203,
-								4219
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1188.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "readme.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 223,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								23,
-								23
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/importTaxObjectsFaunaLevel3.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1540,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								893,
-								884
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
 					"type": "text"
 				}
 			]

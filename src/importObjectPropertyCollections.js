@@ -69,6 +69,7 @@ module.exports = (pgDb, couchObjects) =>
         }))
       )
       .then(() => {
+        // eslint-disable-next-line no-console
         console.log(`${objectPropertyCollections.length} object property collections imported`)
         // write objectRelationCollections
         const valueSql = objectRelationCollections
@@ -84,6 +85,7 @@ module.exports = (pgDb, couchObjects) =>
         return pgDb.none(sql)
       })
       .then(() => {
+        // eslint-disable-next-line no-console
         console.log(`${objectRelationCollections.length} object relation collections imported`)
         // write relations
         const valueSql = relations
@@ -113,6 +115,7 @@ module.exports = (pgDb, couchObjects) =>
         }))
       )
       .then(() => {
+        // eslint-disable-next-line no-console
         console.log(`${relations.length} relations imported`)
         // write relationPartners
         const valueSql = relationPartners
@@ -128,7 +131,9 @@ module.exports = (pgDb, couchObjects) =>
         return pgDb.none(sql)
       })
       .then(() => {
+        // eslint-disable-next-line no-console
         console.log(`${relationPartners.length} relationPartners imported`)
+        // eslint-disable-next-line no-console
         console.log(`PostgreSQL welcomes arteigenschaften.ch!`)
         resolve()
       })

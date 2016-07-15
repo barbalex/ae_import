@@ -31,16 +31,30 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
         properties,
       }
     })
-    const fieldsSql = _.keys(taxObjectsLr[0]).join(`,`)
     const valueSql = taxObjectsLr
-      .map((tax) => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)  /* eslint quotes:0 */
+      .map((val) =>
+        `('${val.id}','${val.taxonomy_id}','${val.parent_id}','${val.object_id}','${val.name}')`
+      )
       .join(`,`)
     const sql = `
     insert into
-      ae.taxonomy_object (${fieldsSql})
+      ae.taxonomy_object (id,taxonomy_id,parent_id,object_id,name)
     values
       ${valueSql};`
     pgDb.none(sql)
+      .then(() =>
+        Promise.all(taxObjectsLr.map((val) => {
+          const sql2 = `
+            UPDATE
+              ae.taxonomy_object
+            SET
+              properties = $1
+            WHERE
+              id = $2
+          `
+          return pgDb.none(sql2, [val.properties, val.id])
+        }))
+      )
       .then(() => resolve(taxObjectsLr))
       .catch((err) =>
         reject(`error importing taxObjectsLr ${err}`)

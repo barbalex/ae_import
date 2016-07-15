@@ -48,6 +48,7 @@ const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
 const importTaxObjectsFlora = require(`./src/importTaxObjectsFlora.js`)
 const importTaxObjectsMoose = require(`./src/importTaxObjectsMoose.js`)
 const importTaxObjectsPilze = require(`./src/importTaxObjectsPilze.js`)
+const importTaxObjectsLr = require(`./src/importTaxObjectsLr.js`)
 const importCollections = require(`./src/importCollections.js`)
 const correctPropertyCollections = require(`./src/correctPropertyCollections.js`)
 const correctRelationCollections = require(`./src/correctRelationCollections.js`)
@@ -63,6 +64,7 @@ let taxFauna
 let taxFlora
 let taxMoose
 let taxPilze
+let taxLr
 
 rebuildTables()
   .then(() => getCouchObjects(couchDb))
@@ -97,11 +99,15 @@ rebuildTables()
     )
     return importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
   })
-  .then(() => importObjects(couchDb, pgDb, couchObjects, organizations[0].id))
+  .then((result) => {
+    taxLr = result
+    return importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
+  })
   .then(() => importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects))
   .then(() => importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects))
   .then(() => importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects))
   .then(() => importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects))
+  .then(() => importTaxObjectsLr(couchDb, pgDb, taxLr, couchObjects))
   .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
   .then(() => correctPropertyCollections(pgDb))
   .then(() => correctRelationCollections(pgDb))
@@ -120,4 +126,3 @@ rebuildTables()
     console.log(error)
     pgp.end()
   })
-

@@ -1,7 +1,10 @@
 'use strict'
 
-const _ = require(`lodash`)
-const uuid = require(`node-uuid`)
+/* eslint camelcase:0, no-console:0 */
+
+const _ = require('lodash')
+const uuid = require('node-uuid')
+const isUuid = require('is-uuid')
 
 module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
   new Promise((resolve, reject) => {
@@ -17,7 +20,10 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
       } else if (einheit) {
         name = einheit
       }
-      const parent_id = _.get(o, 'Taxonomie.Eigenschaften.Parent.GUID', null)  // eslint-disable-line camelcase
+      let parent_id = _.get(o, 'Taxonomie.Eigenschaften.Parent.GUID', null)
+      if (!isUuid.v4(parent_id)) parent_id = null
+      let object_id = o._id
+      if (!isUuid.v4(object_id)) object_id = null
       const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))
       if (properties.Taxonomie) delete properties.Taxonomie
       if (properties.Parent) delete properties.Parent
@@ -26,7 +32,7 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
         id: uuid.v4(),
         taxonomy_id: taxLr.id,
         parent_id,
-        object_id: o._id,
+        object_id,
         name,
         properties,
       }
@@ -55,7 +61,10 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
           return pgDb.none(sql2, [val.properties, val.id])
         }))
       )
-      .then(() => resolve(taxObjectsLr))
+      .then(() => {
+        console.log(`${taxObjectsLr.length} lr taxonomy objects imported`)
+        resolve(taxObjectsLr)
+      })
       .catch((err) =>
         reject(`error importing taxObjectsLr ${err}`)
       )

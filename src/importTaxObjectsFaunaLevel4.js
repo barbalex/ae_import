@@ -31,7 +31,7 @@ module.exports = (
         const familieObject = taxObjectsFaunaLevel3.find(
           (taxObj) => taxObj.name === familieName && taxObj.parent_id === ordnungObject.id
         )
-        const name = key[3]
+        const name = key[3].replace("'", '`')
         const objId = key[4]
         const object = couchObjects.find((obj) => obj._id === objId)
         const properties = object.Taxonomie.Eigenschaften

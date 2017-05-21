@@ -2,7 +2,7 @@
 
 Diese Anwendung nimmt die Dokumente von arteigenschaften.ch (Version 2),<br/>
 baut sie für arteigenschaften.ch Version 3 um<br/>
-und importiert sie in eine PostgreSQL Datenbank.
+und importiert sie in eine [PostgreSQL](https://www.postgresql.org) Datenbank.
 
 Mehr Informationen hier:
 

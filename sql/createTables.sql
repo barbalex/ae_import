@@ -7,7 +7,8 @@ INSERT INTO ae.data_type VALUES ('taxonomy', 'Taxonomien'), ('property_collectio
 
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
-  name text PRIMARY KEY
+  name text PRIMARY KEY,
+  data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE
 );
 -- only once:
 ALTER TABLE ae.category DROP COLUMN data_type;
@@ -74,7 +75,6 @@ DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   -- later add UNIQUE
-  data_type text DEFAULT 'property_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -85,8 +85,6 @@ CREATE TABLE ae.property_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
--- only once:
-ALTER TABLE ae.property_collection ADD data_type text DEFAULT 'property_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 
 CREATE INDEX ON ae.property_collection USING btree (name);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
@@ -130,7 +128,6 @@ DROP TABLE IF EXISTS ae.relation_collection CASCADE;
 CREATE TABLE ae.relation_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   -- later add UNIQUE
-  data_type text DEFAULT 'relation_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -142,8 +139,6 @@ CREATE TABLE ae.relation_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
--- only once:
-ALTER TABLE ae.relation_collection ADD data_type text DEFAULT 'relation_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 
 CREATE INDEX ON ae.relation_collection USING btree (name);
 ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;

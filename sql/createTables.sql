@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS ae.data_type CASCADE;
 CREATE TABLE ae.data_type (
-  name text PRIMARY KEY
+  name text PRIMARY KEY,
+  name_german text
 );
-INSERT INTO ae.data_type VALUES ('taxonomy'), ('property_collection'), ('relation_collection');
+INSERT INTO ae.data_type VALUES ('taxonomy', 'Taxonomien'), ('property_collection', 'Eigenschaften-Sammlungen'), ('relation_collection', 'Beziehungs-Sammlungen');
 
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (

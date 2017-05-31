@@ -65,6 +65,10 @@ CREATE TABLE ae.taxonomy_object (
   properties jsonb DEFAULT NULL
 );
 CREATE INDEX ON ae.taxonomy_object USING btree (name);
+-- ALTER TABLE ae.taxonomy_object DROP COLUMN level;
+ALTER TABLE ae.taxonomy_object ADD COLUMN level integer;
+COMMENT ON COLUMN ae.taxonomy_object.level IS 'until postgraphql can filter parent_id null';
+update ae.taxonomy_object set level = 1 where parent_id is null;
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (

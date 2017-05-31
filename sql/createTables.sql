@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS ae.data_type CASCADE;
+CREATE TABLE ae.data_type (
+  name text PRIMARY KEY
+);
+INSERT INTO ae.data_type VALUES ('taxonomy'), ('property_collection'), ('relation_collection');
+
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
   name text PRIMARY KEY
@@ -13,6 +19,7 @@ CREATE INDEX ON ae.organization USING btree (name);
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text UNIQUE NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -28,6 +35,8 @@ CREATE TABLE ae.taxonomy (
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
+-- only once:
+ALTER TABLE ae.taxonomy ADD data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
@@ -60,6 +69,7 @@ DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   -- later add UNIQUE
+  data_type text DEFAULT 'property_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -70,6 +80,9 @@ CREATE TABLE ae.property_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
+-- only once:
+ALTER TABLE ae.property_collection ADD data_type text DEFAULT 'property_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
+
 CREATE INDEX ON ae.property_collection USING btree (name);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS property_collection_reader ON ae.property_collection;
@@ -112,6 +125,7 @@ DROP TABLE IF EXISTS ae.relation_collection CASCADE;
 CREATE TABLE ae.relation_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   -- later add UNIQUE
+  data_type text DEFAULT 'relation_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -123,6 +137,9 @@ CREATE TABLE ae.relation_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
+-- only once:
+ALTER TABLE ae.relation_collection ADD data_type text DEFAULT 'relation_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
+
 CREATE INDEX ON ae.relation_collection USING btree (name);
 ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS relation_collection_reader ON ae.relation_collection;

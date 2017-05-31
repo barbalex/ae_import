@@ -9,6 +9,9 @@ DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
   name text PRIMARY KEY
 );
+-- only once:
+ALTER TABLE ae.category DROP COLUMN data_type;
+ALTER TABLE ae.category ADD data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
@@ -20,7 +23,6 @@ CREATE INDEX ON ae.organization USING btree (name);
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text UNIQUE NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -36,8 +38,6 @@ CREATE TABLE ae.taxonomy (
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
--- only once:
-ALTER TABLE ae.taxonomy ADD data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (

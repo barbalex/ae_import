@@ -1,9 +1,8 @@
 DROP TABLE IF EXISTS ae.data_type CASCADE;
 CREATE TABLE ae.data_type (
-  name text PRIMARY KEY,
-  name_german text
+  name text PRIMARY KEY
 );
-INSERT INTO ae.data_type VALUES ('taxonomy', 'Taxonomien'), ('property_collection', 'Eigenschaften-Sammlungen'), ('relation_collection', 'Beziehungs-Sammlungen');
+INSERT INTO ae.data_type VALUES ('Taxonomien'), ('Eigenschaften-Sammlungen'), ('Beziehungs-Sammlungen');
 
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
@@ -12,7 +11,7 @@ CREATE TABLE ae.category (
 );
 -- only once:
 ALTER TABLE ae.category DROP COLUMN data_type;
-ALTER TABLE ae.category ADD data_type text DEFAULT 'taxonomy' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE ae.category ADD data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
@@ -75,7 +74,7 @@ DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   -- later add UNIQUE
-  data_type text DEFAULT 'property_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
+  data_type text DEFAULT 'Eigenschaften-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -87,7 +86,7 @@ CREATE TABLE ae.property_collection (
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 --- only once:
-ALTER TABLE ae.property_collection ADD data_type text DEFAULT 'property_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE ae.property_collection ADD data_type text DEFAULT 'Eigenschaften-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 CREATE INDEX ON ae.property_collection USING btree (name);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS property_collection_reader ON ae.property_collection;
@@ -130,7 +129,7 @@ DROP TABLE IF EXISTS ae.relation_collection CASCADE;
 CREATE TABLE ae.relation_collection (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   -- later add UNIQUE
-  data_type text DEFAULT 'relation_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
+  data_type text DEFAULT 'Beziehungs-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -143,7 +142,7 @@ CREATE TABLE ae.relation_collection (
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 --- only once:
-ALTER TABLE ae.relation_collection ADD data_type text DEFAULT 'relation_collection' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE ae.relation_collection ADD data_type text DEFAULT 'Beziehungs-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 CREATE INDEX ON ae.relation_collection USING btree (name);
 ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS relation_collection_reader ON ae.relation_collection;

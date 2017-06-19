@@ -2,7 +2,7 @@
 /* eslint camelcase:0 */
 
 const uuidv1 = require('uuid/v1')
-const _ = require(`lodash`)
+const _ = require('lodash')
 
 module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
   const objectPropertyCollections = []
@@ -19,10 +19,10 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
         // add property_collection_object
         let pcNameToSearchFor = pCInCouch.Name
         if (
-          pCInCouch.Name === `Schutz` &&
-          pCInCouch.Beschreibung === `Informationen zu 54 Lebensräumen`
+          pCInCouch.Name === 'Schutz' &&
+          pCInCouch.Beschreibung === 'Informationen zu 54 Lebensräumen'
         ) {
-          pcNameToSearchFor = `FNS Schutz (2009)`
+          pcNameToSearchFor = 'FNS Schutz (2009)'
         }
         const pCInPG = pCsInPG.find(pc => pc.name === pcNameToSearchFor)
         if (pcNameToSearchFor && object_id && pCInPG && pCInPG.id) {
@@ -36,8 +36,8 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
             properties = _.clone(pCInCouch.Eigenschaften)
             // replace typo in label
             Object.keys(properties).forEach(key => {
-              if (key.includes(`Mitelland`)) {
-                const newKey = key.replace(`Mitelland`, `Mittelland`)
+              if (key.includes('Mitelland')) {
+                const newKey = key.replace('Mitelland', 'Mittelland')
                 properties[newKey] = properties[key]
                 delete properties[key]
               }

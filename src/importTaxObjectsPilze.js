@@ -1,7 +1,7 @@
 'use strict'
 
-const importTaxObjectsPilzeLevel1 = require(`./importTaxObjectsPilzeLevel1.js`)
-const importTaxObjectsPilzeLevel2 = require(`./importTaxObjectsPilzeLevel2.js`)
+const importTaxObjectsPilzeLevel1 = require('./importTaxObjectsPilzeLevel1.js')
+const importTaxObjectsPilzeLevel2 = require('./importTaxObjectsPilzeLevel2.js')
 
 module.exports = (couchDb, pgDb, taxPilze, couchObjects) =>
   new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ module.exports = (couchDb, pgDb, taxPilze, couchObjects) =>
     let taxObjectsPilzeLevel2
 
     importTaxObjectsPilzeLevel1(couchDb, pgDb, taxPilze)
-      .then((result) => {
+      .then(result => {
         taxObjectsPilzeLevel1 = result
         return importTaxObjectsPilzeLevel2(
           couchDb,
@@ -19,11 +19,13 @@ module.exports = (couchDb, pgDb, taxPilze, couchObjects) =>
           couchObjects
         )
       })
-      .then((result) => {
+      .then(result => {
         taxObjectsPilzeLevel2 = result
-        const taxObjectsPilze = taxObjectsPilzeLevel1.concat(taxObjectsPilzeLevel2)
+        const taxObjectsPilze = taxObjectsPilzeLevel1.concat(
+          taxObjectsPilzeLevel2
+        )
         console.log(`${taxObjectsPilze.length} pilze taxonomy objects imported`)
         resolve(taxObjectsPilze)
       })
-      .catch((error) => reject(error))
+      .catch(error => reject(error))
   })

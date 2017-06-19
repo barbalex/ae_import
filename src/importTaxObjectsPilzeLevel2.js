@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require(`lodash`)
+const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
 module.exports = (
@@ -12,7 +12,7 @@ module.exports = (
 ) =>
   new Promise((resolve, reject) => {
     couchDb.view(
-      `artendb/baumMacromycetes`,
+      'artendb/baumMacromycetes',
       {
         group_level: 3,
       },
@@ -27,7 +27,7 @@ module.exports = (
           const name = key[1]
           const objId = key[2]
           const object = couchObjects.find(obj => obj._id === objId)
-          if (!object) console.log(`no object found for objId`, objId)
+          if (!object) console.log('no object found for objId', objId)
           const properties = object.Taxonomie.Eigenschaften
           return {
             id: uuidv1(),
@@ -43,7 +43,7 @@ module.exports = (
             val =>
               `('${val.id}','${val.taxonomy_id}','${val.name}','${val.object_id}','${val.parent_id}')`
           )
-          .join(`,`)
+          .join(',')
         const sql = `
       insert into
         ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)

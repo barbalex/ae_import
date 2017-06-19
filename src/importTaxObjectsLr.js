@@ -3,13 +3,13 @@
 /* eslint camelcase:0, no-console:0 */
 
 const _ = require('lodash')
-const uuid = require('node-uuid')
+const uuidv1 = require('uuid/v1')
 const isUuid = require('is-uuid')
 
 module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
   new Promise((resolve, reject) => {
-    const lrObjects = couchObjects.filter((o) => o.Gruppe === 'Lebensräume')
-    const taxObjectsLr = lrObjects.map((o) => {
+    const lrObjects = couchObjects.filter(o => o.Gruppe === 'Lebensräume')
+    const taxObjectsLr = lrObjects.map(o => {
       const label = _.get(o, 'Taxonomie.Eigenschaften.Label', null)
       const einheit = _.get(o, 'Taxonomie.Eigenschaften.Einheit', null)
       let name
@@ -38,19 +38,22 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
       }
     })
     const valueSql = taxObjectsLr
-      .map((val) =>
-        `('${val.id}','${val.taxonomy_id}','${val.parent_id}','${val.object_id}','${val.name}')`
+      .map(
+        val =>
+          `('${val.id}','${val.taxonomy_id}','${val.parent_id}','${val.object_id}','${val.name}')`
       )
-      .join(`,`)
+      .join(',')
     const sql = `
     insert into
       ae.taxonomy_object (id,taxonomy_id,parent_id,object_id,name)
     values
       ${valueSql};`
-    pgDb.none(sql)
+    pgDb
+      .none(sql)
       .then(() =>
-        Promise.all(taxObjectsLr.map((val) => {
-          const sql2 = `
+        Promise.all(
+          taxObjectsLr.map(val => {
+            const sql2 = `
             UPDATE
               ae.taxonomy_object
             SET
@@ -58,14 +61,13 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
             WHERE
               id = $2
           `
-          return pgDb.none(sql2, [val.properties, val.id])
-        }))
+            return pgDb.none(sql2, [val.properties, val.id])
+          })
+        )
       )
       .then(() => {
         console.log(`${taxObjectsLr.length} lr taxonomy objects imported`)
         resolve(taxObjectsLr)
       })
-      .catch((err) =>
-        reject(`error importing taxObjectsLr ${err}`)
-      )
+      .catch(err => reject(`error importing taxObjectsLr ${err}`))
   })

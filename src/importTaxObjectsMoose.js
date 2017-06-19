@@ -1,9 +1,9 @@
 'use strict'
 
-const importTaxObjectsMooseLevel1 = require(`./importTaxObjectsMooseLevel1.js`)
-const importTaxObjectsMooseLevel2 = require(`./importTaxObjectsMooseLevel2.js`)
-const importTaxObjectsMooseLevel3 = require(`./importTaxObjectsMooseLevel3.js`)
-const importTaxObjectsMooseLevel4 = require(`./importTaxObjectsMooseLevel4.js`)
+const importTaxObjectsMooseLevel1 = require('./importTaxObjectsMooseLevel1.js')
+const importTaxObjectsMooseLevel2 = require('./importTaxObjectsMooseLevel2.js')
+const importTaxObjectsMooseLevel3 = require('./importTaxObjectsMooseLevel3.js')
+const importTaxObjectsMooseLevel4 = require('./importTaxObjectsMooseLevel4.js')
 
 module.exports = (couchDb, pgDb, taxMoose, couchObjects) =>
   new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ module.exports = (couchDb, pgDb, taxMoose, couchObjects) =>
     let taxObjectsMooseLevel4
 
     importTaxObjectsMooseLevel1(couchDb, pgDb, taxMoose)
-      .then((result) => {
+      .then(result => {
         taxObjectsMooseLevel1 = result
         return importTaxObjectsMooseLevel2(
           couchDb,
@@ -22,7 +22,7 @@ module.exports = (couchDb, pgDb, taxMoose, couchObjects) =>
           taxObjectsMooseLevel1
         )
       })
-      .then((result) => {
+      .then(result => {
         taxObjectsMooseLevel2 = result
         return importTaxObjectsMooseLevel3(
           couchDb,
@@ -32,7 +32,7 @@ module.exports = (couchDb, pgDb, taxMoose, couchObjects) =>
           taxObjectsMooseLevel2
         )
       })
-      .then((result) => {
+      .then(result => {
         taxObjectsMooseLevel3 = result
         return importTaxObjectsMooseLevel4(
           couchDb,
@@ -44,11 +44,15 @@ module.exports = (couchDb, pgDb, taxMoose, couchObjects) =>
           couchObjects
         )
       })
-      .then((result) => {
+      .then(result => {
         taxObjectsMooseLevel4 = result
-        const taxObjectsMoose = taxObjectsMooseLevel1.concat(taxObjectsMooseLevel2, taxObjectsMooseLevel3, taxObjectsMooseLevel4)
+        const taxObjectsMoose = taxObjectsMooseLevel1.concat(
+          taxObjectsMooseLevel2,
+          taxObjectsMooseLevel3,
+          taxObjectsMooseLevel4
+        )
         console.log(`${taxObjectsMoose.length} moose taxonomy objects imported`)
         resolve(taxObjectsMoose)
       })
-      .catch((error) => reject(error))
+      .catch(error => reject(error))
   })

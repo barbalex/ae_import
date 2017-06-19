@@ -2,6 +2,10 @@
 
 const _ = require('lodash')
 
+const aeschimannHeitz = `D. Aeschimann & C. Heitz: Synonymie-Index der
+Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten.
+Arten mit NR > 1000000 von der FNS provisorisch ergänzt`
+
 module.exports = pgDb =>
   new Promise((resolve, reject) => {
     let relationCollections
@@ -29,8 +33,7 @@ module.exports = pgDb =>
         const eingInIds = eingInCollections.map(c => c.id)
         eingInRc = {
           name: eingInCollections[0].name,
-          description:
-            'D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+          description: aeschimannHeitz,
           links:
             '{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}',
           combining: eingInCollections[0].combining,
@@ -64,8 +67,7 @@ module.exports = pgDb =>
         const gueltNamIds = gueltNamCollections.map(c => c.id)
         gueltNamRc = {
           name: gueltNamCollections[0].name,
-          description:
-            'D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+          description: aeschimannHeitz,
           links:
             '{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}',
           combining: gueltNamCollections[0].combining,
@@ -99,8 +101,7 @@ module.exports = pgDb =>
         const offArtIds = offArtCollections.map(c => c.id)
         offArtRc = {
           name: offArtCollections[0].name,
-          description:
-            'D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+          description: aeschimannHeitz,
           links:
             '{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}',
           combining: offArtCollections[0].combining,
@@ -122,7 +123,7 @@ module.exports = pgDb =>
         INSERT INTO ae.relation_collection (${_.keys(offArtRc).join(`,`)})
         VALUES ('${_.values(offArtRc).join("','").replace(/'',/g, 'null,')}')
       `)
-      ) /* eslint quotes:0 */
+      )
       /**
        * 4. combine all "SISF Index 2 (2005): synonym"
        */
@@ -134,8 +135,7 @@ module.exports = pgDb =>
         const synIds = synCollections.map(c => c.id)
         synRc = {
           name: synCollections[0].name,
-          description:
-            'D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+          description: aeschimannHeitz,
           links:
             '{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}',
           combining: synCollections[0].combining,

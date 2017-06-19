@@ -58,65 +58,43 @@ const wait5s = require('./src/wait5s.js')
 
 const pgDb = pgp(config.pg.connectionString)
 
-let couchObjects
-let organizations
-let users
-let nonLrTaxonomies
-let taxFauna
-let taxFlora
-let taxMoose
-let taxPilze
-let taxLr
-
-rebuildTables()
-  .then(() => getCouchObjects(couchDb))
-  .then(result => {
-    couchObjects = result
-    return importCategories(pgDb)
-  })
-  .then(() => importOrganizations(pgDb))
-  .then(result => {
-    organizations = result
-    return importUsers(pgDb)
-  })
-  .then(result => {
-    users = result
-    importRoles(pgDb)
-  })
-  .then(() => importOrganizationUsers(pgDb, organizations[0].id, users))
-  .then(() => importTaxonomiesNonLr(pgDb, organizations[0].id))
-  .then(result => {
-    nonLrTaxonomies = result
-    taxFauna = nonLrTaxonomies.find(tax => tax.category === 'Fauna')
-    taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
-    taxMoose = nonLrTaxonomies.find(tax => tax.category === 'Moose')
-    taxPilze = nonLrTaxonomies.find(tax => tax.category === 'Pilze')
-    return importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
-  })
-  .then(result => {
-    taxLr = result
-    return importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
-  })
-  .then(() => importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects))
-  .then(() => importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects))
-  .then(() => importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects))
-  .then(() => importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects))
-  .then(() => importTaxObjectsLr(couchDb, pgDb, taxLr, couchObjects))
-  .then(() => importCollections(couchDb, pgDb, organizations[0].id, users))
-  .then(() => correctPropertyCollections(pgDb))
-  .then(() => correctRelationCollections(pgDb))
-  .then(() => addUniqueNameConstraintToCollections(pgDb))
-  // dont know why but when next is done directly after above
-  // an error occurs...
-  .then(() => wait5s())
-  .then(() => wait5s())
-  .then(() => wait5s())
-  .then(() => wait5s())
-  .then(() => importObjectPropertyCollections(pgDb, couchObjects))
-  .then(() => {
-    pgp.end()
-  })
-  .catch(error => {
+async function doIt() {
+  try {
+    await rebuildTables()
+    const couchObjects = await getCouchObjects(couchDb)
+    await importCategories(pgDb)
+    const organizations = await importOrganizations(pgDb)
+    const users = await importUsers(pgDb)
+    await importRoles(pgDb)
+    await importOrganizationUsers(pgDb, organizations[0].id, users)
+    const nonLrTaxonomies = importTaxonomiesNonLr(pgDb, organizations[0].id)
+    const taxFauna = nonLrTaxonomies.find(tax => tax.category === 'Fauna')
+    const taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
+    const taxMoose = nonLrTaxonomies.find(tax => tax.category === 'Moose')
+    const taxPilze = nonLrTaxonomies.find(tax => tax.category === 'Pilze')
+    const taxLr = await importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
+    await importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
+    await importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects)
+    await importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects)
+    await importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects)
+    await importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects)
+    await importTaxObjectsLr(couchDb, pgDb, taxLr, couchObjects)
+    await importCollections(couchDb, pgDb, organizations[0].id, users)
+    await correctPropertyCollections(pgDb)
+    await correctRelationCollections(pgDb)
+    await addUniqueNameConstraintToCollections(pgDb)
+    // dont know why but when next is done directly after above
+    // an error occurs...
+    await wait5s()
+    await wait5s()
+    await wait5s()
+    await wait5s()
+    await importObjectPropertyCollections(pgDb, couchObjects)
+    await pgp.end()
+  } catch (error) {
     console.log(error)
     pgp.end()
-  })
+  }
+}
+
+doIt()

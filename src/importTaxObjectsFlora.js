@@ -1,8 +1,8 @@
 'use strict'
 
-const importTaxObjectsFloraLevel1 = require(`./importTaxObjectsFloraLevel1.js`)
-const importTaxObjectsFloraLevel2 = require(`./importTaxObjectsFloraLevel2.js`)
-const importTaxObjectsFloraLevel3 = require(`./importTaxObjectsFloraLevel3.js`)
+const importTaxObjectsFloraLevel1 = require('./importTaxObjectsFloraLevel1.js')
+const importTaxObjectsFloraLevel2 = require('./importTaxObjectsFloraLevel2.js')
+const importTaxObjectsFloraLevel3 = require('./importTaxObjectsFloraLevel3.js')
 
 module.exports = (couchDb, pgDb, taxFlora, couchObjects) =>
   new Promise((resolve, reject) => {
@@ -11,7 +11,7 @@ module.exports = (couchDb, pgDb, taxFlora, couchObjects) =>
     let taxObjectsFloraLevel3
 
     importTaxObjectsFloraLevel1(couchDb, pgDb, taxFlora)
-      .then((result) => {
+      .then(result => {
         taxObjectsFloraLevel1 = result
         return importTaxObjectsFloraLevel2(
           couchDb,
@@ -20,7 +20,7 @@ module.exports = (couchDb, pgDb, taxFlora, couchObjects) =>
           taxObjectsFloraLevel1
         )
       })
-      .then((result) => {
+      .then(result => {
         taxObjectsFloraLevel2 = result
         return importTaxObjectsFloraLevel3(
           couchDb,
@@ -31,11 +31,14 @@ module.exports = (couchDb, pgDb, taxFlora, couchObjects) =>
           couchObjects
         )
       })
-      .then((result) => {
+      .then(result => {
         taxObjectsFloraLevel3 = result
-        const taxObjectsFlora = taxObjectsFloraLevel1.concat(taxObjectsFloraLevel2, taxObjectsFloraLevel3)
+        const taxObjectsFlora = taxObjectsFloraLevel1.concat(
+          taxObjectsFloraLevel2,
+          taxObjectsFloraLevel3
+        )
         console.log(`${taxObjectsFlora.length} flora taxonomy objects imported`)
         resolve(taxObjectsFlora)
       })
-      .catch((error) => reject(error))
+      .catch(error => reject(error))
   })

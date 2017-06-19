@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require(`lodash`)
+const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
 module.exports = (
@@ -14,7 +14,7 @@ module.exports = (
 ) =>
   new Promise((resolve, reject) => {
     couchDb.view(
-      `artendb/baumFauna`,
+      'artendb/baumFauna',
       {
         group_level: 5,
       },
@@ -56,7 +56,7 @@ module.exports = (
             val =>
               `('${val.id}','${val.taxonomy_id}','${val.name}','${val.object_id}','${val.parent_id}')`
           )
-          .join(`,`)
+          .join(',')
         const sql = `
       insert into
         ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)

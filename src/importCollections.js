@@ -1,7 +1,7 @@
 /* eslint camelcase:0 */
 'use strict'
 
-const _ = require(`lodash`)
+const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 const getCollectionsFromCouch = require('./getCollectionsFromCouch.js')
 
@@ -12,7 +12,7 @@ const buildDatenstandFromString = dstString => {
   if (dstString.length === 7) return `${dstString}.01`
   if (dstString.length === 10) {
     // check if form is '2001.01.01' or '01.01.2001'
-    const dateArray = dstString.split(`.`)
+    const dateArray = dstString.split('.')
     if (dateArray[0].length === 4) return dstString
     return dateArray.reverse().join('.')
   }
@@ -29,8 +29,8 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
     let colsRC
 
     pgDb
-      .none(`truncate ae.property_collection cascade`)
-      .then(() => pgDb.none(`truncate ae.relation_collection cascade`))
+      .none('truncate ae.property_collection cascade')
+      .then(() => pgDb.none('truncate ae.relation_collection cascade'))
       .then(() => getCollectionsFromCouch(couchDb))
       .then(({ colspc, colsrc }) => {
         colsRC = colsrc
@@ -44,17 +44,17 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
            * correct an error in the data
            */
           if (
-            name === `Schutz` &&
-            description === `Informationen zu 54 Lebensräumen`
+            name === 'Schutz' &&
+            description === 'Informationen zu 54 Lebensräumen'
           ) {
-            name = `FNS Schutz (2009)`
+            name = 'FNS Schutz (2009)'
           }
           const links = c[3] ? `{"${c[3].replace(/"/g, '')}"}` : null
           const combining = c[4] || false
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
           const imported_by =
-            users.find(user => user.email === `alex@gabriel-software.ch`).id ||
+            users.find(user => user.email === 'alex@gabriel-software.ch').id ||
             null
           return {
             id,
@@ -69,12 +69,12 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           }
         })
         // write propertyCollections
-        const fieldsSql = _.keys(propertyCollections[0]).join(`,`)
+        const fieldsSql = _.keys(propertyCollections[0]).join(',')
         const valueSql = propertyCollections
           .map(
             tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
           ) /* eslint quotes:0 */
-          .join(`,`)
+          .join(',')
         sqlPropertyCollections = `
         insert into
           ae.property_collection (${fieldsSql})
@@ -96,7 +96,7 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           const last_updated = buildDatenstandFromString(c[5]) || null
           const terms_of_use = c[6] || null
           const imported_by =
-            users.find(user => user.email === `alex@gabriel-software.ch`).id ||
+            users.find(user => user.email === 'alex@gabriel-software.ch').id ||
             null
           const nature_of_relation = c[7]
           return {
@@ -113,12 +113,12 @@ module.exports = (couchDb, pgDb, organization_id, users) =>
           }
         })
         // write relationCollections
-        const fieldsSql = _.keys(relationCollections[0]).join(`,`)
+        const fieldsSql = _.keys(relationCollections[0]).join(',')
         const valueSql = relationCollections
           .map(
             tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
           ) /* eslint quotes:0 */
-          .join(`,`)
+          .join(',')
         sqlRelationCollections = `
         insert into
           ae.relation_collection (${fieldsSql})

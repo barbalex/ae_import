@@ -19,36 +19,35 @@
  */
 
 // initiate couchDb-connection
-const couchPass = require(`./couchPass.json`)
-const cradle = require(`cradle`)
-const connection = new (cradle.Connection)(`127.0.0.1`, 5984, {
+const couchPass = require('./couchPass.json')
+const cradle = require('cradle')
+const connection = new cradle.Connection('127.0.0.1', 5984, {
   auth: {
     username: couchPass.user,
-    password: couchPass.pass
-  }
+    password: couchPass.pass,
+  },
 })
-const couchDb = connection.database(`artendb`)
+const couchDb = connection.database('artendb')
 
 // initialte postgres-connection
-const config = require(`./configuration.js`)
-const pgp = require(`pg-promise`)()
+const config = require('./configuration.js')
+const pgp = require('pg-promise')()
 const pgDb = pgp(config.pg.connectionString)
 
-const getCouchObjects = require(`./src/getCouchObjects.js`)
-const importObjectPropertyCollections = require(`./src/importObjectPropertyCollections.js`)
+const getCouchObjects = require('./src/getCouchObjects.js')
+const importObjectPropertyCollections = require('./src/importObjectPropertyCollections.js')
 
 let couchObjects
 
 getCouchObjects(couchDb)
-  .then((result) => {
+  .then(result => {
     couchObjects = result
     return importObjectPropertyCollections(pgDb, couchObjects)
   })
   .then(() => {
     pgp.end()
   })
-  .catch((error) => {
+  .catch(error => {
     console.log(error)
     pgp.end()
   })
-

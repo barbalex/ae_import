@@ -19,42 +19,42 @@
  */
 
 // initiate couchDb-connection
-const couchPass = require(`./couchPass.json`)
-const cradle = require(`cradle`)
-const connection = new (cradle.Connection)(`127.0.0.1`, 5984, {
+const couchPass = require('./couchPass.json')
+const cradle = require('cradle')
+const connection = new cradle.Connection('127.0.0.1', 5984, {
   auth: {
     username: couchPass.user,
-    password: couchPass.pass
-  }
+    password: couchPass.pass,
+  },
 })
-const couchDb = connection.database(`artendb`)
+const couchDb = connection.database('artendb')
 
 // initialte postgres-connection
-const config = require(`./configuration.js`)
-const pgp = require(`pg-promise`)()
+const config = require('./configuration.js')
+const pgp = require('pg-promise')()
 const pgDb = pgp(config.pg.connectionString)
 
-const rebuildTables = require(`./src/rebuildTables.js`)
-const getCouchObjects = require(`./src/getCouchObjects.js`)
-const importObjects = require(`./src/importObjects.js`)
-const importCategories = require(`./src/importCategories.js`)
-const importOrganizations = require(`./src/importOrganizations.js`)
-const importUsers = require(`./src/importUsers.js`)
-const importOrganizationUsers = require(`./src/importOrganizationUsers.js`)
-const importRoles = require(`./src/importRoles.js`)
-const importTaxonomiesNonLr = require(`./src/importTaxonomiesNonLr.js`)
-const importTaxonomiesLr = require(`./src/importTaxonomiesLr.js`)
-const importTaxObjectsFauna = require(`./src/importTaxObjectsFauna.js`)
-const importTaxObjectsFlora = require(`./src/importTaxObjectsFlora.js`)
-const importTaxObjectsMoose = require(`./src/importTaxObjectsMoose.js`)
-const importTaxObjectsPilze = require(`./src/importTaxObjectsPilze.js`)
-const importTaxObjectsLr = require(`./src/importTaxObjectsLr.js`)
-const importCollections = require(`./src/importCollections.js`)
-const correctPropertyCollections = require(`./src/correctPropertyCollections.js`)
-const correctRelationCollections = require(`./src/correctRelationCollections.js`)
-const importObjectPropertyCollections = require(`./src/importObjectPropertyCollections.js`)
-const addUniqueNameConstraintToCollections = require(`./src/addUniqueNameConstraintToCollections.js`)
-const wait5s = require(`./src/wait5s.js`)
+const rebuildTables = require('./src/rebuildTables.js')
+const getCouchObjects = require('./src/getCouchObjects.js')
+const importObjects = require('./src/importObjects.js')
+const importCategories = require('./src/importCategories.js')
+const importOrganizations = require('./src/importOrganizations.js')
+const importUsers = require('./src/importUsers.js')
+const importOrganizationUsers = require('./src/importOrganizationUsers.js')
+const importRoles = require('./src/importRoles.js')
+const importTaxonomiesNonLr = require('./src/importTaxonomiesNonLr.js')
+const importTaxonomiesLr = require('./src/importTaxonomiesLr.js')
+const importTaxObjectsFauna = require('./src/importTaxObjectsFauna.js')
+const importTaxObjectsFlora = require('./src/importTaxObjectsFlora.js')
+const importTaxObjectsMoose = require('./src/importTaxObjectsMoose.js')
+const importTaxObjectsPilze = require('./src/importTaxObjectsPilze.js')
+const importTaxObjectsLr = require('./src/importTaxObjectsLr.js')
+const importCollections = require('./src/importCollections.js')
+const correctPropertyCollections = require('./src/correctPropertyCollections.js')
+const correctRelationCollections = require('./src/correctRelationCollections.js')
+const importObjectPropertyCollections = require('./src/importObjectPropertyCollections.js')
+const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections.js')
+const wait5s = require('./src/wait5s.js')
 
 let couchObjects
 let organizations
@@ -68,38 +68,30 @@ let taxLr
 
 rebuildTables()
   .then(() => getCouchObjects(couchDb))
-  .then((result) => {
+  .then(result => {
     couchObjects = result
     return importCategories(pgDb)
   })
   .then(() => importOrganizations(pgDb))
-  .then((result) => {
+  .then(result => {
     organizations = result
     return importUsers(pgDb)
   })
-  .then((result) => {
+  .then(result => {
     users = result
     importRoles(pgDb)
   })
   .then(() => importOrganizationUsers(pgDb, organizations[0].id, users))
   .then(() => importTaxonomiesNonLr(pgDb, organizations[0].id))
-  .then((result) => {
+  .then(result => {
     nonLrTaxonomies = result
-    taxFauna = nonLrTaxonomies.find((tax) =>
-      tax.category === `Fauna`
-    )
-    taxFlora = nonLrTaxonomies.find((tax) =>
-      tax.category === `Flora`
-    )
-    taxMoose = nonLrTaxonomies.find((tax) =>
-      tax.category === `Moose`
-    )
-    taxPilze = nonLrTaxonomies.find((tax) =>
-      tax.category === `Pilze`
-    )
+    taxFauna = nonLrTaxonomies.find(tax => tax.category === 'Fauna')
+    taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
+    taxMoose = nonLrTaxonomies.find(tax => tax.category === 'Moose')
+    taxPilze = nonLrTaxonomies.find(tax => tax.category === 'Pilze')
     return importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
   })
-  .then((result) => {
+  .then(result => {
     taxLr = result
     return importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
   })
@@ -122,7 +114,7 @@ rebuildTables()
   .then(() => {
     pgp.end()
   })
-  .catch((error) => {
+  .catch(error => {
     console.log(error)
     pgp.end()
   })

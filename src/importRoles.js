@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = (pgDb) =>
+module.exports = pgDb =>
   new Promise((resolve, reject) => {
     const sql = `
     insert into
@@ -9,13 +9,12 @@ module.exports = (pgDb) =>
       ('orgAdmin'),
       ('orgHabitatWriter'),
       ('orgCollectionWriter');`
-    pgDb.none(`truncate ae.role cascade`)
+    pgDb
+      .none('truncate ae.role cascade')
       .then(() => pgDb.none(sql))
       .then(() => {
-        console.log(`3 roles imported`)
+        console.log('3 roles imported')
         resolve()
       })
-      .catch((error) =>
-        reject(`error importing roles ${error}`)
-      )
+      .catch(error => reject(`error importing roles ${error}`))
   })

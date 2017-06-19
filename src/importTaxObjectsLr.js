@@ -29,7 +29,7 @@ module.exports = (couchDb, pgDb, taxLr, couchObjects) =>
       if (properties.Parent) delete properties.Parent
       if (properties.Hierarchie) delete properties.Hierarchie
       return {
-        id: uuid.v4(),
+        id: uuidv1(),
         taxonomy_id: taxLr.id,
         parent_id,
         object_id,

@@ -11,7 +11,7 @@ module.exports = (couchDb, pgDb, taxFauna) =>
       if (error) reject(`error querying view baumFauna: ${error}`)
       const names = _.map(result, (row) => row.key[0])
       const taxObjectsFaunaLevel1 = names.map((name) => ({
-        id: uuid.v4(),
+        id: uuidv1(),
         taxonomy_id: taxFauna.id,
         name
       }))

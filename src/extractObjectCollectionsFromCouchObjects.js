@@ -1,31 +1,30 @@
 'use strict'
 /* eslint camelcase:0 */
 
-const uuid = require(`node-uuid`)
+const uuidv1 = require('uuid/v1')
 const _ = require(`lodash`)
 
-module.exports = (
-  objectsInCouch,
-  pCsInPG,
-  rCsInPG
-) => {
+module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
   const objectPropertyCollections = []
   const objectRelationCollections = []
   const relations = []
   const relationPartners = []
 
-  const objectsInCouchIds = objectsInCouch.map((o) => o._id)
+  const objectsInCouchIds = objectsInCouch.map(o => o._id)
 
-  objectsInCouch.forEach((objectInCouch) => {
+  objectsInCouch.forEach(objectInCouch => {
     if (objectInCouch.Eigenschaftensammlungen) {
       const object_id = objectInCouch._id
-      objectInCouch.Eigenschaftensammlungen.forEach((pCInCouch) => {
+      objectInCouch.Eigenschaftensammlungen.forEach(pCInCouch => {
         // add property_collection_object
         let pcNameToSearchFor = pCInCouch.Name
-        if (pCInCouch.Name === `Schutz` && pCInCouch.Beschreibung === `Informationen zu 54 Lebensräumen`) {
+        if (
+          pCInCouch.Name === `Schutz` &&
+          pCInCouch.Beschreibung === `Informationen zu 54 Lebensräumen`
+        ) {
           pcNameToSearchFor = `FNS Schutz (2009)`
         }
-        const pCInPG = pCsInPG.find((pc) => pc.name === pcNameToSearchFor)
+        const pCInPG = pCsInPG.find(pc => pc.name === pcNameToSearchFor)
         if (pcNameToSearchFor && object_id && pCInPG && pCInPG.id) {
           const property_collection_id = pCInPG.id
           let properties = null
@@ -36,7 +35,7 @@ module.exports = (
           ) {
             properties = _.clone(pCInCouch.Eigenschaften)
             // replace typo in label
-            Object.keys(properties).forEach((key) => {
+            Object.keys(properties).forEach(key => {
               if (key.includes(`Mitelland`)) {
                 const newKey = key.replace(`Mitelland`, `Mittelland`)
                 properties[newKey] = properties[key]
@@ -47,7 +46,7 @@ module.exports = (
           objectPropertyCollections.push({
             object_id,
             property_collection_id,
-            properties
+            properties,
           })
         } else {
           // eslint-disable-next-line no-console
@@ -58,17 +57,17 @@ module.exports = (
 
     if (objectInCouch.Beziehungssammlungen) {
       const object_id = objectInCouch._id
-      objectInCouch.Beziehungssammlungen.forEach((rCInCouch) => {
+      objectInCouch.Beziehungssammlungen.forEach(rCInCouch => {
         // add relation_collection_object
-        const rCInPG = rCsInPG.find((rc) => rc.name === rCInCouch.Name)
+        const rCInPG = rCsInPG.find(rc => rc.name === rCInCouch.Name)
         if (object_id && rCInPG && rCInPG.id) {
           const relation_collection_id = rCInPG.id
           objectRelationCollections.push({ object_id, relation_collection_id })
 
           // build relations
           if (rCInCouch.Beziehungen && rCInCouch.Beziehungen.length) {
-            rCInCouch.Beziehungen.forEach((relationInCouch) => {
-              const id = uuid.v4()
+            rCInCouch.Beziehungen.forEach(relationInCouch => {
+              const id = uuidv1()
               const idsObjects = []
               let properties = null
               const propertiesInCouch = _.clone(relationInCouch)
@@ -76,7 +75,7 @@ module.exports = (
                 delete propertiesInCouch.Beziehungspartner
 
                 // build relation partner
-                relationInCouch.Beziehungspartner.forEach((couchRelPartner) => {
+                relationInCouch.Beziehungspartner.forEach(couchRelPartner => {
                   if (couchRelPartner.GUID) {
                     /**
                      * make sure every object is included at most
@@ -89,7 +88,7 @@ module.exports = (
                     ) {
                       relationPartners.push({
                         object_id: couchRelPartner.GUID,
-                        relation_id: id
+                        relation_id: id,
                       })
                       idsObjects.push(couchRelPartner.GUID)
                     }
@@ -101,13 +100,21 @@ module.exports = (
               }
               if (idsObjects.length > 0) {
                 // dont push any relations without partners
-                relations.push({ id, object_id, relation_collection_id, properties })
+                relations.push({
+                  id,
+                  object_id,
+                  relation_collection_id,
+                  properties,
+                })
               }
             })
           }
         } else {
           // eslint-disable-next-line no-console
-          console.log(`Pc ${rCInCouch.Name} not added:`, { rCInPG, objectInCouch })
+          console.log(`Pc ${rCInCouch.Name} not added:`, {
+            rCInPG,
+            objectInCouch,
+          })
         }
       })
     }
@@ -116,6 +123,6 @@ module.exports = (
     objectPropertyCollectionsToPass: objectPropertyCollections,
     objectRelationCollectionsToPass: objectRelationCollections,
     relationsToPass: relations,
-    relationPartnersToPass: relationPartners
+    relationPartnersToPass: relationPartners,
   }
 }

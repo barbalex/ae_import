@@ -1,12 +1,12 @@
 'use strict'
 
-const _ = require(`lodash`)
+const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
 module.exports = (couchDb, pgDb, taxMoose) =>
   new Promise((resolve, reject) => {
     couchDb.view(
-      `artendb/baumMoose`,
+      'artendb/baumMoose',
       {
         group_level: 1,
       },
@@ -18,12 +18,12 @@ module.exports = (couchDb, pgDb, taxMoose) =>
           taxonomy_id: taxMoose.id,
           name,
         }))
-        const fieldsSql = _.keys(taxObjectsMooseLevel1[0]).join(`,`)
+        const fieldsSql = _.keys(taxObjectsMooseLevel1[0]).join(',')
         const valueSql = taxObjectsMooseLevel1
           .map(
             tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
           ) /* eslint quotes:0 */
-          .join(`,`)
+          .join(',')
         const sql = `
       insert into
         ae.taxonomy_object (${fieldsSql})

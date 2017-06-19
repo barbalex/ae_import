@@ -1,6 +1,5 @@
 {
-  "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier"],
   "env": {
     "node": true
   },
@@ -21,6 +20,7 @@
     "strict": 0,
     "max-len": ["error", 120, 2, {"ignoreUrls": true}],
     "no-underscore-dangle": ["error", { "allow": ["_id", "_rev", "_attachments"] }],
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "linebreak-style": ["error", "windows"]
   }
 }

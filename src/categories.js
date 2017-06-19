@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = () => ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']
+module.exports = ['Fauna', 'Flora', 'Moose', 'Pilze', 'Lebensräume']

@@ -21,6 +21,7 @@
 // initiate couchDb-connection
 const couchPass = require('./couchPass.json')
 const cradle = require('cradle')
+
 const connection = new cradle.Connection('127.0.0.1', 5984, {
   auth: {
     username: couchPass.user,
@@ -32,7 +33,6 @@ const couchDb = connection.database('artendb')
 // initialte postgres-connection
 const config = require('./configuration.js')
 const pgp = require('pg-promise')()
-const pgDb = pgp(config.pg.connectionString)
 
 const rebuildTables = require('./src/rebuildTables.js')
 const getCouchObjects = require('./src/getCouchObjects.js')
@@ -55,6 +55,8 @@ const correctRelationCollections = require('./src/correctRelationCollections.js'
 const importObjectPropertyCollections = require('./src/importObjectPropertyCollections.js')
 const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections.js')
 const wait5s = require('./src/wait5s.js')
+
+const pgDb = pgp(config.pg.connectionString)
 
 let couchObjects
 let organizations

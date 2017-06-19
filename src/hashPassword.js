@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcrypt')
 
-module.exports = (password) =>
+module.exports = password =>
   new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (error, salt) => {
       if (error) return reject(error)

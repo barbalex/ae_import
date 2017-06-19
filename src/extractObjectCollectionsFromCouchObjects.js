@@ -1,4 +1,5 @@
 'use strict'
+
 /* eslint camelcase:0 */
 
 const uuidv1 = require('uuid/v1')
@@ -49,7 +50,6 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
             properties,
           })
         } else {
-          // eslint-disable-next-line no-console
           console.log(`Pc ${pCInCouch.Name} not added:`, { object_id, pCInPG })
         }
       })
@@ -110,7 +110,6 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
             })
           }
         } else {
-          // eslint-disable-next-line no-console
           console.log(`Pc ${rCInCouch.Name} not added:`, {
             rCInPG,
             objectInCouch,

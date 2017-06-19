@@ -42,6 +42,7 @@ module.exports = async pgDb => {
     INSERT INTO ae.relation_collection (${_.keys(eingInRc).join(`,`)})
     VALUES ('${_.values(eingInRc).join("','").replace(/'',/g, 'null,')}')
   `)
+
   /**
    * 2. combine all "SISF Index 2 (2005): gültige Namen"
    */
@@ -71,6 +72,7 @@ module.exports = async pgDb => {
     INSERT INTO ae.relation_collection (${_.keys(gueltNamRc).join(`,`)})
     VALUES ('${_.values(gueltNamRc).join("','").replace(/'',/g, 'null,')}')
   `)
+
   /**
    * 3. combine all "SISF Index 2 (2005): offizielle Art"
    */
@@ -100,6 +102,7 @@ module.exports = async pgDb => {
     INSERT INTO ae.relation_collection (${_.keys(offArtRc).join(`,`)})
     VALUES ('${_.values(offArtRc).join("','").replace(/'',/g, 'null,')}')
   `)
+
   /**
    * 4. combine all "SISF Index 2 (2005): synonym"
    */

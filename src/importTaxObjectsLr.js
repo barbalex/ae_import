@@ -1,6 +1,6 @@
 'use strict'
 
-/* eslint camelcase:0, no-console:0 */
+/* eslint camelcase:0 */
 
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')

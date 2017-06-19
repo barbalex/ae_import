@@ -37,6 +37,7 @@ module.exports = async pgDb => {
     INSERT INTO ae.property_collection (${_.keys(gisLayerPc).join(`,`)})
     VALUES ('${_.values(gisLayerPc).join("','").replace(/'',/g, 'null,')}')
   `)
+
   /**
    * 2. combine ZH Jahresarten
    */
@@ -57,14 +58,14 @@ module.exports = async pgDb => {
   }
   // 2.2 remove existing collections
   await pgDb.any(`
-     DELETE FROM ae.property_collection
-     WHERE id IN ('${jahresartenIds.join(`','`)}')
-   `)
+   DELETE FROM ae.property_collection
+   WHERE id IN ('${jahresartenIds.join(`','`)}')
+ `)
   // 2.3 add a new one instead
   await pgDb.any(`
-     INSERT INTO ae.property_collection (${_.keys(jahresartenPc).join(`,`)})
-     VALUES ('${_.values(jahresartenPc).join("','").replace(/'',/g, 'null,')}')
-   `)
+   INSERT INTO ae.property_collection (${_.keys(jahresartenPc).join(`,`)})
+   VALUES ('${_.values(jahresartenPc).join("','").replace(/'',/g, 'null,')}')
+ `)
   /**
     * 2. combine FNS Schutz (2009)
     */
@@ -85,13 +86,13 @@ module.exports = async pgDb => {
   }
   // 2.2 remove existing collections
   await pgDb.any(`
-      DELETE FROM ae.property_collection
-      WHERE id IN ('${schutzIds.join(`','`)}')
-    `)
+    DELETE FROM ae.property_collection
+    WHERE id IN ('${schutzIds.join(`','`)}')
+  `)
   // 2.3 add a new one instead
   await pgDb.any(`
-      INSERT INTO ae.property_collection (${_.keys(schutzPc).join(`,`)})
-      VALUES ('${_.values(schutzPc).join("','").replace(/'',/g, 'null,')}')
-    `)
+    INSERT INTO ae.property_collection (${_.keys(schutzPc).join(`,`)})
+    VALUES ('${_.values(schutzPc).join("','").replace(/'',/g, 'null,')}')
+  `)
   console.log('corrected some property collections')
 }

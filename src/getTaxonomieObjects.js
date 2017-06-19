@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = db =>
   new Promise((resolve, reject) => {
     db.view(

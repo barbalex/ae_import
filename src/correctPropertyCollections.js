@@ -4,7 +4,7 @@ const _ = require('lodash')
 
 const openDataTerms = require('./openDataTerms')
 
-export default async pgDb => {
+module.exports = async pgDb => {
   /**
    * 1. combine all GIS-Layer
    */

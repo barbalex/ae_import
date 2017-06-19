@@ -5,7 +5,7 @@ const hashPassword = require('./hashPassword.js')
 module.exports = pgDb =>
   new Promise((resolve, reject) => {
     pgDb
-      .none(`truncate ae.user cascade`)
+      .none('truncate ae.user cascade')
       .then(() => hashPassword('secret'))
       .then(hash => {
         const sql = `
@@ -16,9 +16,9 @@ module.exports = pgDb =>
           ('Andreas Lienhard', 'andreas.lienhard@bd.zh.ch', '${hash}');`
         pgDb.none(sql)
       })
-      .then(() => pgDb.many(`select * from ae.user`))
+      .then(() => pgDb.many('select * from ae.user'))
       .then(users => {
-        console.log(`2 users imported`)
+        console.log('2 users imported')
         resolve(users)
       })
       .catch(error => reject(`error importing users ${error}`))

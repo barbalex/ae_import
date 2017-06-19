@@ -1,15 +1,19 @@
 'use strict'
 
-module.exports = (db) =>
+module.exports = db =>
   new Promise((resolve, reject) => {
-    db.view(`artendb/objekte`, {
-      include_docs: true
-    }, (error, res) => {
-      if (error) {
-        console.log(`getObject.js, error`, error)
-        reject(`error getting objects: ${error}`)
+    db.view(
+      'artendb/objekte',
+      {
+        include_docs: true,
+      },
+      (error, res) => {
+        if (error) {
+          console.log('getObject.js, error', error)
+          reject(`error getting objects: ${error}`)
+        }
+        const objects = res.map(doc => doc)
+        resolve(objects)
       }
-      const objects = res.map((doc) => doc)
-      resolve(objects)
-    })
+    )
   })

@@ -69,7 +69,10 @@ async function doIt() {
     const users = await importUsers(pgDb)
     await importRoles(pgDb)
     await importOrganizationUsers(pgDb, organizations[0].id, users)
-    const nonLrTaxonomies = importTaxonomiesNonLr(pgDb, organizations[0].id)
+    const nonLrTaxonomies = await importTaxonomiesNonLr(
+      pgDb,
+      organizations[0].id
+    )
     const taxFauna = nonLrTaxonomies.find(tax => tax.category === 'Fauna')
     const taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
     const taxMoose = nonLrTaxonomies.find(tax => tax.category === 'Moose')

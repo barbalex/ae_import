@@ -6,10 +6,10 @@ const { promisify } = require('util')
 
 module.exports = async (couchDb, pgDb, taxMoose, taxObjectsMooseLevel1) => {
   const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
-  const result = asyncCouchdbView('artendb/baumMoose', {
+  const baumMoose = asyncCouchdbView('artendb/baumMoose', {
     group_level: 2,
   })
-  const keys = _.map(result, row => row.key)
+  const keys = _.map(baumMoose, row => row.key)
   const taxObjectsMooseLevel2 = _.map(keys, key => {
     const taxonomie = taxMoose.id
     const klasseName = key[0]

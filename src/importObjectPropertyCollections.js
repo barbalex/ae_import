@@ -35,10 +35,10 @@ module.exports = async (pgDb, couchObjects) => {
   await Promise.all(
     objectPropertyCollections.map(val => {
       const sql2 = `
-      UPDATE ae.property_collection_object
-      SET properties = $1
-      WHERE object_id = $2
-    `
+        UPDATE ae.property_collection_object
+        SET properties = $1
+        WHERE object_id = $2
+      `
       return pgDb.none(sql2, [val.properties, val.object_id])
     })
   )
@@ -67,10 +67,10 @@ module.exports = async (pgDb, couchObjects) => {
   await Promise.all(
     relations.map(val => {
       const sql2 = `
-      UPDATE ae.relation
-      SET properties = $1
-      WHERE id = $2
-    `
+        UPDATE ae.relation
+        SET properties = $1
+        WHERE id = $2
+      `
       return pgDb.none(sql2, [val.properties, val.id])
     })
   )

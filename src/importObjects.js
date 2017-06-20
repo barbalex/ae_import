@@ -2,7 +2,7 @@
 
 const _ = require('lodash')
 
-module.exports = (couchDb, pgDb, couchObjects, organizationId) => {
+module.exports = async (couchDb, pgDb, couchObjects, organizationId) => {
   const objects = couchObjects.map(doc => ({
     id: doc._id,
     category: doc.Gruppe === 'Macromycetes' ? 'Pilze' : doc.Gruppe,
@@ -17,11 +17,8 @@ module.exports = (couchDb, pgDb, couchObjects, organizationId) => {
     values
       ${valueSql};`
 
-  return pgDb
-    .none('truncate ae.object cascade')
-    .then(() => pgDb.none(sql))
-    .then(() => {
-      console.log(`${couchObjects.length} objects imported`)
-      return objects
-    })
+  await pgDb.none('truncate ae.object cascade')
+  await pgDb.none(sql)
+  console.log(`${couchObjects.length} objects imported`)
+  return objects
 }

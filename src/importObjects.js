@@ -10,15 +10,12 @@ module.exports = async (pgDb, couchObjects, organizationId) => {
   }))
   const valueSql = objects
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
-    .join(',')
-  const sql = `
-    insert into
-      ae.object (id,category,organization_id)
-    values
-      ${valueSql};`
-
+    .join(`,`)
   await pgDb.none('truncate ae.object cascade')
-  await pgDb.none(sql)
+  await pgDb.none(`
+    insert into ae.object (id,category,organization_id)
+    values ${valueSql};
+  `)
   console.log(`${couchObjects.length} objects imported`)
 
   return objects

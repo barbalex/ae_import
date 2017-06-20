@@ -64,6 +64,7 @@ async function doIt() {
   try {
     await rebuildTables()
     const couchObjects = await getCouchObjects(asyncCouchdbView)
+    // console.log('index: couchObjects[0]:', couchObjects[0])
     await importCategories(pgDb)
     const organizations = await importOrganizations(pgDb)
     const users = await importUsers(pgDb)

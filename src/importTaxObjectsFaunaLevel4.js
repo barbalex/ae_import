@@ -14,11 +14,11 @@ module.exports = async (
   couchObjects
 ) => {
   const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
-  const result = asyncCouchdbView('artendb/baumFauna', {
+  const baumFauna = asyncCouchdbView('artendb/baumFauna', {
     group_level: 5,
   })
 
-  const keys = _.map(result, row => row.key)
+  const keys = _.map(baumFauna, row => row.key)
   const taxObjectsFaunaLevel4 = _.map(keys, key => {
     const klasseObjektName = key[0]
     const klasseObject = taxObjectsFaunaLevel1.find(

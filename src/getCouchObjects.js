@@ -6,6 +6,8 @@ module.exports = async asyncCouchdbView => {
   })
   // TODO: does this make sense????
   // should probably extract doc, right?
+  console.log('getCouchObjects: objekte[0]:', objekte[0])
   const objects = objekte.map(doc => doc)
+  console.log('getCouchObjects: objects[0]:', objects[0])
   return objects
 }

@@ -8,5 +8,6 @@ module.exports = async pgDb => {
   `)
   const organizations = await pgDb.many('select * from ae.organization')
   console.log('1 organization imported')
+
   return organizations
 }

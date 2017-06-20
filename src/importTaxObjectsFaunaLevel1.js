@@ -24,5 +24,6 @@ module.exports = async (couchDb, pgDb, taxFauna) => {
     insert into ae.taxonomy_object (${fieldsSql})
     values ${valueSql};
   `)
+
   return taxObjectsFaunaLevel1
 }

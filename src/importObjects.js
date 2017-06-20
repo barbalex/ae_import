@@ -20,5 +20,6 @@ module.exports = async (couchDb, pgDb, couchObjects, organizationId) => {
   await pgDb.none('truncate ae.object cascade')
   await pgDb.none(sql)
   console.log(`${couchObjects.length} objects imported`)
+
   return objects
 }

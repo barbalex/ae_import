@@ -4,7 +4,7 @@ const get = require('lodash/get')
 const { promisify } = require('util')
 
 module.exports = async couchDb => {
-  const asyncCouchdbView = promisify(couchDb.view)
+  const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
   const dsBsProv = await asyncCouchdbView('artendb/ds_bs_prov', { group: true })
   const rows = get(dsBsProv, 'rows', [])
   const cols = rows.map(row => row.key)

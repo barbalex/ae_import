@@ -13,7 +13,7 @@ module.exports = async (
   taxObjectsFaunaLevel3,
   couchObjects
 ) => {
-  const asyncCouchdbView = promisify(couchDb.view)
+  const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
   const result = asyncCouchdbView('artendb/baumFauna', {
     group_level: 5,
   })

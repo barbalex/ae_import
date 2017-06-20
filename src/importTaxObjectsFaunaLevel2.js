@@ -5,7 +5,7 @@ const uuidv1 = require('uuid/v1')
 const { promisify } = require('util')
 
 module.exports = async (couchDb, pgDb, taxFauna, taxObjectsFaunaLevel1) => {
-  const asyncCouchdbView = promisify(couchDb.view)
+  const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
   const result = asyncCouchdbView('artendb/baumFauna', {
     group_level: 2,
   })

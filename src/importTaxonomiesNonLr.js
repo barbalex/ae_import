@@ -14,7 +14,7 @@ module.exports = (pgDb, organizationId) =>
     const valueSql = nonLrTaxonomies
       .map(
         tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
-      ) /* eslint quotes:0 */
+      )
       .join(',')
     const sql = `
     insert into

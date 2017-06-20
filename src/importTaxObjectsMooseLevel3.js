@@ -43,7 +43,7 @@ module.exports = (
         const valueSql = taxObjectsMooseLevel3
           .map(
             tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
-          ) /* eslint quotes:0 */
+          )
           .join(',')
         const sql = `
       insert into

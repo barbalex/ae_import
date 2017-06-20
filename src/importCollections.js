@@ -60,9 +60,7 @@ module.exports = async (couchDb, pgDb, organization_id, users) => {
   // write propertyCollections
   const fieldsSqlPC = _.keys(propertyCollections[0]).join(',')
   const valueSqlPC = propertyCollections
-    .map(
-      tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
-    ) /* eslint quotes:0 */
+    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   const sqlPropertyCollections = `insert into ae.property_collection (${fieldsSqlPC}) values ${valueSqlPC};`
   await pgDb.none(sqlPropertyCollections)
@@ -96,9 +94,7 @@ module.exports = async (couchDb, pgDb, organization_id, users) => {
   // write relationCollections
   const fieldsSqlRC = _.keys(relationCollections[0]).join(',')
   const valueSqlRC = relationCollections
-    .map(
-      tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
-    ) /* eslint quotes:0 */
+    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   const sqlRelationCollections = `insert into ae.relation_collection (${fieldsSqlRC}) values ${valueSqlRC};`
   await pgDb.none(sqlRelationCollections)

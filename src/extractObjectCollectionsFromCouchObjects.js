@@ -119,9 +119,9 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
     }
   })
   return {
-    objectPropertyCollectionsToPass: objectPropertyCollections,
-    objectRelationCollectionsToPass: objectRelationCollections,
-    relationsToPass: relations,
-    relationPartnersToPass: relationPartners,
+    objectPropertyCollections,
+    objectRelationCollections,
+    relations,
+    relationPartners,
   }
 }

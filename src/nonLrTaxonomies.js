@@ -11,8 +11,9 @@ module.exports = [
   },
   {
     name: 'SISF Index 2 (2005)',
-    description:
-      'Synonymie-Index der Schweizer Flora. Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+    description: `Synonymie-Index der Schweizer Flora. Zweite Auflage.
+      Eigenschaften von 7973 Pflanzenarten.
+      Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
     last_updated: '2007.05.08',
     links: '{"http://www.crsf.ch/documents/download/x/ISFS2_20051115.pdf"}',
     category: 'Flora',

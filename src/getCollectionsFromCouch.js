@@ -8,11 +8,11 @@ module.exports = couchDb =>
       if (!result.rows) return resolve([], [])
       if (!result.rows.length) return resolve([], [])
       const cols = result.rows.map(row => row.key)
-      const colspc = cols.filter(c => c[0] === 'pC')
-      const colsrc = cols.filter(c => c[0] === 'rC')
+      const colsPC = cols.filter(c => c[0] === 'pC')
+      const colsRC = cols.filter(c => c[0] === 'rC')
       const container = {
-        colspc,
-        colsrc,
+        colsPC,
+        colsRC,
       }
       resolve(container)
     })

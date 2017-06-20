@@ -9,6 +9,6 @@ und importiert sie in eine [PostgreSQL](https://www.postgresql.org) Datenbank.
 Quelldatenbank ist http://localhost:5984/artendb
 Zieldatenbank ist postgres://localhost:5432/ae
 
-`rebuildTables` baut die Tabellenstruktur der Datenbank ae auf.
-
-Danach werden nach und nach die Tabellen mit Daten aus artendb gefüllt.
+1. `sql\createDatabase.sql` erstellt PostgreSQL datenbank
+1. `rebuildTables` baut die Tabellenstruktur der Datenbank ae auf
+1. Danach werden nach und nach die Tabellen mit Daten aus artendb gefüllt

@@ -1,20 +1,13 @@
 'use strict'
 
-module.exports = pgDb =>
-  new Promise((resolve, reject) => {
-    const sql = `
-    insert into
-      ae.role (name)
+module.exports = async pgDb => {
+  await pgDb.none('truncate ae.role cascade')
+  await pgDb.none(`
+    insert into ae.role (name)
     values
       ('orgAdmin'),
       ('orgHabitatWriter'),
-      ('orgCollectionWriter');`
-    pgDb
-      .none('truncate ae.role cascade')
-      .then(() => pgDb.none(sql))
-      .then(() => {
-        console.log('3 roles imported')
-        resolve()
-      })
-      .catch(error => reject(`error importing roles ${error}`))
-  })
+      ('orgCollectionWriter');
+  `)
+  console.log('3 roles imported')
+}

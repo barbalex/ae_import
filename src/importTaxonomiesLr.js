@@ -3,13 +3,12 @@
 const _ = require('lodash')
 
 module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
-  const baumLr = asyncCouchdbView('artendb/baumLr', {
+  const baumLr = await asyncCouchdbView('artendb/baumLr', {
     startkey: [1],
     endkey: [1, '\u9999', '\u9999', '\u9999', '\u9999', '\u9999'],
     reduce: false,
     include_docs: true,
   })
-
   const taxonomies = baumLr.rows.map(row => {
     const doc = row.doc
     return {

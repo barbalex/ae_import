@@ -10,7 +10,7 @@ module.exports = (couchDb, pgDb, taxFauna) =>
       {
         group_level: 1,
       },
-      (error, result) => {
+      async (error, result) => {
         if (error) reject(`error querying view baumFauna: ${error}`)
         const names = _.map(result, row => row.key[0])
         const taxObjectsFaunaLevel1 = names.map(name => ({
@@ -24,16 +24,12 @@ module.exports = (couchDb, pgDb, taxFauna) =>
             tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`
           )
           .join(',')
-        const sql = `
-      insert into
-        ae.taxonomy_object (${fieldsSql})
-      values
-        ${valueSql};`
-        pgDb
-          .none('truncate ae.taxonomy_object cascade')
-          .then(() => pgDb.none(sql))
-          .then(() => resolve(taxObjectsFaunaLevel1))
-          .catch(err => reject(`error importing taxObjectsFaunaLevel1 ${err}`))
+        await pgDb.none('truncate ae.taxonomy_object cascade')
+        await pgDb.none(`
+          insert into ae.taxonomy_object (${fieldsSql})
+          values ${valueSql};
+        `)
+        return taxObjectsFaunaLevel1
       }
     )
   })

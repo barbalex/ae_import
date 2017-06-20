@@ -5,27 +5,27 @@ const importTaxObjectsMooseLevel2 = require('./importTaxObjectsMooseLevel2.js')
 const importTaxObjectsMooseLevel3 = require('./importTaxObjectsMooseLevel3.js')
 const importTaxObjectsMooseLevel4 = require('./importTaxObjectsMooseLevel4.js')
 
-module.exports = async (couchDb, pgDb, taxMoose, couchObjects) => {
+module.exports = async (asyncCouchdbView, pgDb, taxMoose, couchObjects) => {
   const taxObjectsMooseLevel1 = await importTaxObjectsMooseLevel1(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxMoose
   )
   const taxObjectsMooseLevel2 = await importTaxObjectsMooseLevel2(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxMoose,
     taxObjectsMooseLevel1
   )
   const taxObjectsMooseLevel3 = await importTaxObjectsMooseLevel3(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxMoose,
     taxObjectsMooseLevel1,
     taxObjectsMooseLevel2
   )
   const taxObjectsMooseLevel4 = await importTaxObjectsMooseLevel4(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxMoose,
     taxObjectsMooseLevel1,

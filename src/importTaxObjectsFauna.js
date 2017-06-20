@@ -5,27 +5,27 @@ const importTaxObjectsFaunaLevel2 = require('./importTaxObjectsFaunaLevel2.js')
 const importTaxObjectsFaunaLevel3 = require('./importTaxObjectsFaunaLevel3.js')
 const importTaxObjectsFaunaLevel4 = require('./importTaxObjectsFaunaLevel4.js')
 
-module.exports = async (couchDb, pgDb, taxFauna, couchObjects) => {
+module.exports = async (asyncCouchdbView, pgDb, taxFauna, couchObjects) => {
   const taxObjectsFaunaLevel1 = await importTaxObjectsFaunaLevel1(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFauna
   )
   const taxObjectsFaunaLevel2 = await importTaxObjectsFaunaLevel2(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFauna,
     taxObjectsFaunaLevel1
   )
   const taxObjectsFaunaLevel3 = await importTaxObjectsFaunaLevel3(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFauna,
     taxObjectsFaunaLevel1,
     taxObjectsFaunaLevel2
   )
   const taxObjectsFaunaLevel4 = await importTaxObjectsFaunaLevel4(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFauna,
     taxObjectsFaunaLevel1,

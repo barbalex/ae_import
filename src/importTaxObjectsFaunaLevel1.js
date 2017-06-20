@@ -1,11 +1,9 @@
 'use strict'
 
-const { promisify } = require('util')
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
-module.exports = async (couchDb, pgDb, taxFauna) => {
-  const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
+module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
   const baumFauna = await asyncCouchdbView('artendb/baumFauna', {
     group_level: 1,
   })

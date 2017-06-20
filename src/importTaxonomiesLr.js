@@ -1,10 +1,8 @@
 'use strict'
 
 const _ = require('lodash')
-const { promisify } = require('util')
 
-module.exports = async (couchDb, pgDb, organizationId) => {
-  const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
+module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
   const baumLr = asyncCouchdbView('artendb/baumLr', {
     startkey: [1],
     endkey: [1, '\u9999', '\u9999', '\u9999', '\u9999', '\u9999'],

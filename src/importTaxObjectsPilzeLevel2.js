@@ -2,16 +2,14 @@
 
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
-const { promisify } = require('util')
 
 module.exports = async (
-  couchDb,
+  asyncCouchdbView,
   pgDb,
   taxPilze,
   taxObjectsPilzeLevel1,
   couchObjects
 ) => {
-  const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
   const baumMacromycetes = asyncCouchdbView('artendb/baumMacromycetes', {
     group_level: 3,
   })

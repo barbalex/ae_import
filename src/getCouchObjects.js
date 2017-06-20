@@ -1,9 +1,6 @@
 'use strict'
 
-const { promisify } = require('util')
-
-module.exports = async db => {
-  const asyncCouchdbView = promisify(db.view)
+module.exports = async asyncCouchdbView => {
   const objekte = await asyncCouchdbView('artendb/objekte', {
     include_docs: true,
   })

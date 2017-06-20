@@ -4,20 +4,20 @@ const importTaxObjectsFloraLevel1 = require('./importTaxObjectsFloraLevel1.js')
 const importTaxObjectsFloraLevel2 = require('./importTaxObjectsFloraLevel2.js')
 const importTaxObjectsFloraLevel3 = require('./importTaxObjectsFloraLevel3.js')
 
-module.exports = async (couchDb, pgDb, taxFlora, couchObjects) => {
+module.exports = async (asyncCouchdbView, pgDb, taxFlora, couchObjects) => {
   const taxObjectsFloraLevel1 = await importTaxObjectsFloraLevel1(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFlora
   )
   const taxObjectsFloraLevel2 = await importTaxObjectsFloraLevel2(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFlora,
     taxObjectsFloraLevel1
   )
   const taxObjectsFloraLevel3 = await importTaxObjectsFloraLevel3(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxFlora,
     taxObjectsFloraLevel1,

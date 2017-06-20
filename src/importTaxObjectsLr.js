@@ -6,7 +6,7 @@ const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 const isUuid = require('is-uuid')
 
-module.exports = async (couchDb, pgDb, taxLr, couchObjects) => {
+module.exports = async (pgDb, taxLr, couchObjects) => {
   const lrObjects = couchObjects.filter(o => o.Gruppe === 'Lebensräume')
   const taxObjectsLr = lrObjects.map(o => {
     const label = _.get(o, 'Taxonomie.Eigenschaften.Label', null)

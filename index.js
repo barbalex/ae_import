@@ -18,6 +18,7 @@
  *
  */
 
+const { promisify } = require('util')
 // initiate couchDb-connection
 const couchPass = require('./couchPass.json')
 const cradle = require('cradle')
@@ -29,6 +30,7 @@ const connection = new cradle.Connection('127.0.0.1', 5984, {
   },
 })
 const couchDb = connection.database('artendb')
+const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
 
 // initialte postgres-connection
 const config = require('./configuration.js')
@@ -61,7 +63,7 @@ const pgDb = pgp(config.pg.connectionString)
 async function doIt() {
   try {
     await rebuildTables()
-    const couchObjects = await getCouchObjects(couchDb)
+    const couchObjects = await getCouchObjects(asyncCouchdbView)
     await importCategories(pgDb)
     const organizations = await importOrganizations(pgDb)
     const users = await importUsers(pgDb)
@@ -72,14 +74,18 @@ async function doIt() {
     const taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
     const taxMoose = nonLrTaxonomies.find(tax => tax.category === 'Moose')
     const taxPilze = nonLrTaxonomies.find(tax => tax.category === 'Pilze')
-    const taxLr = await importTaxonomiesLr(couchDb, pgDb, organizations[0].id)
-    await importObjects(couchDb, pgDb, couchObjects, organizations[0].id)
-    await importTaxObjectsFauna(couchDb, pgDb, taxFauna, couchObjects)
-    await importTaxObjectsFlora(couchDb, pgDb, taxFlora, couchObjects)
-    await importTaxObjectsMoose(couchDb, pgDb, taxMoose, couchObjects)
-    await importTaxObjectsPilze(couchDb, pgDb, taxPilze, couchObjects)
-    await importTaxObjectsLr(couchDb, pgDb, taxLr, couchObjects)
-    await importCollections(couchDb, pgDb, organizations[0].id, users)
+    const taxLr = await importTaxonomiesLr(
+      asyncCouchdbView,
+      pgDb,
+      organizations[0].id
+    )
+    await importObjects(pgDb, couchObjects, organizations[0].id)
+    await importTaxObjectsFauna(asyncCouchdbView, pgDb, taxFauna, couchObjects)
+    await importTaxObjectsFlora(asyncCouchdbView, pgDb, taxFlora, couchObjects)
+    await importTaxObjectsMoose(asyncCouchdbView, pgDb, taxMoose, couchObjects)
+    await importTaxObjectsPilze(asyncCouchdbView, pgDb, taxPilze, couchObjects)
+    await importTaxObjectsLr(pgDb, taxLr, couchObjects)
+    await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
     await correctRelationCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)

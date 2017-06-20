@@ -3,14 +3,14 @@
 const importTaxObjectsPilzeLevel1 = require('./importTaxObjectsPilzeLevel1.js')
 const importTaxObjectsPilzeLevel2 = require('./importTaxObjectsPilzeLevel2.js')
 
-module.exports = async (couchDb, pgDb, taxPilze, couchObjects) => {
+module.exports = async (asyncCouchdbView, pgDb, taxPilze, couchObjects) => {
   const taxObjectsPilzeLevel1 = await importTaxObjectsPilzeLevel1(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxPilze
   )
   const taxObjectsPilzeLevel2 = await importTaxObjectsPilzeLevel2(
-    couchDb,
+    asyncCouchdbView,
     pgDb,
     taxPilze,
     taxObjectsPilzeLevel1,

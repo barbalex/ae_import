@@ -18,9 +18,11 @@
  *
  */
 
+const { promisify } = require('util')
 // initiate couchDb-connection
 const couchPass = require('./couchPass.json')
 const cradle = require('cradle')
+
 const connection = new cradle.Connection('127.0.0.1', 5984, {
   auth: {
     username: couchPass.user,
@@ -28,10 +30,12 @@ const connection = new cradle.Connection('127.0.0.1', 5984, {
   },
 })
 const couchDb = connection.database('artendb')
+const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
 
 // initialte postgres-connection
 const config = require('./configuration.js')
 const pgp = require('pg-promise')()
+
 const pgDb = pgp(config.pg.connectionString)
 
 const getCouchObjects = require('./src/getCouchObjects.js')
@@ -39,7 +43,7 @@ const importObjectPropertyCollections = require('./src/importObjectPropertyColle
 
 let couchObjects
 
-getCouchObjects(couchDb)
+getCouchObjects(asyncCouchdbView)
   .then(result => {
     couchObjects = result
     return importObjectPropertyCollections(pgDb, couchObjects)

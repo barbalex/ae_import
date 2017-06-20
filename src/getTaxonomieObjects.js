@@ -1,16 +1,12 @@
 'use strict'
 
-module.exports = db =>
-  new Promise((resolve, reject) => {
-    db.view(
-      'artendb/taxonomy_objects',
-      {
-        include_docs: true,
-      },
-      (error, res) => {
-        if (error) reject(`error getting objects: ${error}`)
-        const objects = res.map(doc => doc)
-        resolve(objects)
-      }
-    )
+const { promisify } = require('util')
+
+module.exports = async db => {
+  const asyncCouchdbView = promisify(db.view)
+  const res = await asyncCouchdbView('artendb/taxonomy_objects', {
+    include_docs: true,
   })
+  const objects = res.map(doc => doc)
+  return objects
+}

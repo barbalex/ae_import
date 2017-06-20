@@ -5,8 +5,8 @@ const _ = require('lodash')
 const links =
   '{"http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html"}'
 const description = `D. Aeschimann & C. Heitz: Synonymie-Index der
-Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten.
-Arten mit NR > 1000000 von der FNS provisorisch ergänzt`
+  Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten.
+  Arten mit NR > 1000000 von der FNS provisorisch ergänzt`
 const lastUpdated = '2007.05.08'
 
 module.exports = async pgDb => {

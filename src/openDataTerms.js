@@ -1,6 +1,6 @@
 'use strict'
 
-export default `Open Data: Die veröffentlichten Daten dürfen mit
+module.exports = `Open Data: Die veröffentlichten Daten dürfen mit
 Hinweis auf die Quelle vervielfältigt, verbreitet und weiter
 zugänglich gemacht, angereichert und bearbeitet sowie kommerziell
 genutzt werden. Für die Richtigkeit, Genauigkeit, Zuverlässigkeit und

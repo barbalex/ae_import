@@ -15,14 +15,14 @@ ALTER TABLE ae.category ADD data_type text DEFAULT 'Taxonomien' REFERENCES ae.da
 
 DROP TABLE IF EXISTS ae.organization CASCADE;
 CREATE TABLE ae.organization (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text UNIQUE NOT NULL
 );
 CREATE INDEX ON ae.organization USING btree (name);
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text UNIQUE NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -41,14 +41,14 @@ CREATE INDEX ON ae.taxonomy USING btree (category);
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text NOT NULL UNIQUE,
   email text NOT NULL UNIQUE,
   password text NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE ae.user (
 
 DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;
 CREATE TABLE ae.taxonomy_object (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   taxonomy_id UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   parent_id UUID DEFAULT NULL REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -72,7 +72,7 @@ update ae.taxonomy_object set level = 1 where parent_id is null;
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   -- later add UNIQUE
   data_type text DEFAULT 'Eigenschaften-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
@@ -127,7 +127,7 @@ CREATE POLICY
 
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;
 CREATE TABLE ae.relation_collection (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   -- later add UNIQUE
   data_type text DEFAULT 'Beziehungs-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   name text NOT NULL,
@@ -295,7 +295,7 @@ CREATE POLICY
 
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   properties jsonb DEFAULT NULL,

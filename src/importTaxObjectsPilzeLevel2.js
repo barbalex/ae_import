@@ -12,10 +12,10 @@ module.exports = async (
   couchObjects
 ) => {
   const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
-  const result = asyncCouchdbView('artendb/baumMacromycetes', {
+  const baumMacromycetes = asyncCouchdbView('artendb/baumMacromycetes', {
     group_level: 3,
   })
-  const keys = _.map(result, row => row.key)
+  const keys = _.map(baumMacromycetes, row => row.key)
   const taxObjectsPilzeLevel2 = _.map(keys, key => {
     const gattungName = key[0]
     const gattungObject = taxObjectsPilzeLevel1.find(

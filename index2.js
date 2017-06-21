@@ -1,23 +1,5 @@
 'use strict'
 
-/*
- * Taxonomie-Objekte für LR aufbauen
- *
- * use view baumLr because the order makes sure,
- * parent was always created first
- *
- * for every key in baumLr:
- * 1. create Taxonomie-Objekt from LR-Objekt:
- *    get Name from key[4]
- * 2. get child-object-guids from baumLr: level = level +1, parent = _id
- * 3. set field Taxonomien in Objekt
- *
- * when all are done:
- * create field children, using field child-object-guids
- * then remove field child-object-guids
- *
- */
-
 const { promisify } = require('util')
 // initiate couchDb-connection
 const couchPass = require('./couchPass.json')
@@ -41,17 +23,14 @@ const pgDb = pgp(config.pg.connectionString)
 const getCouchObjects = require('./src/getCouchObjects.js')
 const importObjectPropertyCollections = require('./src/importObjectPropertyCollections.js')
 
-let couchObjects
-
-getCouchObjects(asyncCouchdbView)
-  .then(result => {
-    couchObjects = result
-    return importObjectPropertyCollections(pgDb, couchObjects)
-  })
-  .then(() => {
-    pgp.end()
-  })
-  .catch(error => {
+async function doIt() {
+  try {
+    const couchObjects = await getCouchObjects(asyncCouchdbView)
+    await importObjectPropertyCollections(pgDb, couchObjects)
+  } catch (error) {
     console.log(error)
     pgp.end()
-  })
+  }
+}
+
+doIt()

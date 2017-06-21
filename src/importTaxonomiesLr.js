@@ -9,7 +9,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
     reduce: false,
     include_docs: true,
   })
-  console.log('baumLr.rows[0]:', baumLr.rows[0])
+  // console.log('baumLr.rows[0]:', baumLr.rows[0])
   const taxonomies = baumLr.rows.map(row => {
     const doc = row.doc
     return {

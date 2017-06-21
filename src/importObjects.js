@@ -4,7 +4,7 @@ const _ = require('lodash')
 
 module.exports = async (pgDb, couchObjects, organizationId) => {
   const objects = couchObjects.map(doc => ({
-    id: doc._id,
+    id: doc._id.toLowerCase(),
     category: doc.Gruppe === 'Macromycetes' ? 'Pilze' : doc.Gruppe,
     organization_id: organizationId,
   }))

@@ -41,9 +41,9 @@ module.exports = async (
       id: uuidv1(),
       taxonomy_id: taxFauna.id,
       name,
-      object_id: objId,
+      object_id: objId.toLowerCase(),
       properties,
-      parent_id: familieObject.id,
+      parent_id: familieObject.id.toLowerCase(),
     }
   })
   const valueSql = taxObjectsFaunaLevel4

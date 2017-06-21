@@ -14,13 +14,11 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     reduce: false,
     include_docs: true,
   })
-  // const lrObjects = _.map(baumLr.rows, 'doc')
   const lrObjects = _.map(baumLr.rows, b => {
     const doc = b.doc
     doc.taxId = uuidv1()
     return doc
   })
-  console.log('importTaxObjectsLr: lrObjects[0]:', lrObjects[0])
   const taxObjectsLr = lrObjects.map(o => {
     const label = _.get(o, 'Taxonomie.Eigenschaften.Label', null)
     const einheit = _.get(o, 'Taxonomie.Eigenschaften.Einheit', null)
@@ -38,7 +36,9 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       '99999999-9999-9999-9999-999999999999'
     )
     const parent = lrObjects.find(l => l._id === originalParentId)
-    const parent_id = parent ? parent.taxId : null
+    const parent_id = parent
+      ? parent.taxId
+      : '99999999-9999-9999-9999-999999999999'
     // if (!isUuid.anyNonNil(parent_id)) parent_id = null
     let object_id = o._id.toLowerCase()
     if (!isUuid.anyNonNil(object_id))

@@ -32,11 +32,11 @@ module.exports = async (
     const properties = object.Taxonomie.Eigenschaften
     return {
       id: uuidv1(),
-      taxonomy_id: taxFlora.id,
+      taxonomy_id: taxFlora.id.toLowerCase(),
       name,
-      object_id: objId,
+      object_id: objId.toLowerCase(),
       properties,
-      parent_id: gattungObject.id,
+      parent_id: gattungObject.id.toLowerCase(),
     }
   })
   const valueSql = taxObjectsFloraLevel3

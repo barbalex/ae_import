@@ -28,19 +28,22 @@ module.exports = async (pgDb, couchObjects) => {
   const valueSqlOPC = objectPropertyCollections
     .map(val => `('${val.object_id}','${val.property_collection_id}')`)
     .join(',')
-  const sql = `insert into ae.property_collection_object (object_id,property_collection_id)
-  values ${valueSqlOPC};`
-  await pgDb.none(sql)
+  await pgDb.none(`
+    insert into ae.property_collection_object (object_id,property_collection_id)
+    values ${valueSqlOPC};
+  `)
   await wait5s()
-  await Promise.all(
-    objectPropertyCollections.map(val => {
-      const sql2 = `
-        UPDATE ae.property_collection_object
-        SET properties = $1
-        WHERE object_id = $2
-      `
-      return pgDb.none(sql2, [val.properties, val.object_id])
-    })
+  await pgDb.task(t =>
+    t.batch(
+      objectPropertyCollections.map(val => {
+        const sql2 = `
+          UPDATE ae.property_collection_object
+          SET properties = $1
+          WHERE object_id = $2
+        `
+        return pgDb.none(sql2, [val.properties, val.object_id])
+      })
+    )
   )
   console.log(
     `${objectPropertyCollections.length} object property collections imported`
@@ -64,15 +67,17 @@ module.exports = async (pgDb, couchObjects) => {
   await pgDb.none(`insert into ae.relation (id,object_id,relation_collection_id)
     values ${valueSql};`)
   await wait5s()
-  await Promise.all(
-    relations.map(val => {
-      const sql2 = `
-        UPDATE ae.relation
-        SET properties = $1
-        WHERE id = $2
-      `
-      return pgDb.none(sql2, [val.properties, val.id])
-    })
+  await pgDb.task(t =>
+    t.batch(
+      relations.map(val => {
+        const sql2 = `
+          UPDATE ae.relation
+          SET properties = $1
+          WHERE id = $2
+        `
+        return pgDb.none(sql2, [val.properties, val.id])
+      })
+    )
   )
   console.log(`${relations.length} relations imported`)
   // write relationPartners

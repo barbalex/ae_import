@@ -56,15 +56,17 @@ module.exports = async (
     insert into ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)
     values ${valueSql};
   `)
-  await Promise.all(
-    taxObjectsFaunaLevel4.map(val => {
-      const sql = `
-        UPDATE ae.taxonomy_object
-        SET properties = $1
-        WHERE id = $2
-      `
-      return pgDb.none(sql, [val.properties, val.id])
-    })
+  await pgDb.task(t =>
+    t.batch(
+      taxObjectsFaunaLevel4.map(val => {
+        const sql = `
+          UPDATE ae.taxonomy_object
+          SET properties = $1
+          WHERE id = $2
+        `
+        return pgDb.none(sql, [val.properties, val.id])
+      })
+    )
   )
 
   return taxObjectsFaunaLevel4

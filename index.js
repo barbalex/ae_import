@@ -56,6 +56,7 @@ const correctPropertyCollections = require('./src/correctPropertyCollections.js'
 const correctRelationCollections = require('./src/correctRelationCollections.js')
 const importObjectPropertyCollections = require('./src/importObjectPropertyCollections.js')
 const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections.js')
+const addFunctions = require('./src/addFunctions.js')
 const wait5s = require('./src/wait5s.js')
 
 const pgDb = pgp(config.pg.connectionString)
@@ -93,6 +94,7 @@ async function doIt() {
     await correctPropertyCollections(pgDb)
     await correctRelationCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
+    await addFunctions(pgDb)
     // dont know why but when next is done directly after above
     // an error occurs...
     await wait5s()

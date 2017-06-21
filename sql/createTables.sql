@@ -32,13 +32,13 @@ CREATE TABLE ae.taxonomy (
   habitat_comments text DEFAULT NULL,
   habitat_nr_fns_min integer DEFAULT NULL,
   habitat_nr_fns_max integer DEFAULT NULL,
-  previous_id UUID,
   data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
+  previous_id UUID,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
-COMMENT ON COLUMN ae.taxonomy.previous_id IS '_id in artendb v1. Provisorisch, kann nach Import gelöscht werden';
+COMMENT ON COLUMN ae.taxonomy.previous_id IS 'object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden';
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
@@ -88,8 +88,6 @@ CREATE TABLE ae.property_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
---- only once:
-ALTER TABLE ae.property_collection ADD data_type text DEFAULT 'Eigenschaften-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 CREATE INDEX ON ae.property_collection USING btree (name);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS property_collection_reader ON ae.property_collection;
@@ -144,8 +142,6 @@ CREATE TABLE ae.relation_collection (
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
---- only once:
-ALTER TABLE ae.relation_collection ADD data_type text DEFAULT 'Beziehungs-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE;
 CREATE INDEX ON ae.relation_collection USING btree (name);
 ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS relation_collection_reader ON ae.relation_collection;
@@ -299,8 +295,8 @@ CREATE POLICY
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  relation_collection_id UUID NOT NULL REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  object_id UUID DEFAULT NULL,
+  relation_collection_id UUID NOT NULL,
   properties jsonb DEFAULT NULL,
   FOREIGN KEY (object_id, relation_collection_id) REFERENCES ae.relation_collection_object (object_id, relation_collection_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

@@ -14,8 +14,13 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     reduce: false,
     include_docs: true,
   })
-  const lrObjects = _.map(baumLr.rows, 'doc')
-  // console.log('importTaxObjectsLr: lrObjects[0]:', lrObjects[0])
+  // const lrObjects = _.map(baumLr.rows, 'doc')
+  const lrObjects = _.map(baumLr.rows, b => {
+    const doc = b.doc
+    doc.taxId = uuidv1()
+    return doc
+  })
+  console.log('importTaxObjectsLr: lrObjects[0]:', lrObjects[0])
   const taxObjectsLr = lrObjects.map(o => {
     const label = _.get(o, 'Taxonomie.Eigenschaften.Label', null)
     const einheit = _.get(o, 'Taxonomie.Eigenschaften.Einheit', null)
@@ -27,9 +32,15 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     } else if (einheit) {
       name = einheit
     }
-    let parent_id = _.get(o, 'Taxonomie.Eigenschaften.Parent.GUID', null)
-    if (!isUuid.v4(parent_id)) parent_id = null
-    let object_id = o._id
+    const originalParentId = _.get(
+      o,
+      'Taxonomie.Eigenschaften.Parent.GUID',
+      null
+    )
+    const parent = lrObjects.find(l => l._id === originalParentId)
+    const parent_id = parent.taxId
+    // if (!isUuid.v4(parent_id)) parent_id = null
+    let object_id = o._id.toLowerCase()
     if (!isUuid.v4(object_id)) object_id = null
     const hierarchie = _.get(o, 'Taxonomie.Eigenschaften.Hierarchie')
     let previousTaxonomyId = null
@@ -38,7 +49,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       previousTaxonomyId = hierarchie[0].GUID.toLowerCase()
     }
     const previousTaxonomy = taxLr.find(
-      t => t.previous_id === previousTaxonomyId
+      t => t.previous_id.toLowerCase() === previousTaxonomyId
     )
     const taxonomy_id = previousTaxonomy && previousTaxonomy.id
     const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))
@@ -47,7 +58,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     if (properties.Hierarchie) delete properties.Hierarchie
 
     return {
-      id: uuidv1(),
+      id: o.taxId,
       taxonomy_id,
       parent_id,
       object_id,
@@ -70,16 +81,17 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     insert into ae.taxonomy_object (id,taxonomy_id,parent_id,object_id,name)
     values ${valueSql};
   `)
-  // console.log('importTaxObjectsLr: 5')
-  await Promise.all(
-    taxObjectsLr.map(val => {
-      const sql2 = `
-        UPDATE ae.taxonomy_object
-        SET properties = $1
-        WHERE id = $2
-      `
-      return pgDb.none(sql2, [val.properties, val.id])
-    })
+  await pgDb.task(t =>
+    t.batch(
+      taxObjectsLr.map(val => {
+        const sql2 = `
+          UPDATE ae.taxonomy_object
+          SET properties = $1
+          WHERE id = $2
+        `
+        return pgDb.none(sql2, [val.properties, val.id])
+      })
+    )
   )
   /*
   console.log('importTaxObjectsLr: will add reference to parent_id')

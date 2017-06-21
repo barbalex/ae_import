@@ -35,13 +35,14 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     const originalParentId = _.get(
       o,
       'Taxonomie.Eigenschaften.Parent.GUID',
-      null
+      '99999999-9999-9999-9999-999999999999'
     )
     const parent = lrObjects.find(l => l._id === originalParentId)
-    const parent_id = parent.taxId
-    // if (!isUuid.v4(parent_id)) parent_id = null
+    const parent_id = parent ? parent.taxId : null
+    // if (!isUuid.anyNonNil(parent_id)) parent_id = null
     let object_id = o._id.toLowerCase()
-    if (!isUuid.v4(object_id)) object_id = null
+    if (!isUuid.anyNonNil(object_id))
+      object_id = '99999999-9999-9999-9999-999999999999'
     const hierarchie = _.get(o, 'Taxonomie.Eigenschaften.Hierarchie')
     let previousTaxonomyId = null
     if (hierarchie && hierarchie[0] && hierarchie[0].GUID) {
@@ -49,7 +50,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       previousTaxonomyId = hierarchie[0].GUID.toLowerCase()
     }
     const previousTaxonomy = taxLr.find(
-      t => t.previous_id.toLowerCase() === previousTaxonomyId
+      t => t.previous_id === previousTaxonomyId
     )
     const taxonomy_id = previousTaxonomy && previousTaxonomy.id
     const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))

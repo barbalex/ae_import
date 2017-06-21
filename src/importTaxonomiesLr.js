@@ -1,6 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
+const uuidv1 = require('uuid/v1')
 
 module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
   const baumLr = await asyncCouchdbView('artendb/baumLr', {
@@ -13,7 +14,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
   const taxonomies = baumLr.rows.map(row => {
     const doc = row.doc
     return {
-      id: doc._id.toLowerCase(),
+      id: uuidv1(),
       name: doc.Taxonomie.Eigenschaften.Taxonomie,
       habitat_label: doc.Taxonomie.Eigenschaften['Einheit-Abkürzung'],
       description: doc.Taxonomie.Eigenschaften.Beschreibung || null,
@@ -23,6 +24,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
       category: 'Lebensräume',
       is_category_standard: true,
       organization_id: organizationId,
+      previous_id: doc._id.toLowerCase(),
     }
   })
   const fieldsSql = _.keys(taxonomies[0]).join(',')

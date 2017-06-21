@@ -36,13 +36,14 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       '99999999-9999-9999-9999-999999999999'
     )
     const parent = lrObjects.find(l => l._id === originalParentId)
-    const parent_id = parent
+    const parent_id = parent && parent.taxId && isUuid.anyNonNil(parent.taxId)
       ? parent.taxId
-      : '99999999-9999-9999-9999-999999999999'
-    // if (!isUuid.anyNonNil(parent_id)) parent_id = null
+      : o.taxId
     let object_id = o._id.toLowerCase()
-    if (!isUuid.anyNonNil(object_id))
+    if (!isUuid.anyNonNil(object_id)) {
+      console.log('importTaxObjectsLr: object_id that is no uuid:', object_id)
       object_id = '99999999-9999-9999-9999-999999999999'
+    }
     const hierarchie = _.get(o, 'Taxonomie.Eigenschaften.Hierarchie')
     let previousTaxonomyId = null
     if (hierarchie && hierarchie[0] && hierarchie[0].GUID) {

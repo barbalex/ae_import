@@ -1,6 +1,6 @@
 'use strict'
 
-const hashPassword = require('./hashPassword.js')
+const hashPassword = require('./hashPassword')
 
 module.exports = async pgDb => {
   await pgDb.none('truncate ae.user cascade')

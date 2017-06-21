@@ -4,7 +4,7 @@
 
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
-const getCollectionsFromCouch = require('./getCollectionsFromCouch.js')
+const getCollectionsFromCouch = require('./getCollectionsFromCouch')
 
 const buildDatenstandFromString = dstString => {
   if (!dstString) return null

@@ -1,9 +1,9 @@
 'use strict'
 
-const importTaxObjectsMooseLevel1 = require('./importTaxObjectsMooseLevel1.js')
-const importTaxObjectsMooseLevel2 = require('./importTaxObjectsMooseLevel2.js')
-const importTaxObjectsMooseLevel3 = require('./importTaxObjectsMooseLevel3.js')
-const importTaxObjectsMooseLevel4 = require('./importTaxObjectsMooseLevel4.js')
+const importTaxObjectsMooseLevel1 = require('./importTaxObjectsMooseLevel1')
+const importTaxObjectsMooseLevel2 = require('./importTaxObjectsMooseLevel2')
+const importTaxObjectsMooseLevel3 = require('./importTaxObjectsMooseLevel3')
+const importTaxObjectsMooseLevel4 = require('./importTaxObjectsMooseLevel4')
 
 module.exports = async (asyncCouchdbView, pgDb, taxMoose, couchObjects) => {
   const taxObjectsMooseLevel1 = await importTaxObjectsMooseLevel1(

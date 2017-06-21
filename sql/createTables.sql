@@ -70,7 +70,6 @@ CREATE INDEX ON ae.taxonomy_object USING btree (name);
 ALTER TABLE ae.taxonomy_object ADD COLUMN level integer;
 COMMENT ON COLUMN ae.taxonomy_object.level IS 'until postgraphql can filter parent_id null';
 update ae.taxonomy_object set level = 1 where parent_id is null;
--- ALTER TABLE ae.taxonomy_object DROP CONSTRAINT taxonomy_object_parent_id_fkey;
 -- ALTER TABLE ae.taxonomy_object ADD CONSTRAINT taxonomy_object_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;

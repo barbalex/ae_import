@@ -1,7 +1,7 @@
 'use strict'
 
-const extractObjectCollectionsFromCouchObjects = require('./extractObjectCollectionsFromCouchObjects.js')
-const wait5s = require('./wait5s.js')
+const extractObjectCollectionsFromCouchObjects = require('./extractObjectCollectionsFromCouchObjects')
+const wait5s = require('./wait5s')
 
 module.exports = async (pgDb, couchObjects) => {
   const propertyCollections = await pgDb.any(
@@ -33,7 +33,7 @@ module.exports = async (pgDb, couchObjects) => {
     values ${valueSqlOPC};
   `)
   await wait5s()
-  await pgDb.task(t =>
+  await pgDb.tx(t =>
     t.batch(
       objectPropertyCollections.map(val => {
         const sql2 = `
@@ -67,7 +67,7 @@ module.exports = async (pgDb, couchObjects) => {
   await pgDb.none(`insert into ae.relation (id,object_id,relation_collection_id)
     values ${valueSql};`)
   await wait5s()
-  await pgDb.task(t =>
+  await pgDb.tx(t =>
     t.batch(
       relations.map(val => {
         const sql2 = `

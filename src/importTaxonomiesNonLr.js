@@ -2,7 +2,7 @@
 
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
-const nonLrTaxonomies = require('./nonLrTaxonomies.js')
+const nonLrTaxonomies = require('./nonLrTaxonomies')
 
 module.exports = async (pgDb, organizationId) => {
   nonLrTaxonomies.forEach(tax => {

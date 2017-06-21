@@ -56,7 +56,7 @@ module.exports = async (
     insert into ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)
     values ${valueSql};
   `)
-  await pgDb.task(t =>
+  await pgDb.tx(t =>
     t.batch(
       taxObjectsMooseLevel4.map(val => {
         const sql2 = `

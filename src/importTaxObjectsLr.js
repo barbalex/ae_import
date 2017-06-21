@@ -83,7 +83,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     insert into ae.taxonomy_object (id,taxonomy_id,parent_id,object_id,name)
     values ${valueSql};
   `)
-  await pgDb.task(t =>
+  await pgDb.tx(t =>
     t.batch(
       taxObjectsLr.map(val => {
         const sql2 = `

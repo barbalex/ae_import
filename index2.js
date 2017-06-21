@@ -15,13 +15,13 @@ const couchDb = connection.database('artendb')
 const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
 
 // initialte postgres-connection
-const config = require('./configuration.js')
+const config = require('./configuration')
 const pgp = require('pg-promise')()
 
 const pgDb = pgp(config.pg.connectionString)
 
-const getCouchObjects = require('./src/getCouchObjects.js')
-const importObjectPropertyCollections = require('./src/importObjectPropertyCollections.js')
+const getCouchObjects = require('./src/getCouchObjects')
+const importObjectPropertyCollections = require('./src/importObjectPropertyCollections')
 
 async function doIt() {
   try {

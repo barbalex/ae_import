@@ -1,9 +1,9 @@
 'use strict'
 
-const importTaxObjectsFaunaLevel1 = require('./importTaxObjectsFaunaLevel1.js')
-const importTaxObjectsFaunaLevel2 = require('./importTaxObjectsFaunaLevel2.js')
-const importTaxObjectsFaunaLevel3 = require('./importTaxObjectsFaunaLevel3.js')
-const importTaxObjectsFaunaLevel4 = require('./importTaxObjectsFaunaLevel4.js')
+const importTaxObjectsFaunaLevel1 = require('./importTaxObjectsFaunaLevel1')
+const importTaxObjectsFaunaLevel2 = require('./importTaxObjectsFaunaLevel2')
+const importTaxObjectsFaunaLevel3 = require('./importTaxObjectsFaunaLevel3')
+const importTaxObjectsFaunaLevel4 = require('./importTaxObjectsFaunaLevel4')
 
 module.exports = async (asyncCouchdbView, pgDb, taxFauna, couchObjects) => {
   const taxObjectsFaunaLevel1 = await importTaxObjectsFaunaLevel1(

@@ -9,6 +9,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
     reduce: false,
     include_docs: true,
   })
+  console.log('baumLr.rows[0]:', baumLr.rows[0])
   const taxonomies = baumLr.rows.map(row => {
     const doc = row.doc
     return {
@@ -21,6 +22,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
       category: 'Lebensräume',
       is_category_standard: true,
       organization_id: organizationId,
+      previous_id: doc._id,
     }
   })
   const fieldsSql = _.keys(taxonomies[0]).join(',')

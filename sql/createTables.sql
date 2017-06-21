@@ -33,11 +33,13 @@ CREATE TABLE ae.taxonomy (
   habitat_label varchar(50) DEFAULT NULL,
   habitat_comments text DEFAULT NULL,
   habitat_nr_fns_min integer DEFAULT NULL,
-  habitat_nr_fns_max integer DEFAULT NULL
+  habitat_nr_fns_max integer DEFAULT NULL,
+  previous_id UUID
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
+COMMENT ON COLUMN ae.taxonomy.previous_id IS '_id in artendb v1. Provisorisch, kann nach Import gelöscht werden';
 
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
@@ -65,10 +67,11 @@ CREATE TABLE ae.taxonomy_object (
   properties jsonb DEFAULT NULL
 );
 CREATE INDEX ON ae.taxonomy_object USING btree (name);
--- ALTER TABLE ae.taxonomy_object DROP COLUMN level;
 ALTER TABLE ae.taxonomy_object ADD COLUMN level integer;
 COMMENT ON COLUMN ae.taxonomy_object.level IS 'until postgraphql can filter parent_id null';
 update ae.taxonomy_object set level = 1 where parent_id is null;
+ALTER TABLE ae.taxonomy_object DROP CONSTRAINT taxonomy_object_parent_id_fkey;
+ALTER TABLE ae.taxonomy_object ADD CONSTRAINT taxonomy_object_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (

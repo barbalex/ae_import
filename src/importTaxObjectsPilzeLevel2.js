@@ -10,7 +10,7 @@ module.exports = async (
   taxObjectsPilzeLevel1,
   couchObjects
 ) => {
-  const baumMacromycetes = asyncCouchdbView('artendb/baumMacromycetes', {
+  const baumMacromycetes = await asyncCouchdbView('artendb/baumMacromycetes', {
     group_level: 3,
   })
   const keys = _.map(baumMacromycetes, row => row.key)

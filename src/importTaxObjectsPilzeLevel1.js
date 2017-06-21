@@ -4,7 +4,7 @@ const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
 module.exports = async (asyncCouchdbView, pgDb, taxPilze) => {
-  const baumMacromycetes = asyncCouchdbView('artendb/baumMacromycetes', {
+  const baumMacromycetes = await asyncCouchdbView('artendb/baumMacromycetes', {
     group_level: 1,
   })
   const names = _.map(baumMacromycetes, row => row.key[0])

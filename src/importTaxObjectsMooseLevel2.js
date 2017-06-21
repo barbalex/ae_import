@@ -9,7 +9,7 @@ module.exports = async (
   taxMoose,
   taxObjectsMooseLevel1
 ) => {
-  const baumMoose = asyncCouchdbView('artendb/baumMoose', {
+  const baumMoose = await asyncCouchdbView('artendb/baumMoose', {
     group_level: 2,
   })
   const keys = _.map(baumMoose, row => row.key)

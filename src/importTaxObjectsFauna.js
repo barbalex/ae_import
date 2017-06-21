@@ -40,5 +40,6 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna, couchObjects) => {
     ...taxObjectsFaunaLevel4,
   ]
   console.log(`${taxObjectsFauna.length} fauna taxonomy objects imported`)
+
   return taxObjectsFauna
 }

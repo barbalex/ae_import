@@ -11,7 +11,7 @@ module.exports = async (
   taxObjectsFloraLevel2,
   couchObjects
 ) => {
-  const baumFlora = asyncCouchdbView('artendb/baumFlora', {
+  const baumFlora = await asyncCouchdbView('artendb/baumFlora', {
     group_level: 4,
   })
 

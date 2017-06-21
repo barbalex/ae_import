@@ -4,7 +4,7 @@ const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
 module.exports = async (asyncCouchdbView, pgDb, taxMoose) => {
-  const baumMoose = asyncCouchdbView('artendb/baumMoose', {
+  const baumMoose = await asyncCouchdbView('artendb/baumMoose', {
     group_level: 1,
   })
   const names = _.map(baumMoose, row => row.key[0])

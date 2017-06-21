@@ -9,7 +9,7 @@ module.exports = async (
   taxFauna,
   taxObjectsFaunaLevel1
 ) => {
-  const baumFauna = asyncCouchdbView('artendb/baumFauna', {
+  const baumFauna = await asyncCouchdbView('artendb/baumFauna', {
     group_level: 2,
   })
   const keys = _.map(baumFauna, row => row.key)

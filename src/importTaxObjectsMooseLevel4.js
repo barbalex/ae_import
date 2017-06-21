@@ -12,7 +12,7 @@ module.exports = async (
   taxObjectsMooseLevel3,
   couchObjects
 ) => {
-  const baumMoose = asyncCouchdbView('artendb/baumMoose', {
+  const baumMoose = await asyncCouchdbView('artendb/baumMoose', {
     group_level: 5,
   })
 

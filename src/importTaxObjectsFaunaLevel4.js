@@ -12,7 +12,7 @@ module.exports = async (
   taxObjectsFaunaLevel3,
   couchObjects
 ) => {
-  const baumFauna = asyncCouchdbView('artendb/baumFauna', {
+  const baumFauna = await asyncCouchdbView('artendb/baumFauna', {
     group_level: 5,
   })
 

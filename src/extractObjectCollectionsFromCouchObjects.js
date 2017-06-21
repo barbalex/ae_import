@@ -15,7 +15,7 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
 
   objectsInCouch.forEach(objectInCouch => {
     if (objectInCouch.Eigenschaftensammlungen) {
-      const object_id = objectInCouch._id
+      const object_id = objectInCouch._id.toLowerCase()
       objectInCouch.Eigenschaftensammlungen.forEach(pCInCouch => {
         // add property_collection_object
         let pcNameToSearchFor = pCInCouch.Name
@@ -56,7 +56,7 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
     }
 
     if (objectInCouch.Beziehungssammlungen) {
-      const object_id = objectInCouch._id
+      const object_id = objectInCouch._id.toLowerCase()
       objectInCouch.Beziehungssammlungen.forEach(rCInCouch => {
         // add relation_collection_object
         const rCInPG = rCsInPG.find(rc => rc.name === rCInCouch.Name)
@@ -87,7 +87,7 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
                       _.includes(objectsInCouchIds, couchRelPartner.GUID)
                     ) {
                       relationPartners.push({
-                        object_id: couchRelPartner.GUID,
+                        object_id: couchRelPartner.GUID.toLocaleLowerCase(),
                         relation_id: id,
                       })
                       idsObjects.push(couchRelPartner.GUID)

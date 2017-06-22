@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start2": "node index2.js",
-    "setParents": "node src/setParents.js"
+    "start2": "node index2.js"
   },
   "author": "",
   "license": "ISC",

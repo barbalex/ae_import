@@ -7,7 +7,6 @@ const uuidv1 = require('uuid/v1')
 const isUuid = require('is-uuid')
 
 module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
-  // console.log('importTaxObjectsLr: taxLr[0]:', taxLr[0])
   const baumLr = await asyncCouchdbView('artendb/baumLr', {
     startkey: [2],
     endkey: [999, '\u9999', '\u9999', '\u9999', '\u9999', '\u9999'],
@@ -39,11 +38,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     const parent_id = parent && parent.taxId && isUuid.anyNonNil(parent.taxId)
       ? parent.taxId
       : null
-    let object_id = o._id.toLowerCase()
-    if (!isUuid.anyNonNil(object_id)) {
-      console.log('importTaxObjectsLr: object_id that is no uuid:', object_id)
-      object_id = null
-    }
+    const object_id = o._id.toLowerCase()
     const previousTaxonomyId = _.get(
       o,
       'Taxonomie.Eigenschaften.Hierarchie[0].GUID'
@@ -51,14 +46,6 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     const taxonomy = taxLr.find(
       t => t.previous_id === previousTaxonomyId.toLowerCase()
     )
-    if (!taxonomy) {
-      console.log('importTaxObjectsLr: no taxonomy found for lr:', o)
-      console.log('importTaxObjectsLr: previousTaxonomyId:', previousTaxonomyId)
-      console.log(
-        'importTaxObjectsLr: taxLr[0].previous_id:',
-        taxLr[0].previous_id
-      )
-    }
     const taxonomy_id = _.get(taxonomy, 'id', null)
     const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))
     if (properties.Taxonomie) delete properties.Taxonomie

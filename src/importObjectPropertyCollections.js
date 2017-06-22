@@ -40,8 +40,13 @@ module.exports = async (pgDb, couchObjects) => {
           UPDATE ae.property_collection_object
           SET properties = $1
           WHERE object_id = $2
+          AND property_collection_id = $3
         `
-        return pgDb.none(sql2, [val.properties, val.object_id])
+        return pgDb.none(sql2, [
+          val.properties,
+          val.object_id,
+          val.property_collection_id,
+        ])
       })
     )
   )

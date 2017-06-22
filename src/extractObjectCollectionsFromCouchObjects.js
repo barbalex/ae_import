@@ -34,7 +34,8 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
             Object.keys(pCInCouch.Eigenschaften) &&
             Object.keys(pCInCouch.Eigenschaften).length > 0
           ) {
-            properties = _.clone(pCInCouch.Eigenschaften)
+            // properties = _.clone(pCInCouch.Eigenschaften)
+            properties = pCInCouch.Eigenschaften
             // replace typo in label
             Object.keys(properties).forEach(key => {
               if (key.includes('Mitelland')) {

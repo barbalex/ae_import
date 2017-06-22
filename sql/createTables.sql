@@ -74,8 +74,8 @@ update ae.taxonomy_object set level = 1 where parent_id is null;
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  -- later add UNIQUE
   data_type text DEFAULT 'Eigenschaften-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
+  -- later add UNIQUE
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,

@@ -24,7 +24,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
       category: 'Lebensräume',
       is_category_standard: true,
       organization_id: organizationId,
-      previous_id: doc._id.toLowerCase(),
+      previous_id: doc._id,
     }
   })
   const fieldsSql = _.keys(taxonomies[0]).join(',')

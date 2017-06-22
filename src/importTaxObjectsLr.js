@@ -33,27 +33,33 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
     const originalParentId = _.get(
       o,
       'Taxonomie.Eigenschaften.Parent.GUID',
-      '99999999-9999-9999-9999-999999999999'
+      null
     )
     const parent = lrObjects.find(l => l._id === originalParentId)
     const parent_id = parent && parent.taxId && isUuid.anyNonNil(parent.taxId)
       ? parent.taxId
-      : o.taxId
+      : null
     let object_id = o._id.toLowerCase()
     if (!isUuid.anyNonNil(object_id)) {
       console.log('importTaxObjectsLr: object_id that is no uuid:', object_id)
-      object_id = '99999999-9999-9999-9999-999999999999'
+      object_id = null
     }
-    const hierarchie = _.get(o, 'Taxonomie.Eigenschaften.Hierarchie')
-    let previousTaxonomyId = null
-    if (hierarchie && hierarchie[0] && hierarchie[0].GUID) {
-      // postgre converts uuids to lower case!
-      previousTaxonomyId = hierarchie[0].GUID.toLowerCase()
-    }
-    const previousTaxonomy = taxLr.find(
-      t => t.previous_id === previousTaxonomyId
+    const previousTaxonomyId = _.get(
+      o,
+      'Taxonomie.Eigenschaften.Hierarchie[0].GUID'
     )
-    const taxonomy_id = previousTaxonomy && previousTaxonomy.id
+    const taxonomy = taxLr.find(
+      t => t.previous_id === previousTaxonomyId.toLowerCase()
+    )
+    if (!taxonomy) {
+      console.log('importTaxObjectsLr: no taxonomy found for lr:', o)
+      console.log('importTaxObjectsLr: previousTaxonomyId:', previousTaxonomyId)
+      console.log(
+        'importTaxObjectsLr: taxLr[0].previous_id:',
+        taxLr[0].previous_id
+      )
+    }
+    const taxonomy_id = _.get(taxonomy, 'id', null)
     const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))
     if (properties.Taxonomie) delete properties.Taxonomie
     if (properties.Parent) delete properties.Parent
@@ -68,17 +74,16 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       properties,
     }
   })
-  // console.log('importTaxObjectsLr: taxObjectsLr[0]:', taxObjectsLr[0])
   const valueSql = taxObjectsLr
     .map(
       val =>
-        `('${val.id}','${val.taxonomy_id}','${val.parent_id}','${val.object_id}','${val.name}')`
+        `('${val.id}',${val.taxonomy_id
+          ? `'${val.taxonomy_id}'`
+          : null},${val.parent_id ? `'${val.parent_id}'` : null},${val.object_id
+          ? `'${val.object_id}'`
+          : null},'${val.name}')`
     )
     .join(',')
-  /*
-  await pgDb.none(
-    'ALTER TABLE ae.taxonomy_object DROP CONSTRAINT taxonomy_object_parent_id_fkey;'
-  )*/
   await pgDb.none(`
     insert into ae.taxonomy_object (id,taxonomy_id,parent_id,object_id,name)
     values ${valueSql};
@@ -95,13 +100,6 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       })
     )
   )
-  /*
-  console.log('importTaxObjectsLr: will add reference to parent_id')
-  await pgDb.none(`ALTER TABLE ae.taxonomy_object
-    ADD CONSTRAINT taxonomy_object_parent_id_fkey FOREIGN KEY (parent_id)
-    REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE;
-  `)*/
-  // console.log('importTaxObjectsLr: 6')
   console.log(`${taxObjectsLr.length} lr taxonomy objects imported`)
 
   return taxObjectsLr

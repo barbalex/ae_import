@@ -4,8 +4,7 @@
   "description": "import arteigenschaften.ch to postgres",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "start2": "node index2.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",

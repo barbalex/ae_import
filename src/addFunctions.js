@@ -140,5 +140,5 @@ module.exports = async pgDb => {
     ALTER FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
       OWNER TO postgres;
   `)
-  console.log('functions added to database')
+  console.log('functions added')
 }

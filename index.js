@@ -59,7 +59,6 @@ const importObjectPropertyCollections = require('./src/importObjectPropertyColle
 const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections')
 const addTaxonomyObjectParentConstraint = require('./src/addTaxonomyObjectParentConstraint')
 const addFunctions = require('./src/addFunctions')
-const wait5s = require('./src/wait5s')
 
 const pgDb = pgp(config.pg.connectionString)
 
@@ -67,7 +66,6 @@ async function doIt() {
   try {
     await rebuildTables()
     const couchObjects = await getCouchObjects(asyncCouchdbView)
-    // console.log('index: couchObjects[0]:', couchObjects[0])
     await importCategories(pgDb)
     const organizations = await importOrganizations(pgDb)
     const users = await importUsers(pgDb)
@@ -99,12 +97,6 @@ async function doIt() {
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
-    // dont know why but when next is done directly after above
-    // an error occurs...
-    await wait5s()
-    await wait5s()
-    await wait5s()
-    await wait5s()
     await importObjectPropertyCollections(pgDb, couchObjects)
     await pgp.end()
   } catch (error) {

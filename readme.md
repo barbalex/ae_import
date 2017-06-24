@@ -15,3 +15,4 @@ Import ausführen:
 1. CouchDB `artendb` lokal replizieren
 1. PostgreSQL Datenbank aus früherem Backup erstellen
 1. `npm start`
+![npm start](/etc/result.png?raw=true "npm start")

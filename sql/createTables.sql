@@ -71,6 +71,15 @@ ALTER TABLE ae.taxonomy_object ADD COLUMN level integer;
 COMMENT ON COLUMN ae.taxonomy_object.level IS 'until postgraphql can filter parent_id null';
 update ae.taxonomy_object set level = 1 where parent_id is null;
 
+-- ae.taxonomy_object to ae.taxonomy_object relationship
+-- best to add every relationship twice, see: https://stackoverflow.com/a/17128606/712005
+DROP TABLE IF EXISTS ae.synonym CASCADE;
+CREATE TABLE ae.synonym (
+  taxonomy_object_id UUID NOT NULL REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  taxonomy_object_id_synonym UUID NOT NULL REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (taxonomy_object_id, taxonomy_object_id_synonym)
+);
+
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),

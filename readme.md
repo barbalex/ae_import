@@ -12,11 +12,8 @@ Zieldatenbank ist postgres://localhost:5432/ae
 1. `sql\createDatabase.sql` erstellt PostgreSQL datenbank
 1. `rebuildTables` baut die Tabellenstruktur der Datenbank ae auf
 1. Danach werden nach und nach die Tabellen mit Daten aus artendb gefüllt
+1. Synonyme Flora wird direkt vom SISF-2-Export der Info Flora importiert
 
 Befehle:
 
     npm start
-
-Meist meldet PostgreSQL im letzten Schritt einen Deadlock. Daher den letzten Schritt einzeln wiederholen (ev. mehrmals probieren):
-
-    npm run start2

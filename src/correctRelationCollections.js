@@ -31,6 +31,7 @@ module.exports = async pgDb => {
     terms_of_use: eingInCollections[0].terms_of_use,
     imported_by: eingInCollections[0].imported_by,
     nature_of_relation: eingInCollections[0].nature_of_relation,
+    taxonomic: eingInCollections[0].taxonomic,
   }
   // 1.2 remove existing collections
   await pgDb.any(`
@@ -61,6 +62,7 @@ module.exports = async pgDb => {
     terms_of_use: gueltNamCollections[0].terms_of_use,
     imported_by: gueltNamCollections[0].imported_by,
     nature_of_relation: gueltNamCollections[0].nature_of_relation,
+    taxonomic: gueltNamCollections[0].taxonomic,
   }
   // 2.2 remove existing collections
   await pgDb.any(`
@@ -91,6 +93,7 @@ module.exports = async pgDb => {
     terms_of_use: offArtCollections[0].terms_of_use,
     imported_by: offArtCollections[0].imported_by,
     nature_of_relation: offArtCollections[0].nature_of_relation,
+    taxonomic: offArtCollections[0].taxonomic,
   }
   // 3.2 remove existing collections
   await pgDb.any(`
@@ -121,6 +124,7 @@ module.exports = async pgDb => {
     terms_of_use: synCollections[0].terms_of_use,
     imported_by: synCollections[0].imported_by,
     nature_of_relation: synCollections[0].nature_of_relation,
+    taxonomic: synCollections[0].taxonomic,
   }
   // 4.2 remove existing collections
   await pgDb.any(`

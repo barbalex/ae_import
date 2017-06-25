@@ -77,6 +77,7 @@ module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
     const imported_by =
       users.find(user => user.email === 'alex@gabriel-software.ch').id || null
     const nature_of_relation = c[7]
+    const taxonomic = c[8] === 'taxonomisch'
 
     return {
       id,
@@ -89,6 +90,7 @@ module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
       terms_of_use,
       imported_by,
       nature_of_relation,
+      taxonomic,
     }
   })
   // write relationCollections

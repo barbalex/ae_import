@@ -138,6 +138,7 @@ CREATE TABLE ae.relation_collection (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   -- later add UNIQUE
   data_type text DEFAULT 'Beziehungs-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
+  taxonomic boolean DEFAULT NULL,
   name text NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
@@ -150,6 +151,7 @@ CREATE TABLE ae.relation_collection (
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.relation_collection USING btree (name);
+CREATE INDEX ON ae.relation_collection USING btree (taxonomic);
 ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS relation_collection_reader ON ae.relation_collection;
 CREATE POLICY

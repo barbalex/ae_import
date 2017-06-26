@@ -102,7 +102,7 @@ async function doIt() {
     await addTaxonomyObjectParentConstraint(pgDb)
     await importObjectPropertyCollections(pgDb, couchObjects)
     await removeUnneededTaxonomicRCs(pgDb)
-    await pgp.end()
+    return pgp.end()
   } catch (error) {
     console.log(error)
     pgp.end()

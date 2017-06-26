@@ -43,7 +43,6 @@ module.exports = async pgDb => {
   const valueSql = synonyms
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
-  await pgDb.none('truncate ae.synonym cascade')
   await pgDb.none(`
     insert into ae.synonym (${fieldsSql})
     values ${valueSql};

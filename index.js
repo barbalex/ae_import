@@ -97,11 +97,11 @@ async function doIt() {
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
     await correctRelationCollections(pgDb)
-    await removeUnneededTaxonomicRCs(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
     await importObjectPropertyCollections(pgDb, couchObjects)
+    await removeUnneededTaxonomicRCs(pgDb)
     await pgp.end()
   } catch (error) {
     console.log(error)

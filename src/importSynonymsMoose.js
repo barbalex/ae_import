@@ -20,7 +20,10 @@ module.exports = async pgDb => {
           taxonomy_object_id_synonym: idSynonym.id,
         }
       }
-      console.log('no id found for mooseSynonyms:', s)
+      if (s.sisfnr_synonym !== 11000) {
+        // that object misses numbers, is error of SISF
+        console.log('no id found for mooseSynonyms:', s)
+      }
       return {}
     })
     .filter(x => x.taxonomy_object_id && x.taxonomy_object_id_synonym)

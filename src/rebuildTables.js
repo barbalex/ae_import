@@ -8,7 +8,7 @@ module.exports = () =>
   new Promise((resolve, reject) => {
     const filename = path.join(__dirname, '../sql/createTables.sql')
     const cmd1 = `set PGPASSWORD="${pgDbPass.pass}"`
-    const cmd2 = `psql -U postgres -d ae -a -f ${filename}`
+    const cmd2 = `psql -U ${pgDbPass.user} -d ae -a -f ${filename}`
     exec(cmd1, error => {
       if (error) return reject(`error rebuilding tables: ${error}`)
       exec(cmd2, error2 => {

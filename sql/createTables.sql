@@ -456,7 +456,7 @@ DROP TABLE IF EXISTS ae.org_admin_writer;
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
-DROP TABLE IF EXISTS ae.pco_properties_by_category;
+DROP TABLE IF EXISTS ae.pco_properties_by_category CASCADE;
 CREATE TABLE ae.pco_properties_by_category (
   property_collection_name text,
   property_name text,

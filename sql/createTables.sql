@@ -96,6 +96,7 @@ CREATE TABLE ae.property_collection (
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.property_collection USING btree (name);
+CREATE INDEX ON ae.property_collection USING btree (combining);
 ALTER TABLE ae.property_collection ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS property_collection_reader ON ae.property_collection;
 CREATE POLICY
@@ -107,62 +108,6 @@ DROP POLICY IF EXISTS property_org_collection_writer ON ae.property_collection;
 CREATE POLICY
   property_org_collection_writer
   ON ae.property_collection
-  FOR ALL
-  TO org_collection_writer, org_admin
-  USING (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      WHERE
-        ae.organization_user.organization_id = organization_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  )
-  WITH CHECK (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      WHERE
-        ae.organization_user.organization_id = organization_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  );
-
-
-DROP TABLE IF EXISTS ae.relation_collection CASCADE;
-CREATE TABLE ae.relation_collection (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  -- later add UNIQUE
-  data_type text DEFAULT 'Beziehungs-Sammlungen' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
-  taxonomic boolean DEFAULT NULL,
-  name text NOT NULL,
-  description text DEFAULT NULL,
-  links text[] DEFAULT NULL,
-  nature_of_relation text NOT NULL,
-  combining boolean DEFAULT FALSE,
-  organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
-  last_updated date DEFAULT NULL,
-  terms_of_use text DEFAULT NULL,
-  imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
-  --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
-);
-CREATE INDEX ON ae.relation_collection USING btree (name);
-CREATE INDEX ON ae.relation_collection USING btree (taxonomic);
-ALTER TABLE ae.relation_collection ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS relation_collection_reader ON ae.relation_collection;
-CREATE POLICY
-  relation_collection_reader
-  ON ae.relation_collection
-  FOR SELECT
-  TO PUBLIC;
-DROP POLICY IF EXISTS relation_org_collection_writer ON ae.relation_collection;
-CREATE POLICY
-  relation_org_collection_writer
-  ON ae.relation_collection
   FOR ALL
   TO org_collection_writer, org_admin
   USING (
@@ -304,11 +249,13 @@ CREATE POLICY
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  object_id UUID DEFAULT NULL,
-  relation_collection_id UUID NOT NULL,
+  property_collection_object_id UUID NOT NULL REFERENCES ae.relation_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  related_object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  relation_type text DEFAULT NULL,
   properties jsonb DEFAULT NULL,
-  FOREIGN KEY (object_id, relation_collection_id) REFERENCES ae.relation_collection_object (object_id, relation_collection_id) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE (property_collection_object_id, related_object_id, relation_type)
 );
+CREATE INDEX ON ae.relation USING btree (relation_type);
 ALTER TABLE ae.relation ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS relation_reader ON ae.relation;
 CREATE POLICY
@@ -329,15 +276,14 @@ CREATE POLICY
       FROM
         ae.organization_user
       INNER JOIN
-        (ae.relation_collection
+        (ae.property_collection
         INNER JOIN
-          (ae.relation_collection_object
+          (ae.property_collection_object
           INNER JOIN
             ae.relation
-            ON ae.relation_collection_object.object_id = ae.relation.object_id AND
-            ae.relation_collection_object.relation_collection_id = ae.relation.relation_collection_id)
-          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
-        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
+            ON ae.property_collection_object.id = ae.relation.property_collection_object_id)
+          ON property_collection_object.property_collection_id = ae.property_collection.id)
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE
         ae.relation.id = id AND
         ae.organization_user.role = 'orgCollectionWriter'
@@ -350,88 +296,16 @@ CREATE POLICY
       FROM
         ae.organization_user
       INNER JOIN
-        (ae.relation_collection
+        (ae.property_collection
         INNER JOIN
-          (ae.relation_collection_object
+          (ae.property_collection_object
           INNER JOIN
             ae.relation
-            ON ae.relation_collection_object.object_id = ae.relation.object_id AND
-            ae.relation_collection_object.relation_collection_id = ae.relation.relation_collection_id)
-          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
-        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
+            ON ae.property_collection_object.id = ae.relation.property_collection_id)
+          ON property_collection_object.property_collection_id = ae.property_collection.id)
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE
         ae.relation.id = id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  );
-
-
-DROP TABLE IF EXISTS ae.relation_partner;
-CREATE TABLE ae.relation_partner (
-  object_id UUID REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  relation_id UUID REFERENCES ae.relation (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (object_id, relation_id)
-);
-ALTER TABLE ae.relation_partner ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS relation_partner_reader ON ae.relation_partner;
-CREATE POLICY
-  relation_partner_reader
-  ON ae.relation_partner
-  FOR SELECT
-  TO PUBLIC;
-DROP POLICY IF EXISTS relation_partner_org_writer ON ae.relation_partner;
-CREATE POLICY
-  relation_partner_org_writer
-  ON ae.relation_partner
-  FOR ALL
-  TO org_collection_writer, org_admin
-  USING (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      INNER JOIN
-        (ae.relation_collection
-        INNER JOIN
-          (ae.relation_collection_object
-          INNER JOIN
-            (ae.relation
-            INNER JOIN
-              ae.relation_partner
-              ON ae.relation_partner.relation_id = ae.relation.id)
-            ON ae.relation_collection_object.object_id = ae.relation.object_id AND
-            ae.relation_collection_object.relation_collection_id = ae.relation.relation_collection_id)
-          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
-        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
-      WHERE
-        ae.relation_partner.object_id = object_id AND
-        ae.relation_partner.relation_id = relation_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  )
-  WITH CHECK (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      INNER JOIN
-        (ae.relation_collection
-        INNER JOIN
-          (ae.relation_collection_object
-          INNER JOIN
-            (ae.relation
-            INNER JOIN
-              ae.relation_partner
-              ON ae.relation_partner.relation_id = ae.relation.id)
-            ON ae.relation_collection_object.object_id = ae.relation.object_id AND
-            ae.relation_collection_object.relation_collection_id = ae.relation.relation_collection_id)
-          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
-        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
-      WHERE
-        ae.relation_partner.object_id = object_id AND
-        ae.relation_partner.relation_id = relation_id AND
         ae.organization_user.role = 'orgCollectionWriter'
     )
   );
@@ -449,10 +323,6 @@ CREATE TABLE ae.organization_user (
   PRIMARY KEY (organization_id, user_id, role)
 );
 
-DROP TABLE IF EXISTS ae.org_property_collection_writer;
-DROP TABLE IF EXISTS ae.org_habitat_writer;
-DROP TABLE IF EXISTS ae.org_admin_writer;
-
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
@@ -463,3 +333,7 @@ CREATE TABLE ae.pco_properties_by_category (
   jsontype text,
   count bigint
 );
+
+-- clean up what existed in earlier versions
+DROP TABLE IF EXISTS ae.relation_collection CASCADE;
+DROP TABLE IF EXISTS ae.relation_partner;

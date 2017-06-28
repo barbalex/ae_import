@@ -1,12 +1,15 @@
+-- data_type is used for root nodes in app's tree
+-- actually: is not used in app, values are directly set :-(
 DROP TABLE IF EXISTS ae.data_type CASCADE;
 CREATE TABLE ae.data_type (
   name text PRIMARY KEY
 );
-INSERT INTO ae.data_type VALUES ('Taxonomien'), ('Eigenschaften-Sammlungen'), ('Beziehungs-Sammlungen');
+INSERT INTO ae.data_type VALUES ('Taxonomien'), ('Eigenschaften-Sammlungen');
 
 DROP TABLE IF EXISTS ae.category CASCADE;
 CREATE TABLE ae.category (
   name text PRIMARY KEY,
+  -- data_type is used to attach categories to root node in app's tree
   data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   id UUID DEFAULT uuid_generate_v1mc()
 );
@@ -32,7 +35,6 @@ CREATE TABLE ae.taxonomy (
   habitat_comments text DEFAULT NULL,
   habitat_nr_fns_min integer DEFAULT NULL,
   habitat_nr_fns_max integer DEFAULT NULL,
-  data_type text DEFAULT 'Taxonomien' REFERENCES ae.data_type (name) ON DELETE SET NULL ON UPDATE CASCADE,
   previous_id UUID,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
@@ -43,7 +45,7 @@ COMMENT ON COLUMN ae.taxonomy.previous_id IS 'object._id in artendb v1. Provisor
 DROP TABLE IF EXISTS ae.object CASCADE;
 CREATE TABLE ae.object (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
+  category text NOT NULL REFERENCES ae.category (name) ON DELETE SET NULL ON UPDATE CASCADE,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -194,8 +196,8 @@ DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   property_collection_object_id UUID NOT NULL REFERENCES ae.property_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  related_object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  relation_type text DEFAULT NULL,
+  related_object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  relation_type text NOT NULL,
   properties jsonb DEFAULT NULL,
   UNIQUE (property_collection_object_id, related_object_id, relation_type)
 );
@@ -280,4 +282,5 @@ CREATE TABLE ae.pco_properties_by_category (
 
 -- clean up what existed in earlier versions
 DROP TABLE IF EXISTS ae.relation_collection CASCADE;
+DROP TABLE IF EXISTS ae.relation_collection_object CASCADE;
 DROP TABLE IF EXISTS ae.relation_partner;

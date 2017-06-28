@@ -190,66 +190,10 @@ CREATE POLICY
     )
   );
 
-DROP TABLE IF EXISTS ae.relation_collection_object CASCADE;
-CREATE TABLE ae.relation_collection_object (
-  object_id UUID REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  relation_collection_id UUID REFERENCES ae.relation_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (object_id, relation_collection_id)
-);
-ALTER TABLE ae.relation_collection_object ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS relation_collection_object_reader ON ae.relation_collection_object;
-CREATE POLICY
-  relation_collection_object_reader
-  ON ae.relation_collection_object
-  FOR SELECT
-  TO PUBLIC;
-DROP POLICY IF EXISTS relation_org_collection_object_writer ON ae.relation_collection_object;
-CREATE POLICY
-  relation_org_collection_object_writer
-  ON ae.relation_collection_object
-  FOR ALL
-  TO org_collection_writer, org_admin
-  USING (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      INNER JOIN
-        (ae.relation_collection
-        INNER JOIN
-          ae.relation_collection_object
-          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
-        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
-      WHERE
-        ae.relation_collection_object.object_id = object_id AND
-        ae.relation_collection_object.relation_collection_id = relation_collection_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  )
-  WITH CHECK (
-    current_user IN (
-      SELECT
-        cast(ae.organization_user.user_id as text)
-      FROM
-        ae.organization_user
-      INNER JOIN
-        (ae.relation_collection
-        INNER JOIN
-          ae.relation_collection_object
-          ON relation_collection_object.relation_collection_id = ae.relation_collection.id)
-        ON ae.relation_collection.organization_id = ae.organization_user.organization_id
-      WHERE
-        ae.relation_collection_object.object_id = object_id AND
-        ae.relation_collection_object.relation_collection_id = relation_collection_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
-    )
-  );
-
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  property_collection_object_id UUID NOT NULL REFERENCES ae.relation_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_collection_object_id UUID NOT NULL REFERENCES ae.property_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   related_object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_type text DEFAULT NULL,
   properties jsonb DEFAULT NULL,

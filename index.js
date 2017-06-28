@@ -94,6 +94,7 @@ async function doIt() {
     await importSynonymsMoose(pgDb)
     await importTaxObjectsPilze(asyncCouchdbView, pgDb, taxPilze, couchObjects)
     await importTaxObjectsLr(asyncCouchdbView, pgDb, taxLr)
+
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
     await correctRelationCollections(pgDb)

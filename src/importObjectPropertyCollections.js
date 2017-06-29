@@ -6,8 +6,6 @@ module.exports = async (pgDb, couchObjects) => {
   const propertyCollections = await pgDb.any(
     'SELECT * FROM ae.property_collection'
   )
-  await pgDb.none('truncate ae.property_collection_object')
-  await pgDb.none('truncate ae.relation cascade')
   const {
     objectPropertyCollections,
     relations,

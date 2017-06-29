@@ -3,7 +3,6 @@
 const hashPassword = require('./hashPassword')
 
 module.exports = async pgDb => {
-  await pgDb.none('truncate ae.user cascade')
   const hash = await hashPassword('secret')
   await pgDb.none(`
     insert into

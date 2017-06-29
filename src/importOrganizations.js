@@ -1,7 +1,6 @@
 'use strict'
 
 module.exports = async pgDb => {
-  pgDb.none('truncate ae.organization cascade')
   await pgDb.none(`
     insert into ae.organization (name)
     values ('FNS Kt. ZH');

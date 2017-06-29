@@ -22,7 +22,6 @@ const buildDatenstandFromString = dstString => {
 }
 
 module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
-  await pgDb.none('truncate ae.property_collection cascade')
   const colsPC = await getCollectionsFromCouch(asyncCouchdbView)
 
   // build property collections

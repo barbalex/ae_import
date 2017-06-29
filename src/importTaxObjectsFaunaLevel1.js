@@ -17,7 +17,6 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
   const valueSql = taxObjectsFaunaLevel1
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
-  await pgDb.none('truncate ae.taxonomy_object cascade')
   await pgDb.none(`
     insert into ae.taxonomy_object (${fieldsSql})
     values ${valueSql};

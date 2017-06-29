@@ -13,7 +13,6 @@ module.exports = async (pgDb, organizationId) => {
   const valueSql = nonLrTaxonomies
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
-  await pgDb.none('truncate ae.taxonomy cascade')
   await pgDb.none(`
     insert into ae.taxonomy (${fieldsSql})
     values ${valueSql};

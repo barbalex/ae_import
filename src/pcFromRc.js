@@ -218,7 +218,7 @@ module.exports = [
     createNewPc: true,
     useNewlyCreatedPc: false,
     description:
-      'D. Aeschimann & C. Heitz: Synonymie-Index der\n  Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten.\n  Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+      'D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
     links: 'http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html',
     nature_of_relation: 'eingeschlossen in',
     last_updated: '2007-05-08',
@@ -246,7 +246,7 @@ module.exports = [
     createNewPc: false,
     useNewlyCreatedPc: true,
     description:
-      'D. Aeschimann & C. Heitz: Synonymie-Index der\n  Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten.\n  Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
+      'D. Aeschimann & C. Heitz: Synonymie-Index der Schweizer Flora (2005). Zweite Auflage. Eigenschaften von 7973 Pflanzenarten. Arten mit NR > 1000000 von der FNS provisorisch ergänzt',
     links: 'http://www.infoflora.ch/de/daten-beziehen/standard-artenliste.html',
     nature_of_relation: 'offizielle Art',
     last_updated: '2007-05-08',
@@ -299,7 +299,7 @@ module.exports = [
   {
     nameBisher: 'ZH AP FM (2010): Art ist an Lebensraum gebunden',
     nameOfPcToAddTo: 'ZH AP FM (2010)',
-    nameNew: 'ZH AP FM (2010): Art ist an Lebensraum gebunden',
+    nameNew: null,
     createNewPc: false,
     useNewlyCreatedPc: false,
     description:
@@ -313,7 +313,7 @@ module.exports = [
   {
     nameBisher: 'ZH AP FM (2010): Art ist an Lebensraum im Moorumfeld gebunden',
     nameOfPcToAddTo: 'ZH AP FM (2010)',
-    nameNew: 'ZH AP FM (2010): Art ist an Lebensraum im Moorumfeld gebunden',
+    nameNew: null,
     createNewPc: false,
     useNewlyCreatedPc: false,
     description:
@@ -327,7 +327,7 @@ module.exports = [
   {
     nameBisher: 'ZH AP TWW (2011): Art kommt in Lebensraum vor',
     nameOfPcToAddTo: 'ZH AP TWW (2011)',
-    nameNew: 'ZH AP TWW (2011): Art kommt in Lebensraum vor',
+    nameNew: null,
     createNewPc: false,
     useNewlyCreatedPc: false,
     description:

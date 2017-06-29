@@ -55,7 +55,6 @@ const importTaxObjectsPilze = require('./src/importTaxObjectsPilze')
 const importTaxObjectsLr = require('./src/importTaxObjectsLr')
 const importCollections = require('./src/importCollections')
 const correctPropertyCollections = require('./src/correctPropertyCollections')
-const correctRelationCollections = require('./src/correctRelationCollections')
 const removeUnneededTaxonomicRCs = require('./src/removeUnneededTaxonomicRCs')
 const importObjectPropertyCollections = require('./src/importObjectPropertyCollections')
 const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections')
@@ -96,11 +95,10 @@ async function doIt() {
     await importTaxObjectsLr(asyncCouchdbView, pgDb, taxLr)
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
-    /*
-    await correctRelationCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
+    /*
     await importObjectPropertyCollections(pgDb, couchObjects)
     await removeUnneededTaxonomicRCs(pgDb)*/
     return pgp.end()

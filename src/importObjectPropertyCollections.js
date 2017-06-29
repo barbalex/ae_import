@@ -6,22 +6,14 @@ module.exports = async (pgDb, couchObjects) => {
   const propertyCollections = await pgDb.any(
     'SELECT * FROM ae.property_collection'
   )
-  const relationCollections = await pgDb.any(
-    'Select * from ae.relation_collection'
-  )
   await pgDb.none('truncate ae.property_collection_object')
-  await pgDb.none('truncate ae.relation_collection_object cascade')
   await pgDb.none('truncate ae.relation cascade')
-  await pgDb.none('truncate ae.relation_partner')
   const {
     objectPropertyCollections,
-    objectRelationCollections,
     relations,
-    relationPartners,
   } = extractObjectCollectionsFromCouchObjects(
     couchObjects,
-    propertyCollections,
-    relationCollections
+    propertyCollections
   )
   // write objectPropertyCollections
   const valueSqlOPC = objectPropertyCollections
@@ -51,16 +43,8 @@ module.exports = async (pgDb, couchObjects) => {
   console.log(
     `${objectPropertyCollections.length} object property collections imported`
   )
-  // write objectRelationCollections
-  const valueSqlORC = objectRelationCollections
-    .map(val => `('${val.object_id}','${val.relation_collection_id}')`)
-    .join(',')
-  await pgDb.none(`
-    insert into ae.relation_collection_object (object_id,relation_collection_id)
-    values ${valueSqlORC};`)
-  console.log(
-    `${objectRelationCollections.length} object relation collections imported`
-  )
+
+  // TODO: refactor
   // write relations
   const valueSql = relations
     .map(
@@ -82,13 +66,5 @@ module.exports = async (pgDb, couchObjects) => {
     )
   )
   console.log(`${relations.length} relations imported`)
-  // write relationPartners
-  const valueSqlRP = relationPartners
-    .map(val => `('${val.object_id}','${val.relation_id}')`)
-    .join(',')
-  await pgDb.none(`
-    insert into ae.relation_partner (object_id,relation_id)
-    values ${valueSqlRP};`)
-  console.log(`${relationPartners.length} relationPartners imported`)
   console.log('PostgreSQL welcomes arteigenschaften.ch!')
 }

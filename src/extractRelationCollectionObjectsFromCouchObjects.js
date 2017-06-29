@@ -8,10 +8,10 @@ const _ = require('lodash')
 const pcFromRc = require('./pcFromRc')
 
 module.exports = async (objectsInCouch, pgDb) => {
-  const objectPropertyCollections = []
+  const propertyCollectionObjects = []
   let relations = []
-  const pCsInPG = await pgDb.any('SELECT * FROM ae.property_collection')
-  const existingOPCs = await pgDb.any(
+  const existingPCs = await pgDb.any('SELECT * FROM ae.property_collection')
+  const existingPCOs = await pgDb.any(
     'SELECT * FROM ae.property_collection_object'
   )
 
@@ -29,10 +29,7 @@ module.exports = async (objectsInCouch, pgDb) => {
             'NISM (2010): akzeptierte Referenz',
           ].includes(rCInCouch.Name)
         ) {
-          // add relation_collection_object
-          // TODO:
-          // use pcFromRc to find pc (=rcInPG)
-          // const rCInPG = rCsInPG.find(rc => rc.name === rCInCouch.Name)
+          // add relation_collection_object if necessary
           const rCInPcFromRc = pcFromRc.find(
             x => x.nameBisher === rCInCouch.Name
           )
@@ -41,33 +38,41 @@ module.exports = async (objectsInCouch, pgDb) => {
             console.log('no pc found for rc in pcFromRc:', rCInCouch.Name)
           }
           const pcName = rCInPcFromRc.nameOfPcToAddTo || rCInPcFromRc.nameNew
-          const pcForRcInPG = pCsInPG.find(pc => pc.name === pcName)
-          if (!pcForRcInPG) {
+          const existingPcForRc = existingPCs.find(pc => pc.name === pcName)
+          if (!existingPcForRc) {
             // should not happen
-            console.log('no pc found for rc in pCsInPG:', rCInCouch.Name)
-            console.log('no pc found for rc in pCsInPG, pcName:', pcName)
+            console.log('no pc found for rc in existingPCs:', rCInCouch.Name)
+            console.log('no pc found for rc in existingPCs, pcName:', pcName)
           }
-          if (object_id && pcForRcInPG && pcForRcInPG.id) {
-            // TODO: look if pco already exists
+          if (object_id && existingPcForRc && existingPcForRc.id) {
+            // look if pco already exists
             // only create new one if not
-            const existingPCOsFromProperties = existingOPCs.find(
+            const existingPCOFromProperties = existingPCOs.find(
               pco =>
-                pco.property_collection_id === pcForRcInPG.id &&
+                pco.property_collection_id === existingPcForRc.id &&
                 pco.object_id === object_id
             )
-            const existingPCO = objectPropertyCollections.find(
+            const existingPCOFromRCO = propertyCollectionObjects.find(
               pco =>
-                pco.property_collection_id === pcForRcInPG.id &&
+                pco.property_collection_id === existingPcForRc.id &&
                 pco.object_id === object_id
             )
-            const propertyCollectionObjectId = existingPCO
-              ? existingPCO.id
-              : uuidv1()
-            if (!existingPCO) {
-              objectPropertyCollections.push({
+            let propertyCollectionObjectId
+            if (existingPCOFromProperties && existingPCOFromProperties.id) {
+              propertyCollectionObjectId = existingPCOFromProperties.id
+            } else if (existingPCOFromRCO && existingPCOFromRCO.id) {
+              propertyCollectionObjectId = existingPCOFromRCO.id
+            } else {
+              propertyCollectionObjectId = uuidv1()
+            }
+            if (
+              !(existingPCOFromProperties && existingPCOFromProperties.id) &&
+              !(existingPCOFromRCO && existingPCOFromRCO.id)
+            ) {
+              propertyCollectionObjects.push({
                 id: propertyCollectionObjectId,
                 object_id,
-                property_collection_id: pcForRcInPG.id,
+                property_collection_id: existingPcForRc.id,
                 properties: null,
               })
             }
@@ -103,7 +108,7 @@ module.exports = async (objectsInCouch, pgDb) => {
             }
           } else {
             console.log(`Pc ${rCInCouch.Name} not added:`, {
-              pcForRcInPG,
+              existingPcForRc,
               objectInCouch,
             })
           }
@@ -118,7 +123,7 @@ module.exports = async (objectsInCouch, pgDb) => {
   )
 
   return {
-    objectPropertyCollections,
+    propertyCollectionObjects,
     relations,
   }
 }

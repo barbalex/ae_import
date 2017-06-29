@@ -1,23 +1,25 @@
 'use strict'
 
-const extractObjectRelationCollectionsFromCouchObjects = require('./extractObjectRelationCollectionsFromCouchObjects')
+const extractRelationCollectionObjectsFromCouchObjects = require('./extractRelationCollectionObjectsFromCouchObjects')
 
 module.exports = async (pgDb, couchObjects) => {
   const {
-    objectPropertyCollections,
+    propertyCollectionObjects,
     relations,
-  } = extractObjectRelationCollectionsFromCouchObjects(couchObjects, pgDb)
-  // write objectPropertyCollections
-  const valueSqlOPC = objectPropertyCollections
-    .map(val => `('${val.object_id}','${val.property_collection_id}')`)
+  } = await extractRelationCollectionObjectsFromCouchObjects(couchObjects, pgDb)
+  // write propertyCollectionObjects
+  const valueSqlOPC = propertyCollectionObjects
+    .map(
+      val => `('${val.id}','${val.object_id}','${val.property_collection_id}')`
+    )
     .join(',')
   await pgDb.none(`
-    insert into ae.property_collection_object (object_id,property_collection_id)
+    insert into ae.property_collection_object (id,object_id,property_collection_id)
     values ${valueSqlOPC};
   `)
   await pgDb.tx(t =>
     t.batch(
-      objectPropertyCollections.map(val => {
+      propertyCollectionObjects.map(val => {
         const sql = `
           UPDATE ae.property_collection_object
           SET properties = $1
@@ -33,7 +35,7 @@ module.exports = async (pgDb, couchObjects) => {
     )
   )
   console.log(
-    `${objectPropertyCollections.length} object property collections imported from relation collections`
+    `${propertyCollectionObjects.length} property collection objects imported from relation collections`
   )
 
   // write relations

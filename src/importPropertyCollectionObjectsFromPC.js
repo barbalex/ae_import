@@ -1,14 +1,14 @@
 'use strict'
 
-const extractObjectPropertyCollectionsFromCouchObjects = require('./extractObjectPropertyCollectionsFromCouchObjects')
+const extractPropertyCollectionObjectsFromCouchObjects = require('./extractPropertyCollectionObjectsFromCouchObjects')
 
 module.exports = async (pgDb, couchObjects) => {
-  const objectPropertyCollections = extractObjectPropertyCollectionsFromCouchObjects(
+  const propertyCollectionObjects = await extractPropertyCollectionObjectsFromCouchObjects(
     couchObjects,
     pgDb
   )
-  // write objectPropertyCollections
-  const valueSqlOPC = objectPropertyCollections
+  // write propertyCollectionObjects
+  const valueSqlOPC = propertyCollectionObjects
     .map(val => `('${val.object_id}','${val.property_collection_id}')`)
     .join(',')
   await pgDb.none(`
@@ -17,7 +17,7 @@ module.exports = async (pgDb, couchObjects) => {
   `)
   await pgDb.tx(t =>
     t.batch(
-      objectPropertyCollections.map(val => {
+      propertyCollectionObjects.map(val => {
         const sql = `
           UPDATE ae.property_collection_object
           SET properties = $1
@@ -33,6 +33,6 @@ module.exports = async (pgDb, couchObjects) => {
     )
   )
   console.log(
-    `${objectPropertyCollections.length} property collections imported from property collections`
+    `${propertyCollectionObjects.length} property collection objects imported from property collections`
   )
 }

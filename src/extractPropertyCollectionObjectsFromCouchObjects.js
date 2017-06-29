@@ -6,7 +6,7 @@ const uuidv1 = require('uuid/v1')
 const _ = require('lodash')
 
 module.exports = async (objectsInCouch, pgDb) => {
-  const objectPropertyCollections = []
+  const propertyCollectionObjects = []
   const pCsInPG = await pgDb.any('SELECT * FROM ae.property_collection')
 
   objectsInCouch.forEach(objectInCouch => {
@@ -40,7 +40,7 @@ module.exports = async (objectsInCouch, pgDb) => {
               }
             })
           }
-          objectPropertyCollections.push({
+          propertyCollectionObjects.push({
             id: uuidv1(),
             object_id,
             property_collection_id,
@@ -53,5 +53,5 @@ module.exports = async (objectsInCouch, pgDb) => {
     }
   })
 
-  return objectPropertyCollections
+  return propertyCollectionObjects
 }

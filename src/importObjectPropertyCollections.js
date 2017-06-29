@@ -42,7 +42,6 @@ module.exports = async (pgDb, couchObjects) => {
     `${objectPropertyCollections.length} object property collections imported`
   )
 
-  // TODO: refactor
   // write relations
   const valueSql = relations
     .map(

@@ -33,7 +33,7 @@ module.exports = async (pgDb, couchObjects) => {
     )
   )
   console.log(
-    `${objectPropertyCollections.length} object property collections imported`
+    `${objectPropertyCollections.length} object property collections imported from relation collections`
   )
 
   // write relations

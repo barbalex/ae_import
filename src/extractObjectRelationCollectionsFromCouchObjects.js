@@ -11,6 +11,9 @@ module.exports = async (objectsInCouch, pgDb) => {
   const objectPropertyCollections = []
   let relations = []
   const pCsInPG = await pgDb.any('SELECT * FROM ae.property_collection')
+  const existingOPCs = await pgDb.any(
+    'SELECT * FROM ae.property_collection_object'
+  )
 
   const objectsInCouchIds = objectsInCouch.map(o => o._id)
 
@@ -47,6 +50,11 @@ module.exports = async (objectsInCouch, pgDb) => {
           if (object_id && pcForRcInPG && pcForRcInPG.id) {
             // TODO: look if pco already exists
             // only create new one if not
+            const existingPCOsFromProperties = existingOPCs.find(
+              pco =>
+                pco.property_collection_id === pcForRcInPG.id &&
+                pco.object_id === object_id
+            )
             const existingPCO = objectPropertyCollections.find(
               pco =>
                 pco.property_collection_id === pcForRcInPG.id &&

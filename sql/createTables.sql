@@ -137,10 +137,11 @@ CREATE POLICY
 
 DROP TABLE IF EXISTS ae.property_collection_object CASCADE;
 CREATE TABLE ae.property_collection_object (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   object_id UUID REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   property_collection_id UUID REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   properties jsonb DEFAULT NULL,
-  PRIMARY KEY (object_id, property_collection_id)
+  UNIQUE (object_id, property_collection_id)
 );
 ALTER TABLE ae.property_collection_object ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS property_collection_object_reader ON ae.property_collection_object;

@@ -1,18 +1,12 @@
 'use strict'
 
-const extractObjectCollectionsFromCouchObjects = require('./extractObjectCollectionsFromCouchObjects')
+const extractObjectRelationCollectionsFromCouchObjects = require('./extractObjectRelationCollectionsFromCouchObjects')
 
 module.exports = async (pgDb, couchObjects) => {
-  const propertyCollections = await pgDb.any(
-    'SELECT * FROM ae.property_collection'
-  )
   const {
     objectPropertyCollections,
     relations,
-  } = extractObjectCollectionsFromCouchObjects(
-    couchObjects,
-    propertyCollections
-  )
+  } = extractObjectRelationCollectionsFromCouchObjects(couchObjects, pgDb)
   // write objectPropertyCollections
   const valueSqlOPC = objectPropertyCollections
     .map(val => `('${val.object_id}','${val.property_collection_id}')`)

@@ -7,55 +7,14 @@ const _ = require('lodash')
 
 const pcFromRc = require('./pcFromRc')
 
-module.exports = (objectsInCouch, pCsInPG) => {
+module.exports = async (objectsInCouch, pgDb) => {
   const objectPropertyCollections = []
   let relations = []
+  const pCsInPG = await pgDb.any('SELECT * FROM ae.property_collection')
 
   const objectsInCouchIds = objectsInCouch.map(o => o._id)
 
   objectsInCouch.forEach(objectInCouch => {
-    if (objectInCouch.Eigenschaftensammlungen) {
-      const object_id = objectInCouch._id.toLowerCase()
-      objectInCouch.Eigenschaftensammlungen.forEach(pCInCouch => {
-        // add property_collection_object
-        let pcNameToSearchFor = pCInCouch.Name
-        if (
-          pCInCouch.Name === 'Schutz' &&
-          pCInCouch.Beschreibung === 'Informationen zu 54 Lebensräumen'
-        ) {
-          pcNameToSearchFor = 'FNS Schutz (2009)'
-        }
-        const pCInPG = pCsInPG.find(pc => pc.name === pcNameToSearchFor)
-        if (pcNameToSearchFor && object_id && pCInPG && pCInPG.id) {
-          const property_collection_id = pCInPG.id
-          let properties = null
-          if (
-            pCInCouch.Eigenschaften &&
-            Object.keys(pCInCouch.Eigenschaften) &&
-            Object.keys(pCInCouch.Eigenschaften).length > 0
-          ) {
-            properties = _.clone(pCInCouch.Eigenschaften)
-            // replace typo in label
-            Object.keys(properties).forEach(key => {
-              if (key.includes('Mitelland')) {
-                const newKey = key.replace('Mitelland', 'Mittelland')
-                properties[newKey] = properties[key]
-                delete properties[key]
-              }
-            })
-          }
-          objectPropertyCollections.push({
-            id: uuidv1(),
-            object_id,
-            property_collection_id,
-            properties,
-          })
-        } else {
-          console.log(`Pc ${pCInCouch.Name} not added:`, { object_id, pCInPG })
-        }
-      })
-    }
-
     if (objectInCouch.Beziehungssammlungen) {
       const object_id = objectInCouch._id.toLowerCase()
       objectInCouch.Beziehungssammlungen.forEach(rCInCouch => {
@@ -86,7 +45,7 @@ module.exports = (objectsInCouch, pCsInPG) => {
             console.log('no pc found for rc in pCsInPG, pcName:', pcName)
           }
           if (object_id && pcForRcInPG && pcForRcInPG.id) {
-            // TODO: look of pco already exists
+            // TODO: look if pco already exists
             // only create new one if not
             const existingPCO = objectPropertyCollections.find(
               pco =>

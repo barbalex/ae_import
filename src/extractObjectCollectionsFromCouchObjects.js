@@ -59,6 +59,8 @@ module.exports = (objectsInCouch, pCsInPG, rCsInPG) => {
       const object_id = objectInCouch._id.toLowerCase()
       objectInCouch.Beziehungssammlungen.forEach(rCInCouch => {
         // add relation_collection_object
+        // TODO:
+        // use pcFromRc to find pc (=rcInPG)
         const rCInPG = rCsInPG.find(rc => rc.name === rCInCouch.Name)
         if (object_id && rCInPG && rCInPG.id) {
           const relation_collection_id = rCInPG.id

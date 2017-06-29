@@ -94,15 +94,15 @@ async function doIt() {
     await importSynonymsMoose(pgDb)
     await importTaxObjectsPilze(asyncCouchdbView, pgDb, taxPilze, couchObjects)
     await importTaxObjectsLr(asyncCouchdbView, pgDb, taxLr)
-
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
+    /*
     await correctRelationCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
     await importObjectPropertyCollections(pgDb, couchObjects)
-    await removeUnneededTaxonomicRCs(pgDb)
+    await removeUnneededTaxonomicRCs(pgDb)*/
     return pgp.end()
   } catch (error) {
     console.log(error)

@@ -5,6 +5,7 @@
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 const getCollectionsFromCouch = require('./getCollectionsFromCouch')
+const pcFromRc = require('./pcFromRc')
 
 const buildDatenstandFromString = dstString => {
   if (!dstString) return null
@@ -22,7 +23,8 @@ const buildDatenstandFromString = dstString => {
 
 module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
   await pgDb.none('truncate ae.property_collection cascade')
-  const { colsPC, colsRC } = await getCollectionsFromCouch(asyncCouchdbView)
+  const colsPC = await getCollectionsFromCouch(asyncCouchdbView)
+
   // build property collections
   const propertyCollections = colsPC.map(c => {
     const id = uuidv1()
@@ -64,19 +66,18 @@ module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
   const sqlPropertyCollections = `insert into ae.property_collection (${fieldsSqlPC}) values ${valueSqlPC};`
   await pgDb.none(sqlPropertyCollections)
   console.log(`${propertyCollections.length} property collections imported`)
+
   // build relation collections
-  const relationCollections = colsRC.map(c => {
+  const relationCollections = pcFromRc.filter(pc => pc.createNewPc).map(c => {
     const id = uuidv1()
-    const name = c[1]
-    const description = c[2] || null
-    const links = c[3] ? `{"${c[3].replace(/"/g, '')}"}` : null
-    const combining = c[4] || false
-    const last_updated = buildDatenstandFromString(c[5]) || null
-    const terms_of_use = c[6] || null
+    const name = c.nameNew
+    const description = c.description
+    const links = c.link
+    const combining = false
+    const last_updated = c.last_updated
+    const terms_of_use = c.terms_of_use
     const imported_by =
       users.find(user => user.email === 'alex@gabriel-software.ch').id || null
-    const nature_of_relation = c[7]
-    const taxonomic = c[8] === 'taxonomisch'
 
     return {
       id,
@@ -88,8 +89,6 @@ module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
       last_updated,
       terms_of_use,
       imported_by,
-      nature_of_relation,
-      taxonomic,
     }
   })
   // write relationCollections
@@ -97,8 +96,10 @@ module.exports = async (asyncCouchdbView, pgDb, organization_id, users) => {
   const valueSqlRC = relationCollections
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
-  const sqlRelationCollections = `insert into ae.relation_collection (${fieldsSqlRC}) values ${valueSqlRC};`
+  const sqlRelationCollections = `insert into ae.property_collection (${fieldsSqlRC}) values ${valueSqlRC};`
   await pgDb.none(sqlRelationCollections)
-  console.log(`${relationCollections.length} relation collections imported`)
+  console.log(
+    `${relationCollections.length} new property collections created from relation collections`
+  )
   return { propertyCollections, relationCollections }
 }

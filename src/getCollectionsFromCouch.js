@@ -7,10 +7,7 @@ module.exports = async asyncCouchdbView => {
   const rows = get(dsBsProv, 'rows', [])
   const cols = rows.map(row => row.key)
   const colsPC = cols.filter(c => c[0] === 'pC')
-  const colsRC = cols.filter(c => c[0] === 'rC')
+  // const colsRC = cols.filter(c => c[0] === 'rC')
 
-  return {
-    colsPC,
-    colsRC,
-  }
+  return colsPC
 }

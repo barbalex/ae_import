@@ -98,9 +98,8 @@ async function doIt() {
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
-    /*
     await importObjectPropertyCollections(pgDb, couchObjects)
-    await removeUnneededTaxonomicRCs(pgDb)*/
+    // await removeUnneededTaxonomicRCs(pgDb)
     return pgp.end()
   } catch (error) {
     console.log(error)

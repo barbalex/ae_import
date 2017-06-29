@@ -26,13 +26,13 @@ module.exports = async (pgDb, couchObjects) => {
   await pgDb.tx(t =>
     t.batch(
       objectPropertyCollections.map(val => {
-        const sql2 = `
+        const sql = `
           UPDATE ae.property_collection_object
           SET properties = $1
           WHERE object_id = $2
           AND property_collection_id = $3
         `
-        return pgDb.none(sql2, [
+        return pgDb.none(sql, [
           val.properties,
           val.object_id,
           val.property_collection_id,
@@ -48,20 +48,21 @@ module.exports = async (pgDb, couchObjects) => {
   // write relations
   const valueSql = relations
     .map(
-      val => `('${val.id}','${val.object_id}','${val.relation_collection_id}')`
+      val =>
+        `('${val.id}','${val.property_collection_object_id}','${val.related_object_id}','${val.relation_type}')`
     )
     .join(',')
-  await pgDb.none(`insert into ae.relation (id,object_id,relation_collection_id)
+  await pgDb.none(`insert into ae.relation (id,property_collection_object_id,related_object_id,relation_type)
     values ${valueSql};`)
   await pgDb.tx(t =>
     t.batch(
       relations.map(val => {
-        const sql2 = `
+        const sql = `
           UPDATE ae.relation
           SET properties = $1
           WHERE id = $2
         `
-        return pgDb.none(sql2, [val.properties, val.id])
+        return pgDb.none(sql, [val.properties, val.id])
       })
     )
   )

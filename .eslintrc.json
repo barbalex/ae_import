@@ -7,21 +7,26 @@
     "emit": true,
     "doc": true
   },
-  "plugins": [
-      "react"
-  ],
+  "plugins": ["react"],
   "rules": {
     "react/jsx-no-bind": 0,
     "comma-dangle": 0,
     "no-use-before-define": 0,
     "consistent-return": 0,
     "semi": [2, "never"],
-    "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+    "quotes": [
+      2,
+      "single",
+      { "avoidEscape": true, "allowTemplateLiterals": true }
+    ],
     "strict": 0,
-    "max-len": ["error", 120, 2, {"ignoreUrls": true}],
-    "no-underscore-dangle": ["error", { "allow": ["_id", "_rev", "_attachments"] }],
+    "max-len": ["error", 120, 2, { "ignoreUrls": true }],
+    "no-underscore-dangle": [
+      "error",
+      { "allow": ["_id", "_rev", "_attachments"] }
+    ],
     "no-param-reassign": ["error", { "props": false }],
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": 0,
     "no-console": 0
   }
 }

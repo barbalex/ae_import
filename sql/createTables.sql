@@ -23,31 +23,22 @@ CREATE INDEX ON ae.organization USING btree (name);
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
+  -- gets existing guids
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text UNIQUE NOT NULL,
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
   last_updated date DEFAULT NULL,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
-  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
   is_category_standard boolean DEFAULT FALSE,
   habitat_label varchar(50) DEFAULT NULL,
   habitat_comments text DEFAULT NULL,
   habitat_nr_fns_min integer DEFAULT NULL,
   habitat_nr_fns_max integer DEFAULT NULL,
-  previous_id UUID,
   CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
-COMMENT ON COLUMN ae.taxonomy.previous_id IS 'object._id in artendb v1. Provisorisch, kann nach Import gelöscht werden';
-
-DROP TABLE IF EXISTS ae.object CASCADE;
-CREATE TABLE ae.object (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  category text NOT NULL REFERENCES ae.category (name) ON DELETE SET NULL ON UPDATE CASCADE,
-  organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE
-);
 
 DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
@@ -58,28 +49,28 @@ CREATE TABLE ae.user (
   CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')
 );
 
-DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;
-CREATE TABLE ae.taxonomy_object (
+DROP TABLE IF EXISTS ae.object CASCADE;
+CREATE TABLE ae.object (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   taxonomy_id UUID NOT NULL REFERENCES ae.taxonomy (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  object_id UUID DEFAULT NULL REFERENCES ae.object (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   -- need to temporarily turn off this reference because it is violated during import
-  parent_id UUID DEFAULT NULL,-- REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  parent_id UUID DEFAULT NULL,-- REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text NOT NULL,
   properties jsonb DEFAULT NULL
+  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
 );
-CREATE INDEX ON ae.taxonomy_object USING btree (name);
-ALTER TABLE ae.taxonomy_object ADD COLUMN level integer;
-COMMENT ON COLUMN ae.taxonomy_object.level IS 'until postgraphql can filter parent_id null';
-update ae.taxonomy_object set level = 1 where parent_id is null;
+CREATE INDEX ON ae.object USING btree (name);
+ALTER TABLE ae.object ADD COLUMN level integer;
+COMMENT ON COLUMN ae.object.level IS 'until postgraphql can filter parent_id null';
+update ae.object set level = 1 where parent_id is null;
 
--- ae.taxonomy_object to ae.taxonomy_object relationship
+-- ae.object to ae.object relationship
 -- best to add every relationship twice, see: https://stackoverflow.com/a/17128606/712005
 DROP TABLE IF EXISTS ae.synonym CASCADE;
 CREATE TABLE ae.synonym (
-  taxonomy_object_id UUID NOT NULL REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  taxonomy_object_id_synonym UUID NOT NULL REFERENCES ae.taxonomy_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (taxonomy_object_id, taxonomy_object_id_synonym)
+  object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  object_id_synonym UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (object_id, object_id_synonym)
 );
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
@@ -280,3 +271,7 @@ CREATE TABLE ae.pco_properties_by_category (
   jsontype text,
   count bigint
 );
+
+-- drop old tables
+DROP TABLE IF EXISTS ae.object CASCADE;
+DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;

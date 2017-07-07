@@ -280,8 +280,3 @@ CREATE TABLE ae.pco_properties_by_category (
   jsontype text,
   count bigint
 );
-
--- clean up what existed in earlier versions
-DROP TABLE IF EXISTS ae.relation_collection CASCADE;
-DROP TABLE IF EXISTS ae.relation_collection_object CASCADE;
-DROP TABLE IF EXISTS ae.relation_partner;

@@ -8,13 +8,13 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
     group_level: 1,
   })
   const names = _.map(baumFauna, row => row.key[0])
-  const taxObjectsFaunaLevel1 = names.map(name => ({
+  const objectsFaunaLevel1 = names.map(name => ({
     id: uuidv1(),
     taxonomy_id: taxFauna.id,
     name,
   }))
-  const fieldsSql = _.keys(taxObjectsFaunaLevel1[0]).join(',')
-  const valueSql = taxObjectsFaunaLevel1
+  const fieldsSql = _.keys(objectsFaunaLevel1[0]).join(',')
+  const valueSql = objectsFaunaLevel1
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   await pgDb.none(`
@@ -22,5 +22,5 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
     values ${valueSql};
   `)
 
-  return taxObjectsFaunaLevel1
+  return objectsFaunaLevel1
 }

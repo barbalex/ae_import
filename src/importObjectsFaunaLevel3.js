@@ -7,21 +7,21 @@ module.exports = async (
   asyncCouchdbView,
   pgDb,
   taxFauna,
-  taxObjectsFaunaLevel1,
-  taxObjectsFaunaLevel2
+  objectsFaunaLevel1,
+  objectsFaunaLevel2
 ) => {
   const baumFauna = await asyncCouchdbView('artendb/baumFauna', {
     group_level: 3,
   })
 
   const keys = _.map(baumFauna, row => row.key)
-  const taxObjectsFaunaLevel3 = _.map(keys, key => {
+  const objectsFaunaLevel3 = _.map(keys, key => {
     const klasseObjektName = key[0]
-    const klasseObject = taxObjectsFaunaLevel1.find(
+    const klasseObject = objectsFaunaLevel1.find(
       taxObj => taxObj.name === klasseObjektName
     )
     const ordnungName = key[1]
-    const ordnungObject = taxObjectsFaunaLevel2.find(
+    const ordnungObject = objectsFaunaLevel2.find(
       taxObj =>
         taxObj.name === ordnungName && taxObj.parent_id === klasseObject.id
     )
@@ -31,16 +31,17 @@ module.exports = async (
       taxonomy_id: taxFauna.id,
       name,
       parent_id: ordnungObject.id,
+      category: 'Fauna',
     }
   })
-  const fieldsSql = _.keys(taxObjectsFaunaLevel3[0]).join(',')
-  const valueSql = taxObjectsFaunaLevel3
+  const fieldsSql = _.keys(objectsFaunaLevel3[0]).join(',')
+  const valueSql = objectsFaunaLevel3
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   await pgDb.none(`
-    insert into ae.taxonomy_object (${fieldsSql})
+    insert into ae.object (${fieldsSql})
     values ${valueSql};
   `)
 
-  return taxObjectsFaunaLevel3
+  return objectsFaunaLevel3
 }

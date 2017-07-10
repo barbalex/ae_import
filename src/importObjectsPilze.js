@@ -1,15 +1,15 @@
 'use strict'
 
-const importTaxObjectsPilzeLevel1 = require('./importTaxObjectsPilzeLevel1')
-const importTaxObjectsPilzeLevel2 = require('./importTaxObjectsPilzeLevel2')
+const importObjectsPilzeLevel1 = require('./importObjectsPilzeLevel1')
+const importObjectsPilzeLevel2 = require('./importObjectsPilzeLevel2')
 
 module.exports = async (asyncCouchdbView, pgDb, taxPilze, couchObjects) => {
-  const taxObjectsPilzeLevel1 = await importTaxObjectsPilzeLevel1(
+  const taxObjectsPilzeLevel1 = await importObjectsPilzeLevel1(
     asyncCouchdbView,
     pgDb,
     taxPilze
   )
-  const taxObjectsPilzeLevel2 = await importTaxObjectsPilzeLevel2(
+  const taxObjectsPilzeLevel2 = await importObjectsPilzeLevel2(
     asyncCouchdbView,
     pgDb,
     taxPilze,

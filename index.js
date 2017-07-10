@@ -46,7 +46,7 @@ const importRoles = require('./src/importRoles')
 const importTaxonomiesNonLr = require('./src/importTaxonomiesNonLr')
 const importTaxonomiesLr = require('./src/importTaxonomiesLr')
 const importObjectsFauna = require('./src/importObjectsFauna')
-const importTaxObjectsFlora = require('./src/importTaxObjectsFlora')
+const importObjectsFlora = require('./src/importObjectsFlora')
 const importSynonymsFlora = require('./src/importSynonymsFlora')
 const importTaxObjectsMoose = require('./src/importTaxObjectsMoose')
 const importSynonymsMoose = require('./src/importSynonymsMoose')
@@ -85,8 +85,8 @@ const doIt = async () => {
       organizations[0].id
     )
     await importObjectsFauna(asyncCouchdbView, pgDb, taxFauna, couchObjects)
+    await importObjectsFlora(asyncCouchdbView, pgDb, taxFlora, couchObjects)
 
-    await importTaxObjectsFlora(asyncCouchdbView, pgDb, taxFlora, couchObjects)
     await importSynonymsFlora(pgDb)
     await importTaxObjectsMoose(asyncCouchdbView, pgDb, taxMoose, couchObjects)
     await importSynonymsMoose(pgDb)

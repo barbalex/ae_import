@@ -1,22 +1,22 @@
 'use strict'
 
-const importTaxObjectsFloraLevel1 = require('./importTaxObjectsFloraLevel1')
-const importTaxObjectsFloraLevel2 = require('./importTaxObjectsFloraLevel2')
-const importTaxObjectsFloraLevel3 = require('./importTaxObjectsFloraLevel3')
+const importObjectsFloraLevel1 = require('./importObjectsFloraLevel1')
+const importObjectsFloraLevel2 = require('./importObjectsFloraLevel2')
+const importObjectsFloraLevel3 = require('./importObjectsFloraLevel3')
 
 module.exports = async (asyncCouchdbView, pgDb, taxFlora, couchObjects) => {
-  const taxObjectsFloraLevel1 = await importTaxObjectsFloraLevel1(
+  const taxObjectsFloraLevel1 = await importObjectsFloraLevel1(
     asyncCouchdbView,
     pgDb,
     taxFlora
   )
-  const taxObjectsFloraLevel2 = await importTaxObjectsFloraLevel2(
+  const taxObjectsFloraLevel2 = await importObjectsFloraLevel2(
     asyncCouchdbView,
     pgDb,
     taxFlora,
     taxObjectsFloraLevel1
   )
-  const taxObjectsFloraLevel3 = await importTaxObjectsFloraLevel3(
+  const taxObjectsFloraLevel3 = await importObjectsFloraLevel3(
     asyncCouchdbView,
     pgDb,
     taxFlora,

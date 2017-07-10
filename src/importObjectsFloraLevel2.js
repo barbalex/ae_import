@@ -24,6 +24,7 @@ module.exports = async (
       taxonomy_id: taxFlora.id,
       name,
       parent_id: familieObject.id,
+      category: 'Flora',
     }
   })
   const fieldsSql = _.keys(taxObjectsFloraLevel2[0]).join(',')
@@ -31,7 +32,7 @@ module.exports = async (
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   await pgDb.none(`
-    insert into ae.taxonomy_object (${fieldsSql})
+    insert into ae.object (${fieldsSql})
     values ${valueSql};
   `)
 

@@ -3,8 +3,8 @@
 /*
  * Taxonomie-Objekte für LR aufbauen
  *
- * use view baumLr because the order makes sure,
- * parent was always created first
+ * use view baumLr because:
+ * the order makes sure parent was always created first
  *
  * for every key in baumLr:
  * 1. create Taxonomie-Objekt from LR-Objekt:
@@ -32,7 +32,7 @@ const connection = new cradle.Connection('127.0.0.1', 5984, {
 const couchDb = connection.database('artendb')
 const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
 
-// initialte postgres-connection
+// initiate postgres-connection
 const config = require('./configuration')
 const pgp = require('pg-promise')()
 
@@ -63,7 +63,7 @@ const addFunctions = require('./src/addFunctions')
 
 const pgDb = pgp(config.pg.connectionString)
 
-async function doIt() {
+const doIt = async () => {
   try {
     await rebuildTables()
     const couchObjects = await getCouchObjects(asyncCouchdbView)

@@ -56,8 +56,8 @@ CREATE TABLE ae.object (
   -- need to temporarily turn off this reference because it is violated during import
   parent_id UUID DEFAULT NULL,-- REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text NOT NULL,
-  properties jsonb DEFAULT NULL
-  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
+  properties jsonb DEFAULT NULL,
+  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE
 );
 CREATE INDEX ON ae.object USING btree (name);
 ALTER TABLE ae.object ADD COLUMN level integer;

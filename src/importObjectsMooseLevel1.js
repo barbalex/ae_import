@@ -12,13 +12,14 @@ module.exports = async (asyncCouchdbView, pgDb, taxMoose) => {
     id: uuidv1(),
     taxonomy_id: taxMoose.id,
     name,
+    category: 'Moose',
   }))
   const fieldsSql = _.keys(taxObjectsMooseLevel1[0]).join(',')
   const valueSql = taxObjectsMooseLevel1
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   await pgDb.none(`
-    insert into ae.taxonomy_object (${fieldsSql})
+    insert into ae.object (${fieldsSql})
     values ${valueSql};
   `)
 

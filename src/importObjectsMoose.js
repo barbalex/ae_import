@@ -1,30 +1,30 @@
 'use strict'
 
-const importTaxObjectsMooseLevel1 = require('./importTaxObjectsMooseLevel1')
-const importTaxObjectsMooseLevel2 = require('./importTaxObjectsMooseLevel2')
-const importTaxObjectsMooseLevel3 = require('./importTaxObjectsMooseLevel3')
-const importTaxObjectsMooseLevel4 = require('./importTaxObjectsMooseLevel4')
+const importObjectsMooseLevel1 = require('./importObjectsMooseLevel1')
+const importObjectsMooseLevel2 = require('./importObjectsMooseLevel2')
+const importObjectsMooseLevel3 = require('./importObjectsMooseLevel3')
+const importObjectsMooseLevel4 = require('./importObjectsMooseLevel4')
 
 module.exports = async (asyncCouchdbView, pgDb, taxMoose, couchObjects) => {
-  const taxObjectsMooseLevel1 = await importTaxObjectsMooseLevel1(
+  const taxObjectsMooseLevel1 = await importObjectsMooseLevel1(
     asyncCouchdbView,
     pgDb,
     taxMoose
   )
-  const taxObjectsMooseLevel2 = await importTaxObjectsMooseLevel2(
+  const taxObjectsMooseLevel2 = await importObjectsMooseLevel2(
     asyncCouchdbView,
     pgDb,
     taxMoose,
     taxObjectsMooseLevel1
   )
-  const taxObjectsMooseLevel3 = await importTaxObjectsMooseLevel3(
+  const taxObjectsMooseLevel3 = await importObjectsMooseLevel3(
     asyncCouchdbView,
     pgDb,
     taxMoose,
     taxObjectsMooseLevel1,
     taxObjectsMooseLevel2
   )
-  const taxObjectsMooseLevel4 = await importTaxObjectsMooseLevel4(
+  const taxObjectsMooseLevel4 = await importObjectsMooseLevel4(
     asyncCouchdbView,
     pgDb,
     taxMoose,

@@ -1,7 +1,6 @@
 'use strict'
 
 const _ = require('lodash')
-const uuidv1 = require('uuid/v1')
 
 module.exports = async (
   asyncCouchdbView,
@@ -38,33 +37,33 @@ module.exports = async (
     const object = couchObjects.find(obj => obj._id === objId)
     const properties = object.Taxonomie.Eigenschaften
     return {
-      id: uuidv1(),
-      taxonomy_id: taxMoose.id.toLowerCase(),
+      id: objId,
+      taxonomy_id: taxMoose.id,
       name,
-      object_id: objId.toLowerCase(),
       properties,
-      parent_id: gattungObject.id.toLowerCase(),
+      parent_id: gattungObject.id,
+      category: 'Moose',
     }
   })
   const valueSql = taxObjectsMooseLevel4
     .map(
       val =>
-        `('${val.id}','${val.taxonomy_id}','${val.name}','${val.object_id}','${val.parent_id}')`
+        `('${val.id}','${val.taxonomy_id}','${val.name}','${val.parent_id}','${val.category}')`
     )
     .join(',')
   await pgDb.none(`
-    insert into ae.taxonomy_object (id,taxonomy_id,name,object_id,parent_id)
+    insert into ae.object (id,taxonomy_id,name,parent_id,category)
     values ${valueSql};
   `)
   await pgDb.tx(t =>
     t.batch(
       taxObjectsMooseLevel4.map(val => {
-        const sql2 = `
-          UPDATE ae.taxonomy_object
+        const sql = `
+          UPDATE ae.object
           SET properties = $1
           WHERE id = $2
         `
-        return pgDb.none(sql2, [val.properties, val.id])
+        return pgDb.none(sql, [val.properties, val.id])
       })
     )
   )

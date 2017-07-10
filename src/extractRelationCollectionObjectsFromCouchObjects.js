@@ -19,7 +19,7 @@ module.exports = async (objectsInCouch, pgDb) => {
 
   objectsInCouch.forEach(objectInCouch => {
     if (objectInCouch.Beziehungssammlungen) {
-      const object_id = objectInCouch._id.toLowerCase()
+      const object_id = objectInCouch._id
       objectInCouch.Beziehungssammlungen.forEach(rCInCouch => {
         if (
           ![
@@ -45,37 +45,6 @@ module.exports = async (objectsInCouch, pgDb) => {
             console.log('no pc found for rc in existingPCs, pcName:', pcName)
           }
           if (object_id && existingPcForRc && existingPcForRc.id) {
-            // look if pco already exists
-            // only create new one if not
-            const existingPCOFromProperties = existingPCOs.find(
-              pco =>
-                pco.property_collection_id === existingPcForRc.id &&
-                pco.object_id === object_id
-            )
-            const existingPCOFromRCO = propertyCollectionObjects.find(
-              pco =>
-                pco.property_collection_id === existingPcForRc.id &&
-                pco.object_id === object_id
-            )
-            let propertyCollectionObjectId
-            if (existingPCOFromProperties && existingPCOFromProperties.id) {
-              propertyCollectionObjectId = existingPCOFromProperties.id
-            } else if (existingPCOFromRCO && existingPCOFromRCO.id) {
-              propertyCollectionObjectId = existingPCOFromRCO.id
-            } else {
-              propertyCollectionObjectId = uuidv1()
-            }
-            if (
-              !(existingPCOFromProperties && existingPCOFromProperties.id) &&
-              !(existingPCOFromRCO && existingPCOFromRCO.id)
-            ) {
-              propertyCollectionObjects.push({
-                id: propertyCollectionObjectId,
-                object_id,
-                property_collection_id: existingPcForRc.id,
-                properties: null,
-              })
-            }
             const relation_type = rCInPcFromRc.nature_of_relation
             // build relations
             if (rCInCouch.Beziehungen && rCInCouch.Beziehungen.length) {
@@ -95,8 +64,9 @@ module.exports = async (objectsInCouch, pgDb) => {
                         }
                         relations.push({
                           id: uuidv1(),
-                          property_collection_object_id: propertyCollectionObjectId,
-                          related_object_id: couchRelPartner.GUID.toLocaleLowerCase(),
+                          property_collection_id: existingPcForRc.id,
+                          object_id,
+                          related_object_id: couchRelPartner.GUID,
                           relation_type,
                           properties,
                         })

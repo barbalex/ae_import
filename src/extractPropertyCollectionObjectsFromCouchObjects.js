@@ -11,7 +11,7 @@ module.exports = async (objectsInCouch, pgDb) => {
 
   objectsInCouch.forEach(objectInCouch => {
     if (objectInCouch.Eigenschaftensammlungen) {
-      const object_id = objectInCouch._id.toLowerCase()
+      const object_id = objectInCouch._id
       objectInCouch.Eigenschaftensammlungen.forEach(pCInCouch => {
         // add property_collection_object
         let pcNameToSearchFor = pCInCouch.Name

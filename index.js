@@ -91,7 +91,6 @@ const doIt = async () => {
     await importSynonymsMoose(pgDb)
     await importObjectsPilze(asyncCouchdbView, pgDb, taxPilze, couchObjects)
     await importObjectsLr(asyncCouchdbView, pgDb, taxLr)
-
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)

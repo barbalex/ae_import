@@ -17,26 +17,6 @@ module.exports = async pgDb => {
       OWNER TO postgres;
   `)
   await pgDb.none(`
-    CREATE OR REPLACE FUNCTION ae.category_taxonomy_by_category(category ae.category, categoryname text)
-      RETURNS setof ae.taxonomy AS
-      $$
-        SELECT ae.taxonomy.*
-        FROM ae.taxonomy
-          INNER JOIN ae.category
-          ON ae.category.name = ae.taxonomy.category
-        WHERE
-          ae.category.name = category_taxonomy_by_category.category.name AND
-          1 = CASE
-            WHEN $2 IS NULL THEN 1
-            WHEN ae.category.name = $2 THEN 1
-            ELSE 2
-          END
-      $$
-      LANGUAGE sql STABLE;
-    ALTER FUNCTION ae.category_taxonomy_by_category(category ae.category, categoryname text)
-      OWNER TO postgres;
-  `)
-  await pgDb.none(`
     CREATE OR REPLACE FUNCTION ae.property_collection_by_data_type(datatype text)
       RETURNS setof ae.property_collection AS
       $$
@@ -63,49 +43,29 @@ module.exports = async pgDb => {
       OWNER TO postgres;
   `)
   await pgDb.none(`
-    CREATE OR REPLACE FUNCTION ae.taxonomy_object_by_taxonomy_object_name(taxonomy_object_name text)
-      RETURNS setof ae.taxonomy_object AS
+    CREATE OR REPLACE FUNCTION ae.object_by_object_name(object_name text)
+      RETURNS setof ae.object AS
       $$
         SELECT *
-        FROM ae.taxonomy_object
+        FROM ae.object
         WHERE
-          ae.taxonomy_object.name ilike ('%' || $1 || '%')
+          ae.object.name ilike ('%' || $1 || '%')
       $$
       LANGUAGE sql STABLE;
-    ALTER FUNCTION ae.taxonomy_object_by_taxonomy_object_name(taxonomy_object_name text)
+    ALTER FUNCTION ae.object_by_object_name(object_name text)
       OWNER TO postgres;
   `)
   await pgDb.none(`
-    CREATE OR REPLACE FUNCTION ae.taxonomy_object_taxonomy_object(taxonomy_object ae.taxonomy_object, taxonomy_id Uuid)
-      RETURNS setof ae.taxonomy_object AS
+    CREATE OR REPLACE FUNCTION ae.taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
+      RETURNS setof ae.object AS
       $$
         SELECT to1.*
-        FROM ae.taxonomy_object AS to1
-          INNER JOIN ae.taxonomy_object AS to2
-          ON to2.parent_id = to1.id
-        WHERE
-          to1.id = taxonomy_object_taxonomy_object.taxonomy_object.id AND
-          1 = CASE
-            WHEN $2 IS NULL THEN 1
-            WHEN to1.id = $2 THEN 1
-            ELSE 2
-          END
-      $$
-      LANGUAGE sql STABLE;
-    ALTER FUNCTION ae.taxonomy_object_taxonomy_object(taxonomy_object ae.taxonomy_object, taxonomy_id Uuid)
-      OWNER TO postgres;
-  `)
-  await pgDb.none(`
-    CREATE OR REPLACE FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
-      RETURNS setof ae.taxonomy_object AS
-      $$
-        SELECT to1.*
-        FROM ae.taxonomy_object AS to1
+        FROM ae.object AS to1
           INNER JOIN ae.taxonomy
           ON ae.taxonomy.id = to1.taxonomy_id
         WHERE
           to1.parent_id IS NULL AND
-          ae.taxonomy.id = taxonomy_taxonomy_object_level1.taxonomy.id AND
+          ae.taxonomy.id = object_level1.taxonomy.id AND
           1 = CASE
             WHEN $2 IS NULL THEN 1
             WHEN ae.taxonomy.id = $2 THEN 1
@@ -113,7 +73,7 @@ module.exports = async pgDb => {
           END
       $$
       LANGUAGE sql STABLE;
-    ALTER FUNCTION ae.taxonomy_taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
+    ALTER FUNCTION ae.taxonomy_object_level1(taxonomy ae.taxonomy, taxonomy_id uuid)
       OWNER TO postgres;
   `)
   await pgDb.none(`

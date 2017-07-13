@@ -25,15 +25,18 @@ module.exports = async (asyncCouchdbView, pgDb) => {
     } else if (einheit) {
       name = einheit
     }
-    const parentId = _.get(o, 'Taxonomie.Eigenschaften.Parent.GUID', null)
+    const parentId = _.get(o, 'Taxonomie.Eigenschaften.Parent.GUID', '')
     const parent = lrObjects.find(l => l._id === parentId)
     const parent_id =
       parent && parent.id && isUuid.anyNonNil(parent.id) ? parent.id : null
     const previousTaxonomyId = _.get(
       o,
-      'Taxonomie.Eigenschaften.Hierarchie[0].GUID'
+      'Taxonomie.Eigenschaften.Hierarchie[0].GUID',
+      ''
     )
-    const taxonomy = taxonomies.find(t => t.id === previousTaxonomyId)
+    const taxonomy = taxonomies.find(
+      t => t.id === previousTaxonomyId.toLowerCase()
+    )
     const taxonomy_id = _.get(taxonomy, 'id', null)
     const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))
     if (properties.Taxonomie) delete properties.Taxonomie
@@ -46,6 +49,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
       parent_id,
       name,
       properties,
+      id_old: o._id,
     }
   })
   const valueSql = taxObjectsLr

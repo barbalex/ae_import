@@ -36,6 +36,7 @@ module.exports = async (
       properties,
       parent_id: gattungObject.id,
       category: 'Flora',
+      id_old: objId,
     }
   })
   const valueSql = taxObjectsFloraLevel3

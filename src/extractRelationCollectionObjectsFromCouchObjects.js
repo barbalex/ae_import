@@ -15,11 +15,11 @@ module.exports = async (objectsInCouch, pgDb) => {
     'SELECT * FROM ae.property_collection_object'
   )
 
-  const objectsInCouchIds = objectsInCouch.map(o => o._id)
+  const objectsInCouchIds = objectsInCouch.map(o => o._id.toLowerCase())
 
   objectsInCouch.forEach(objectInCouch => {
     if (objectInCouch.Beziehungssammlungen) {
-      const object_id = objectInCouch._id
+      const object_id = objectInCouch._id.toLowerCase()
       objectInCouch.Beziehungssammlungen.forEach(rCInCouch => {
         if (
           ![
@@ -58,7 +58,12 @@ module.exports = async (objectsInCouch, pgDb) => {
                   relationInCouch.Beziehungspartner.forEach(couchRelPartner => {
                     if (couchRelPartner.GUID) {
                       // make sure that an object exists for every guid
-                      if (_.includes(objectsInCouchIds, couchRelPartner.GUID)) {
+                      if (
+                        _.includes(
+                          objectsInCouchIds,
+                          couchRelPartner.GUID.toLowerCase()
+                        )
+                      ) {
                         if (Object.keys(propertiesInCouch).length > 0) {
                           properties = propertiesInCouch
                         }
@@ -66,7 +71,7 @@ module.exports = async (objectsInCouch, pgDb) => {
                           id: uuidv1(),
                           property_collection_id: existingPcForRc.id,
                           object_id,
-                          related_object_id: couchRelPartner.GUID,
+                          related_object_id: couchRelPartner.GUID.toLowerCase(),
                           relation_type,
                           properties,
                         })

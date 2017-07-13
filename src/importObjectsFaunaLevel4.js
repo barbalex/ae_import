@@ -43,6 +43,7 @@ module.exports = async (
       properties,
       parent_id: familieObject.id,
       category: 'Fauna',
+      id_old: objId,
     }
   })
   const valueSql = objectsFaunaLevel4

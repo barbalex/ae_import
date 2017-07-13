@@ -59,7 +59,8 @@ CREATE TABLE ae.object (
   parent_id UUID DEFAULT NULL,-- REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   name text NOT NULL,
   properties jsonb DEFAULT NULL,
-  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE
+  category text DEFAULT NULL REFERENCES ae.category (name) ON UPDATE CASCADE,
+  id_old text DEFAULT NULL,
 );
 CREATE INDEX ON ae.object USING btree (name);
 ALTER TABLE ae.object ADD COLUMN level integer;

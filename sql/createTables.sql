@@ -195,12 +195,12 @@ CREATE POLICY
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  property_collection_object_id UUID NOT NULL REFERENCES ae.property_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_collection_id UUID NOT NULL REFERENCES ae.property_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id_relation UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_type text NOT NULL,
   properties jsonb DEFAULT NULL,
-  UNIQUE (property_collection_object_id, object_id, object_id_relation, relation_type)
+  UNIQUE (property_collection_id, object_id, object_id_relation, relation_type)
 );
 CREATE INDEX ON ae.relation USING btree (relation_type);
 ALTER TABLE ae.relation ENABLE ROW LEVEL SECURITY;
@@ -228,7 +228,7 @@ CREATE POLICY
           (ae.property_collection_object
           INNER JOIN
             ae.relation
-            ON ae.property_collection_object.id = ae.relation.property_collection_object_id)
+            ON ae.property_collection_object.id = ae.relation.property_collection_id)
           ON property_collection_object.property_collection_id = ae.property_collection.id)
         ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE

@@ -79,7 +79,6 @@ const doIt = async () => {
     await importObjectsMoose(asyncCouchdbView, pgDb, couchObjects)
     await importSynonymsMoose(pgDb)
     await importObjectsPilze(asyncCouchdbView, pgDb, couchObjects)
-
     await importObjectsLr(asyncCouchdbView, pgDb)
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)

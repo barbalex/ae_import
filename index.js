@@ -71,28 +71,15 @@ const doIt = async () => {
     const users = await importUsers(pgDb)
     await importRoles(pgDb)
     await importOrganizationUsers(pgDb, organizations[0].id, users)
-    const nonLrTaxonomies = await importTaxonomiesNonLr(
-      pgDb,
-      organizations[0].id,
-      users
-    )
-    const taxFauna = nonLrTaxonomies.find(tax => tax.category === 'Fauna')
-    const taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
-    const taxMoose = nonLrTaxonomies.find(tax => tax.category === 'Moose')
-    const taxPilze = nonLrTaxonomies.find(tax => tax.category === 'Pilze')
-    const taxLr = await importTaxonomiesLr(
-      asyncCouchdbView,
-      pgDb,
-      organizations[0].id,
-      users
-    )
-    await importObjectsFauna(asyncCouchdbView, pgDb, taxFauna, couchObjects)
-    await importObjectsFlora(asyncCouchdbView, pgDb, taxFlora, couchObjects)
+    await importTaxonomiesNonLr(pgDb, organizations[0].id, users)
+    await importTaxonomiesLr(asyncCouchdbView, pgDb, organizations[0].id, users)
+    await importObjectsFauna(asyncCouchdbView, pgDb, couchObjects)
+    await importObjectsFlora(asyncCouchdbView, pgDb, couchObjects)
     await importSynonymsFlora(pgDb)
-    await importObjectsMoose(asyncCouchdbView, pgDb, taxMoose, couchObjects)
+    await importObjectsMoose(asyncCouchdbView, pgDb, couchObjects)
     await importSynonymsMoose(pgDb)
-    await importObjectsPilze(asyncCouchdbView, pgDb, taxPilze, couchObjects)
-    await importObjectsLr(asyncCouchdbView, pgDb, taxLr)
+    await importObjectsPilze(asyncCouchdbView, pgDb, couchObjects)
+    await importObjectsLr(asyncCouchdbView, pgDb)
     await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)

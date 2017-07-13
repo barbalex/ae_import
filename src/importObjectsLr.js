@@ -5,13 +5,17 @@
 const _ = require('lodash')
 const isUuid = require('is-uuid')
 
-module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
+module.exports = async (asyncCouchdbView, pgDb) => {
   const baumLr = await asyncCouchdbView('artendb/baumLr', {
     startkey: [2],
     endkey: [999, '\u9999', '\u9999', '\u9999', '\u9999', '\u9999'],
     reduce: false,
     include_docs: true,
   })
+  const taxonomies = await pgDb.many(`
+    select *
+    from ae.taxonomy
+  `)
   const lrObjects = _.map(baumLr.rows, b => b.doc)
   const taxObjectsLr = lrObjects.map(o => {
     const label = _.get(o, 'Taxonomie.Eigenschaften.Label', null)
@@ -32,7 +36,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxLr) => {
       o,
       'Taxonomie.Eigenschaften.Hierarchie[0].GUID'
     )
-    const taxonomy = taxLr.find(t => t.id === previousTaxonomyId.toLowerCase())
+    const taxonomy = taxonomies.find(t => t.id === previousTaxonomyId)
     const taxonomy_id = _.get(taxonomy, 'id', null)
     const properties = _.clone(_.get(o, 'Taxonomie.Eigenschaften', null))
     if (properties.Taxonomie) delete properties.Taxonomie

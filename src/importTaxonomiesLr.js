@@ -38,12 +38,5 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId, users) => {
     insert into ae.taxonomy (${fieldsSql})
     values ${valueSql};
   `)
-  const lrTaxonomies = await pgDb.many(`
-    select *
-    from ae.taxonomy
-    where category='Lebensräume'
-  `)
   console.log(`${taxonomies.length} lr-taxonomies imported`)
-
-  return lrTaxonomies
 }

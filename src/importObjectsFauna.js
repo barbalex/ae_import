@@ -5,7 +5,10 @@ const importObjectsFaunaLevel2 = require('./importObjectsFaunaLevel2')
 const importObjectsFaunaLevel3 = require('./importObjectsFaunaLevel3')
 const importObjectsFaunaLevel4 = require('./importObjectsFaunaLevel4')
 
-module.exports = async (asyncCouchdbView, pgDb, taxFauna, couchObjects) => {
+module.exports = async (asyncCouchdbView, pgDb, couchObjects) => {
+  const taxFauna = await pgDb.one(
+    `select * from ae.taxonomy where name = 'CSCF (2009)'`
+  )
   const objectsFaunaLevel1 = await importObjectsFaunaLevel1(
     asyncCouchdbView,
     pgDb,

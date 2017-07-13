@@ -3,6 +3,7 @@
 /* eslint camelcase:0 */
 
 const uuidv1 = require('uuid/v1')
+const isUuid = require('is-uuid')
 const _ = require('lodash')
 
 const pcFromRc = require('./pcFromRc')
@@ -65,8 +66,14 @@ module.exports = async (objectsInCouch, pgDb) => {
                         }
                         if (
                           existingPcForRc.id &&
-                          couchRelPartner.GUID.toLowerCase() &&
-                          object_id
+                          isUuid.anyNonNil(existingPcForRc.id) &&
+                          existingPcForRc.id !== 'undefined' &&
+                          couchRelPartner.GUID &&
+                          isUuid.anyNonNil(couchRelPartner.GUID) &&
+                          couchRelPartner.GUID !== 'undefined' &&
+                          object_id &&
+                          isUuid.anyNonNil(object_id) &&
+                          object_id !== 'undefined'
                         ) {
                           relations.push({
                             id: uuidv1(),
@@ -101,9 +108,6 @@ module.exports = async (objectsInCouch, pgDb) => {
       })
     }
   })
-  console.log('relations[0]:', relations[0])
-  console.log('relations[1]:', relations[1])
-  console.log('relations[2]:', relations[2])
   relations = _.uniqBy(
     relations,
     r =>

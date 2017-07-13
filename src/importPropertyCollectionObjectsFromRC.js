@@ -8,10 +8,10 @@ module.exports = async (pgDb, couchObjects) => {
   const valueSql = relations
     .map(
       val =>
-        `('${val.id}','${val.property_collection_object_id}','${val.related_object_id}','${val.relation_type}')`
+        `('${val.id}','${val.property_collection_object_id}','${val.object_id_relation}','${val.relation_type}')`
     )
     .join(',')
-  await pgDb.none(`insert into ae.relation (id,property_collection_object_id,related_object_id,relation_type)
+  await pgDb.none(`insert into ae.relation (id,property_collection_object_id,object_id_relation,relation_type)
     values ${valueSql};`)
   await pgDb.tx(t =>
     t.batch(

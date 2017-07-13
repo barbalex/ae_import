@@ -67,7 +67,7 @@ module.exports = async (objectsInCouch, pgDb) => {
                           id: uuidv1(),
                           property_collection_id: existingPcForRc.id,
                           object_id,
-                          related_object_id: couchRelPartner.GUID.toLowerCase(),
+                          object_id_relation: couchRelPartner.GUID.toLowerCase(),
                           relation_type,
                           properties,
                         })
@@ -90,7 +90,7 @@ module.exports = async (objectsInCouch, pgDb) => {
   relations = _.uniqBy(
     relations,
     r =>
-      `${r.property_collection_object_id}${r.related_object_id}${r.relation_type}`
+      `${r.property_collection_object_id}${r.object_id_relation}${r.relation_type}`
   )
 
   return relations

@@ -200,7 +200,7 @@ CREATE TABLE ae.relation (
   object_id_relation UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_type text NOT NULL,
   properties jsonb DEFAULT NULL,
-  UNIQUE (property_collection_object_id, object_id, related_object_id, relation_type)
+  UNIQUE (property_collection_object_id, object_id, object_id_relation, relation_type)
 );
 CREATE INDEX ON ae.relation USING btree (relation_type);
 ALTER TABLE ae.relation ENABLE ROW LEVEL SECURITY;

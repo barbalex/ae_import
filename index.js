@@ -73,7 +73,8 @@ const doIt = async () => {
     await importOrganizationUsers(pgDb, organizations[0].id, users)
     const nonLrTaxonomies = await importTaxonomiesNonLr(
       pgDb,
-      organizations[0].id
+      organizations[0].id,
+      users
     )
     const taxFauna = nonLrTaxonomies.find(tax => tax.category === 'Fauna')
     const taxFlora = nonLrTaxonomies.find(tax => tax.category === 'Flora')
@@ -82,7 +83,8 @@ const doIt = async () => {
     const taxLr = await importTaxonomiesLr(
       asyncCouchdbView,
       pgDb,
-      organizations[0].id
+      organizations[0].id,
+      users
     )
     await importObjectsFauna(asyncCouchdbView, pgDb, taxFauna, couchObjects)
     await importObjectsFlora(asyncCouchdbView, pgDb, taxFlora, couchObjects)

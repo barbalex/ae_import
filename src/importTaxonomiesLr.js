@@ -1,9 +1,10 @@
 'use strict'
 
-const _ = require('lodash')
-const uuidv1 = require('uuid/v1')
+/* eslint-disable max-len */
 
-module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
+const _ = require('lodash')
+
+module.exports = async (asyncCouchdbView, pgDb, organizationId, users) => {
   const baumLr = await asyncCouchdbView('artendb/baumLr', {
     startkey: [1],
     endkey: [1, '\u9999', '\u9999', '\u9999', '\u9999', '\u9999'],
@@ -23,6 +24,11 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
       category: 'Lebensräume',
       is_category_standard: true,
       organization_id: organizationId,
+      imported_by:
+        users.find(user => user.email === 'alex@gabriel-software.ch').id ||
+        null,
+      terms_of_use:
+        'Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich.',
     }
   })
   const fieldsSql = _.keys(taxonomies[0]).join(',')

@@ -1,13 +1,19 @@
 'use strict'
 
+/* eslint-disable max-len */
+
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 const nonLrTaxonomies = require('./nonLrTaxonomies')
 
-module.exports = async (pgDb, organizationId) => {
+module.exports = async (pgDb, organizationId, users) => {
   nonLrTaxonomies.forEach(tax => {
     tax.id = uuidv1()
     tax.organization_id = organizationId
+    tax.imported_by =
+      users.find(user => user.email === 'alex@gabriel-software.ch').id || null
+    tax.terms_of_use =
+      'Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich.'
   })
   const fieldsSql = _.keys(nonLrTaxonomies[0]).join(',')
   const valueSql = nonLrTaxonomies

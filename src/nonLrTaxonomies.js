@@ -6,7 +6,6 @@ module.exports = [
     description: 'Index der Info Fauna. Eigenschaften von 21542 Tierarten',
     last_updated: '2009.01.01',
     links: '{"http://www.cscf.ch"}',
-    category: 'Fauna',
     is_category_standard: true,
   },
   {
@@ -16,7 +15,6 @@ module.exports = [
       Arten mit NR > 1000000 von der FNS provisorisch ergänzt`,
     last_updated: '2007.05.08',
     links: '{"http://www.crsf.ch/documents/download/x/ISFS2_20051115.pdf"}',
-    category: 'Flora',
     is_category_standard: true,
   },
   {
@@ -25,7 +23,6 @@ module.exports = [
     last_updated: '2011.06.01',
     links:
       '{"http://www.wsl.ch/dienstleistungen/inventare/pilze_flechten/swissfungi/index_DE"}',
-    category: 'Pilze',
     is_category_standard: true,
   },
   {
@@ -33,7 +30,6 @@ module.exports = [
     description: 'WSL, Swissfunghi, Beatrice Senn (Datenzentrum Moose Schweiz)',
     last_updated: '2010.01.01',
     links: '{"http://www.nism.uzh.ch"}',
-    category: 'Moose',
     is_category_standard: true,
   },
 ]

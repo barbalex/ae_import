@@ -30,7 +30,7 @@ CREATE TABLE ae.taxonomy (
   links text[] DEFAULT NULL,
   last_updated date DEFAULT NULL,
   organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
-  is_category_standard boolean DEFAULT FALSE,,
+  is_category_standard boolean DEFAULT FALSE,
   imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   terms_of_use text DEFAULT NULL,
   habitat_label varchar(50) DEFAULT NULL,

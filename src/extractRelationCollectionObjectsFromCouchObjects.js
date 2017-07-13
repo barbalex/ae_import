@@ -11,9 +11,6 @@ module.exports = async (objectsInCouch, pgDb) => {
   const propertyCollectionObjects = []
   let relations = []
   const existingPCs = await pgDb.any('SELECT * FROM ae.property_collection')
-  const existingPCOs = await pgDb.any(
-    'SELECT * FROM ae.property_collection_object'
-  )
 
   const objectsInCouchIds = objectsInCouch.map(o => o._id.toLowerCase())
 

@@ -41,7 +41,13 @@ module.exports = async (objectsInCouch, pgDb) => {
             console.log('no pc found for rc in existingPCs:', rCInCouch.Name)
             console.log('no pc found for rc in existingPCs, pcName:', pcName)
           }
-          if (object_id && existingPcForRc && existingPcForRc.id) {
+          if (
+            object_id &&
+            isUuid.anyNonNil(object_id) &&
+            existingPcForRc &&
+            existingPcForRc.id &&
+            isUuid.anyNonNil(existingPcForRc.id)
+          ) {
             const property_collection_id = existingPcForRc.id
             const relation_type = rCInPcFromRc.nature_of_relation
             // build relations
@@ -61,32 +67,14 @@ module.exports = async (objectsInCouch, pgDb) => {
                         if (Object.keys(propertiesInCouch).length > 0) {
                           properties = propertiesInCouch
                         }
-                        if (
-                          property_collection_id &&
-                          isUuid.anyNonNil(property_collection_id) &&
-                          couchRelPartner.GUID &&
-                          object_id_relation &&
-                          isUuid.anyNonNil(object_id_relation) &&
-                          object_id &&
-                          isUuid.anyNonNil(object_id)
-                        ) {
-                          relations.push({
-                            id: uuidv1(),
-                            property_collection_id,
-                            object_id,
-                            object_id_relation,
-                            relation_type,
-                            properties,
-                          })
-                        } else {
-                          console.log('relation missing something:', {
-                            property_collection_id,
-                            object_id,
-                            object_id_relation,
-                            relation_type,
-                            properties,
-                          })
-                        }
+                        relations.push({
+                          id: uuidv1(),
+                          property_collection_id,
+                          object_id,
+                          object_id_relation,
+                          relation_type,
+                          properties,
+                        })
                       }
                     }
                   })

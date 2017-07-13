@@ -7,7 +7,7 @@ const importObjectsMooseLevel4 = require('./importObjectsMooseLevel4')
 
 module.exports = async (asyncCouchdbView, pgDb, couchObjects) => {
   const taxMoose = await pgDb.one(
-    `select * from ae.taxonomy where name = 'Swissfunghi (2011)'`
+    `select * from ae.taxonomy where name = 'NISM (2010)'`
   )
   const taxObjectsMooseLevel1 = await importObjectsMooseLevel1(
     asyncCouchdbView,

@@ -12,10 +12,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
     reduce: false,
     include_docs: true,
   })
-  const taxonomies = await pgDb.many(`
-    select *
-    from ae.taxonomy
-  `)
+  const taxonomies = await pgDb.many('select * from ae.taxonomy')
   const lrObjects = _.map(baumLr.rows, b => b.doc)
   const taxObjectsLr = lrObjects.map(o => {
     const label = _.get(o, 'Taxonomie.Eigenschaften.Label', null)

@@ -5,7 +5,7 @@ const importObjectsPilzeLevel2 = require('./importObjectsPilzeLevel2')
 
 module.exports = async (asyncCouchdbView, pgDb, couchObjects) => {
   const taxPilze = await pgDb.one(
-    `select * from ae.taxonomy where name = 'NISM (2010)'`
+    `select * from ae.taxonomy where name = 'Swissfunghi (2011)'`
   )
   const taxObjectsPilzeLevel1 = await importObjectsPilzeLevel1(
     asyncCouchdbView,

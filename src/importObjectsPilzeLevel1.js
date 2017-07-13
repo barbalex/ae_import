@@ -19,7 +19,7 @@ module.exports = async (asyncCouchdbView, pgDb, taxPilze) => {
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   await pgDb.none(`
-    insert into ae.taxonomy_object (${fieldsSql})
+    insert into ae.object (${fieldsSql})
     values ${valueSql};
   `)
 

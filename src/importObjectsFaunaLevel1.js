@@ -12,13 +12,14 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
     id: uuidv1(),
     taxonomy_id: taxFauna.id,
     name,
+    category: 'Fauna',
   }))
   const fieldsSql = _.keys(objectsFaunaLevel1[0]).join(',')
   const valueSql = objectsFaunaLevel1
     .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
     .join(',')
   await pgDb.none(`
-    insert into ae.taxonomy_object (${fieldsSql})
+    insert into ae.object (${fieldsSql})
     values ${valueSql};
   `)
 

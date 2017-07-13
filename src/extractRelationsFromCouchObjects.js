@@ -63,14 +63,28 @@ module.exports = async (objectsInCouch, pgDb) => {
                         if (Object.keys(propertiesInCouch).length > 0) {
                           properties = propertiesInCouch
                         }
-                        relations.push({
-                          id: uuidv1(),
-                          property_collection_id: existingPcForRc.id,
-                          object_id,
-                          object_id_relation: couchRelPartner.GUID.toLowerCase(),
-                          relation_type,
-                          properties,
-                        })
+                        if (
+                          existingPcForRc.id &&
+                          couchRelPartner.GUID.toLowerCase() &&
+                          object_id
+                        ) {
+                          relations.push({
+                            id: uuidv1(),
+                            property_collection_id: existingPcForRc.id,
+                            object_id,
+                            object_id_relation: couchRelPartner.GUID.toLowerCase(),
+                            relation_type,
+                            properties,
+                          })
+                        } else {
+                          console.log('relation missing something:', {
+                            property_collection_id: existingPcForRc.id,
+                            object_id,
+                            object_id_relation: couchRelPartner.GUID,
+                            relation_type,
+                            properties,
+                          })
+                        }
                       }
                     }
                   })
@@ -87,10 +101,13 @@ module.exports = async (objectsInCouch, pgDb) => {
       })
     }
   })
+  console.log('relations[0]:', relations[0])
+  console.log('relations[1]:', relations[1])
+  console.log('relations[2]:', relations[2])
   relations = _.uniqBy(
     relations,
     r =>
-      `${r.property_collection_object_id}${r.object_id_relation}${r.relation_type}`
+      `${r.property_collection_id}${r.object_id}${r.object_id_relation}${r.relation_type}`
   )
 
   return relations

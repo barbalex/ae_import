@@ -11,8 +11,10 @@ module.exports = async (pgDb, couchObjects) => {
         `('${val.id}','${val.property_collection_object_id}','${val.object_id_relation}','${val.relation_type}')`
     )
     .join(',')
+  console.log('will now insert relation values other than properties')
   await pgDb.none(`insert into ae.relation (id,property_collection_object_id,object_id_relation,relation_type)
     values ${valueSql};`)
+  console.log('relation values other than properties inserted')
   await pgDb.tx(t =>
     t.batch(
       relations.map(val => {

@@ -8,7 +8,6 @@ const _ = require('lodash')
 const pcFromRc = require('./pcFromRc')
 
 module.exports = async (objectsInCouch, pgDb) => {
-  const propertyCollectionObjects = []
   let relations = []
   const existingPCs = await pgDb.any('SELECT * FROM ae.property_collection')
 
@@ -94,8 +93,5 @@ module.exports = async (objectsInCouch, pgDb) => {
       `${r.property_collection_object_id}${r.related_object_id}${r.relation_type}`
   )
 
-  return {
-    propertyCollectionObjects,
-    relations,
-  }
+  return relations
 }

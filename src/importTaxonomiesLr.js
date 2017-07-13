@@ -21,7 +21,6 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId, users) => {
       habitat_comments: doc.Taxonomie.Eigenschaften.Bemerkungen || null,
       habitat_nr_fns_min: doc.Taxonomie.Eigenschaften['Einheit-Nrn FNS von'],
       habitat_nr_fns_max: doc.Taxonomie.Eigenschaften['Einheit-Nrn FNS bis'],
-      category: 'Lebensräume',
       is_category_standard: true,
       organization_id: organizationId,
       imported_by:

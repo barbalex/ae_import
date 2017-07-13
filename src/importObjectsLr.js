@@ -75,7 +75,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
       })
     )
   )
-  console.log(`${taxObjectsLr.length} lr taxonomy objects imported`)
+  console.log(`${taxObjectsLr.length} lr objects imported`)
 
   return taxObjectsLr
 }

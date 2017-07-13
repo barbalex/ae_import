@@ -77,6 +77,7 @@ const doIt = async () => {
     await importObjectsFlora(asyncCouchdbView, pgDb, couchObjects)
     await importSynonymsFlora(pgDb)
     await importObjectsMoose(asyncCouchdbView, pgDb, couchObjects)
+
     await importSynonymsMoose(pgDb)
     await importObjectsPilze(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsLr(asyncCouchdbView, pgDb)

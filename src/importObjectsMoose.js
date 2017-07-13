@@ -42,7 +42,7 @@ module.exports = async (asyncCouchdbView, pgDb, couchObjects) => {
     ...taxObjectsMooseLevel3,
     ...taxObjectsMooseLevel4,
   ]
-  console.log(`${taxObjectsMoose.length} moose taxonomy objects imported`)
+  console.log(`${taxObjectsMoose.length} moose objects imported`)
 
   return taxObjectsMoose
 }

@@ -20,7 +20,7 @@ module.exports = async (asyncCouchdbView, pgDb, couchObjects) => {
     couchObjects
   )
   const taxObjectsPilze = [...taxObjectsPilzeLevel1, ...taxObjectsPilzeLevel2]
-  console.log(`${taxObjectsPilze.length} pilze taxonomy objects imported`)
+  console.log(`${taxObjectsPilze.length} pilze objects imported`)
 
   return taxObjectsPilze
 }

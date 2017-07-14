@@ -87,6 +87,7 @@ const doIt = async () => {
     await addTaxonomyObjectParentConstraint(pgDb)
     await importPropertyCollectionObjectsFromPC(pgDb, couchObjects)
     await importRelationsFromRC(pgDb, couchObjects)
+    console.log('PostgreSQL welcomes arteigenschaften.ch!')
     return pgp.end()
   } catch (error) {
     console.log(error)

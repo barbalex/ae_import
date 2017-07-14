@@ -40,7 +40,7 @@ module.exports = async (
     )
     .join(',')
   await pgDb.none(`
-    insert into ae.object (id,taxonomy_id,name,parent_id,,id_old,category)
+    insert into ae.object (id,taxonomy_id,name,parent_id,id_old,category)
     values ${valueSql};
   `)
   await pgDb.tx(t =>

@@ -195,7 +195,7 @@ CREATE POLICY
 DROP TABLE IF EXISTS ae.relation CASCADE;
 CREATE TABLE ae.relation (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
-  property_collection_id UUID NOT NULL REFERENCES ae.property_collection_object (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  property_collection_id UUID NOT NULL REFERENCES ae.property_collection (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   object_id_relation UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   relation_type text NOT NULL,

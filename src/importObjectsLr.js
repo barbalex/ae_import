@@ -50,6 +50,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
       name,
       properties,
       id_old: o._id,
+      category: 'Lebensräume',
     }
   })
   const valueSql = taxObjectsLr

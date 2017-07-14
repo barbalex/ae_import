@@ -49,11 +49,11 @@ module.exports = async (
   const valueSql = taxObjectsMooseLevel4
     .map(
       val =>
-        `('${val.id}','${val.taxonomy_id}','${val.name}','${val.parent_id}','${val.category}')`
+        `('${val.id}','${val.taxonomy_id}','${val.name}','${val.parent_id}','${val.id_old}','${val.category}')`
     )
     .join(',')
   await pgDb.none(`
-    insert into ae.object (id,taxonomy_id,name,parent_id,category)
+    insert into ae.object (id,taxonomy_id,name,parent_id,id_old,category)
     values ${valueSql};
   `)
   await pgDb.tx(t =>

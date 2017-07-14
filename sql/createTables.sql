@@ -68,9 +68,6 @@ CREATE TABLE ae.object (
   id_old text DEFAULT NULL
 );
 CREATE INDEX ON ae.object USING btree (name);
-ALTER TABLE ae.object ADD COLUMN level integer;
-COMMENT ON COLUMN ae.object.level IS 'until postgraphql can filter parent_id null';
-update ae.object set level = 1 where parent_id is null;
 
 -- ae.object to ae.object relationship
 -- best to add every relationship twice, see: https://stackoverflow.com/a/17128606/712005

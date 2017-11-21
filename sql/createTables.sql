@@ -284,6 +284,7 @@ CREATE TABLE ae.pco_properties_by_category (
 DROP TABLE IF EXISTS ae.rco_properties_by_category CASCADE;
 CREATE TABLE ae.rco_properties_by_category (
   property_collection_name text,
+  relation_type text,
   property_name text,
   jsontype text,
   count bigint

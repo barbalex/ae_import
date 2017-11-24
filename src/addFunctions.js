@@ -82,6 +82,7 @@ module.exports = async pgDb => {
     $$
       WITH jsontypes AS (
         SELECT
+          ae.property_collection.id,
           ae.property_collection.name AS property_collection_name,
           json_data.key AS property_name,
           CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
@@ -111,6 +112,7 @@ module.exports = async pgDb => {
       FROM
         jsontypes
       GROUP BY
+        id,
         property_collection_name,
         property_name,
         jsontype
@@ -129,6 +131,7 @@ module.exports = async pgDb => {
     $$
       WITH jsontypes AS (
         SELECT
+          ae.property_collection.id,
           ae.property_collection.name AS property_collection_name,
           ae.relation.relation_type,
           json_data.key AS property_name,
@@ -159,6 +162,7 @@ module.exports = async pgDb => {
       FROM
         jsontypes
       GROUP BY
+        id,
         property_collection_name,
         relation_type,
         property_name,
@@ -179,6 +183,7 @@ module.exports = async pgDb => {
     $$
       WITH jsontypes AS (
         SELECT
+          ae.taxonomy.id,
           ae.taxonomy.name AS taxonomy_name,
           json_data.key AS property_name,
           CASE WHEN left(json_data.value::text,1) = '"'  THEN 'String'
@@ -206,6 +211,7 @@ module.exports = async pgDb => {
       FROM
         jsontypes
       GROUP BY
+        id,
         taxonomy_name,
         property_name,
         jsontype

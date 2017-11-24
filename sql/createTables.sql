@@ -272,7 +272,6 @@ CREATE TABLE ae.organization_user (
 -- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.tax_properties_by_category CASCADE;
 CREATE TABLE ae.tax_properties_by_category (
-  id uuid,
   taxonomy_name text,
   property_name text,
   jsontype text,
@@ -284,7 +283,6 @@ CREATE TABLE ae.tax_properties_by_category (
 -- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.pco_properties_by_category CASCADE;
 CREATE TABLE ae.pco_properties_by_category (
-  id uuid,
   property_collection_name text,
   property_name text,
   jsontype text,
@@ -296,7 +294,6 @@ CREATE TABLE ae.pco_properties_by_category (
 -- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.rco_properties_by_category CASCADE;
 CREATE TABLE ae.rco_properties_by_category (
-  id uuid,
   property_collection_name text,
   relation_type text,
   property_name text,

@@ -311,5 +311,15 @@ CREATE TABLE ae.categories_of_taxonomies (
   count bigint
 );
 
+-- this table is only needed because postgraphql does not pick up
+-- the same named function without it
+-- see: https://github.com/postgraphql/postgraphql/issues/491
+DROP TABLE IF EXISTS ae.taxonomies_of_categories CASCADE;
+CREATE TABLE ae.taxonomies_of_categories (
+  category_name text,
+  taxonomy_name text,
+  object_count bigint
+);
+
 -- drop old tables
 DROP TABLE IF EXISTS ae.taxonomy_object CASCADE;

@@ -271,29 +271,39 @@ CREATE TABLE ae.organization_user (
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
 DROP TABLE IF EXISTS ae.tax_properties_by_category CASCADE;
-CREATE TABLE ae.tax_properties_by_category (
+
+-- this table is only needed because postgraphql does not pick up
+-- the same named function without it
+-- see: https://github.com/postgraphql/postgraphql/issues/491
+DROP TABLE IF EXISTS ae.tax_properties_by_taxonomy CASCADE;
+CREATE TABLE ae.tax_properties_by_taxonomy (
   taxonomy_name text,
   property_name text,
   jsontype text,
   count bigint
 );
 
+-- TODO: remove after replacing with ...by_taxonomy
+DROP TABLE IF EXISTS ae.pco_properties_by_category CASCADE;
+
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
-DROP TABLE IF EXISTS ae.pco_properties_by_category CASCADE;
-CREATE TABLE ae.pco_properties_by_category (
+DROP TABLE IF EXISTS ae.pco_properties_by_taxonomy CASCADE;
+CREATE TABLE ae.pco_properties_by_taxonomy (
   property_collection_name text,
   property_name text,
   jsontype text,
   count bigint
 );
 
+DROP TABLE IF EXISTS ae.rco_properties_by_category CASCADE;
+
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
-DROP TABLE IF EXISTS ae.rco_properties_by_category CASCADE;
-CREATE TABLE ae.rco_properties_by_category (
+DROP TABLE IF EXISTS ae.rco_properties_by_taxonomy CASCADE;
+CREATE TABLE ae.rco_properties_by_taxonomy (
   property_collection_name text,
   relation_type text,
   property_name text,
@@ -314,8 +324,8 @@ CREATE TABLE ae.categories_of_taxonomies (
 -- this table is only needed because postgraphql does not pick up
 -- the same named function without it
 -- see: https://github.com/postgraphql/postgraphql/issues/491
-DROP TABLE IF EXISTS ae.taxonomies_of_categories CASCADE;
-CREATE TABLE ae.taxonomies_of_categories (
+DROP TABLE IF EXISTS ae.taxonomies_of_category CASCADE;
+CREATE TABLE ae.taxonomies_of_category (
   category_name text,
   taxonomy_name text,
   object_count bigint

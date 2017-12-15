@@ -53,6 +53,7 @@ CREATE POLICY
   FOR ALL
   TO org_taxonomy_writer, org_admin
   USING (
+    -- use 'show jwt.claims.user_id' instead of 'current_user'?
     current_user IN (
       SELECT
         cast(ae.organization_user.user_id as text)

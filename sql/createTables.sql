@@ -68,6 +68,39 @@ CREATE TABLE ae.object (
   id_old text DEFAULT NULL
 );
 CREATE INDEX ON ae.object USING btree (name);
+CREATE POLICY
+  object_reader
+  ON ae.object
+  FOR SELECT
+  TO PUBLIC;
+DROP POLICY IF EXISTS org_object_writer ON ae.object;
+CREATE POLICY
+  org_object_writer
+  ON ae.object
+  FOR ALL
+  TO org_taxonomy_writer, org_admin
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+      WHERE
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
+    )
+  );
 
 -- ae.object to ae.object relationship
 -- best to add every relationship twice, see: https://stackoverflow.com/a/17128606/712005

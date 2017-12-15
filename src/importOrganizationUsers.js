@@ -4,7 +4,7 @@ module.exports = async (pgDb, organizationId, users) => {
   const ag = users.find(user => user.email === 'alex@gabriel-software.ch')
   const al = users.find(user => user.email === 'andreas.lienhard@bd.zh.ch')
   await pgDb.none(`
-    insert into ae.organization_user (organization_id,user_id,role)
+    insert into auth.organization_user (organization_id,user_id,role)
     values
       ('${organizationId}', '${ag.id}', 'orgHabitatWriter'),
       ('${organizationId}', '${ag.id}', 'orgCollectionWriter'),

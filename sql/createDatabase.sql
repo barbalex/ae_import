@@ -1,5 +1,6 @@
 CREATE DATABASE ae encoding 'UTF8';
 CREATE SCHEMA ae;
+CREATE SCHEMA auth;
 CREATE EXTENSION "uuid-ossp";
 DROP ROLE IF EXISTS org_collection_writer;
 CREATE ROLE org_collection_writer;

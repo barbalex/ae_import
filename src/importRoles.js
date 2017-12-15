@@ -2,7 +2,7 @@
 
 module.exports = async pgDb => {
   await pgDb.none(`
-    insert into ae.role (name)
+    insert into auth.role (name)
     values
       ('orgAdmin'),
       ('orgHabitatWriter'),

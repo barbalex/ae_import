@@ -41,6 +41,43 @@ CREATE TABLE ae.taxonomy (
 );
 CREATE INDEX ON ae.taxonomy USING btree (name);
 CREATE INDEX ON ae.taxonomy USING btree (category);
+CREATE POLICY
+  taxonomy_reader
+  ON ae.taxonomy
+  FOR SELECT
+  TO PUBLIC;
+DROP POLICY IF EXISTS org_taxonomy_writer ON ae.object;
+CREATE POLICY
+  org_taxonomy_writer
+  ON ae.taxonomy
+  FOR ALL
+  TO org_taxonomy_writer, org_admin
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+        INNER JOIN ae.taxonomy
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
+      WHERE
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+        INNER JOIN ae.taxonomy
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
+      WHERE
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
+    )
+  );
 
 DROP TABLE IF EXISTS ae.user CASCADE;
 CREATE TABLE ae.user (
@@ -85,8 +122,12 @@ CREATE POLICY
         cast(ae.organization_user.user_id as text)
       FROM
         ae.organization_user
+        INNER JOIN ae.taxonomy
+          INNER JOIN ae.object
+          ON ae.taxonomy.id = ae.object.taxonomy_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
         ae.organization_user.role = 'orgTaxonomyWriter'
     )
   )
@@ -96,9 +137,13 @@ CREATE POLICY
         cast(ae.organization_user.user_id as text)
       FROM
         ae.organization_user
+        INNER JOIN ae.taxonomy
+          INNER JOIN ae.object
+          ON ae.taxonomy.id = ae.object.taxonomy_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        ae.organization_user.organization_id = organization_id AND
-        ae.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   );
 
@@ -110,6 +155,51 @@ CREATE TABLE ae.synonym (
   object_id_synonym UUID NOT NULL REFERENCES ae.object (id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (object_id, object_id_synonym)
 );
+CREATE POLICY
+  synonym_reader
+  ON ae.synonym
+  FOR SELECT
+  TO PUBLIC;
+DROP POLICY IF EXISTS org_synonym_writer ON ae.synonym;
+CREATE POLICY
+  org_synonym_writer
+  ON ae.synonym
+  FOR ALL
+  TO org_taxonomy_writer, org_admin
+  USING (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+        INNER JOIN ae.taxonomy
+          INNER JOIN ae.object
+            INNER JOIN ae.synonym
+            ON ae.object.id = ae.synonym.object_id
+          ON ae.taxonomy.id = ae.object.taxonomy_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
+      WHERE
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
+    )
+  )
+  WITH CHECK (
+    current_user IN (
+      SELECT
+        cast(ae.organization_user.user_id as text)
+      FROM
+        ae.organization_user
+        INNER JOIN ae.taxonomy
+          INNER JOIN ae.object
+            INNER JOIN ae.synonym
+            ON ae.object.id = ae.synonym.object_id
+          ON ae.taxonomy.id = ae.object.taxonomy_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
+      WHERE
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
+    )
+  );
 
 DROP TABLE IF EXISTS ae.property_collection CASCADE;
 CREATE TABLE ae.property_collection (

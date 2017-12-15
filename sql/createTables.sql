@@ -14,12 +14,12 @@ CREATE TABLE ae.category (
   id UUID DEFAULT uuid_generate_v1mc()
 );
 
-DROP TABLE IF EXISTS auth.organization CASCADE;
-CREATE TABLE auth.organization (
+DROP TABLE IF EXISTS ae.organization CASCADE;
+CREATE TABLE ae.organization (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text UNIQUE NOT NULL
 );
-CREATE INDEX ON auth.organization USING btree (name);
+CREATE INDEX ON ae.organization USING btree (name);
 
 DROP TABLE IF EXISTS ae.taxonomy CASCADE;
 CREATE TABLE ae.taxonomy (
@@ -29,9 +29,9 @@ CREATE TABLE ae.taxonomy (
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
   last_updated date DEFAULT NULL,
-  organization_id UUID NOT NULL REFERENCES auth.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   is_category_standard boolean DEFAULT FALSE,
-  imported_by UUID NOT NULL REFERENCES auth.user (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE,
   terms_of_use text DEFAULT NULL,
   habitat_label varchar(50) DEFAULT NULL,
   habitat_comments text DEFAULT NULL,
@@ -56,32 +56,32 @@ CREATE POLICY
     -- use 'show jwt.claims.user_id' instead of 'current_user'?
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
         INNER JOIN ae.taxonomy
-        ON auth.organization_user.organization_id = ae.taxonomy.organization_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        auth.organization_user.organization_id = ae.taxonomy.organization_id AND
-        auth.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   )
   WITH CHECK (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
         INNER JOIN ae.taxonomy
-        ON auth.organization_user.organization_id = ae.taxonomy.organization_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        auth.organization_user.organization_id = ae.taxonomy.organization_id AND
-        auth.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   );
 
-DROP TABLE IF EXISTS auth.user CASCADE;
-CREATE TABLE auth.user (
+DROP TABLE IF EXISTS ae.user CASCADE;
+CREATE TABLE ae.user (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v1mc(),
   name text NOT NULL UNIQUE,
   email text NOT NULL UNIQUE,
@@ -120,31 +120,31 @@ CREATE POLICY
   USING (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
         INNER JOIN ae.taxonomy
           INNER JOIN ae.object
           ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON auth.organization_user.organization_id = ae.taxonomy.organization_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        auth.organization_user.organization_id = ae.taxonomy.organization_id AND
-        auth.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   )
   WITH CHECK (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
         INNER JOIN ae.taxonomy
           INNER JOIN ae.object
           ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON auth.organization_user.organization_id = ae.taxonomy.organization_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        auth.organization_user.organization_id = ae.taxonomy.organization_id AND
-        auth.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   );
 
@@ -170,35 +170,35 @@ CREATE POLICY
   USING (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
         INNER JOIN ae.taxonomy
           INNER JOIN ae.object
             INNER JOIN ae.synonym
             ON ae.object.id = ae.synonym.object_id
           ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON auth.organization_user.organization_id = ae.taxonomy.organization_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        auth.organization_user.organization_id = ae.taxonomy.organization_id AND
-        auth.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   )
   WITH CHECK (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
         INNER JOIN ae.taxonomy
           INNER JOIN ae.object
             INNER JOIN ae.synonym
             ON ae.object.id = ae.synonym.object_id
           ON ae.taxonomy.id = ae.object.taxonomy_id
-        ON auth.organization_user.organization_id = ae.taxonomy.organization_id
+        ON ae.organization_user.organization_id = ae.taxonomy.organization_id
       WHERE
-        auth.organization_user.organization_id = ae.taxonomy.organization_id AND
-        auth.organization_user.role = 'orgTaxonomyWriter'
+        ae.organization_user.organization_id = ae.taxonomy.organization_id AND
+        ae.organization_user.role = 'orgTaxonomyWriter'
     )
   );
 
@@ -211,10 +211,10 @@ CREATE TABLE ae.property_collection (
   description text DEFAULT NULL,
   links text[] DEFAULT NULL,
   combining boolean DEFAULT FALSE,
-  organization_id UUID NOT NULL REFERENCES auth.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  organization_id UUID NOT NULL REFERENCES ae.organization (id) ON DELETE SET NULL ON UPDATE CASCADE,
   last_updated date DEFAULT NULL,
   terms_of_use text DEFAULT NULL,
-  imported_by UUID NOT NULL REFERENCES auth.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
+  imported_by UUID NOT NULL REFERENCES ae.user (id) ON DELETE RESTRICT ON UPDATE CASCADE
   --CONSTRAINT proper_links CHECK (length(regexp_replace(array_to_string(links, ''),'((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)',''))=0)
 );
 CREATE INDEX ON ae.property_collection USING btree (name);
@@ -235,23 +235,23 @@ CREATE POLICY
   USING (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
       WHERE
-        auth.organization_user.organization_id = organization_id AND
-        auth.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
     )
   )
   WITH CHECK (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
       WHERE
-        auth.organization_user.organization_id = organization_id AND
-        auth.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.organization_id = organization_id AND
+        ae.organization_user.role = 'orgCollectionWriter'
     )
   );
 
@@ -279,37 +279,37 @@ CREATE POLICY
   USING (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
       INNER JOIN
         (ae.property_collection
         INNER JOIN
           ae.property_collection_object
           ON property_collection_object.property_collection_id = ae.property_collection.id)
-        ON ae.property_collection.organization_id = auth.organization_user.organization_id
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE
         ae.property_collection_object.object_id = object_id AND
         ae.property_collection_object.property_collection_id = property_collection_id AND
-        auth.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.role = 'orgCollectionWriter'
     )
   )
   WITH CHECK (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
       INNER JOIN
         (ae.property_collection
         INNER JOIN
           ae.property_collection_object
           ON property_collection_object.property_collection_id = ae.property_collection.id)
-        ON ae.property_collection.organization_id = auth.organization_user.organization_id
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE
         ae.property_collection_object.object_id = object_id AND
         ae.property_collection_object.property_collection_id = property_collection_id AND
-        auth.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.role = 'orgCollectionWriter'
     )
   );
 
@@ -340,9 +340,9 @@ CREATE POLICY
   USING (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
       INNER JOIN
         (ae.property_collection
         INNER JOIN
@@ -351,18 +351,18 @@ CREATE POLICY
             ae.relation
             ON ae.property_collection_object.id = ae.relation.property_collection_id)
           ON property_collection_object.property_collection_id = ae.property_collection.id)
-        ON ae.property_collection.organization_id = auth.organization_user.organization_id
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE
         ae.relation.id = id AND
-        auth.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.role = 'orgCollectionWriter'
     )
   )
   WITH CHECK (
     current_user IN (
       SELECT
-        cast(auth.organization_user.user_id as text)
+        cast(ae.organization_user.user_id as text)
       FROM
-        auth.organization_user
+        ae.organization_user
       INNER JOIN
         (ae.property_collection
         INNER JOIN
@@ -371,23 +371,23 @@ CREATE POLICY
             ae.relation
             ON ae.property_collection_object.id = ae.relation.property_collection_id)
           ON property_collection_object.property_collection_id = ae.property_collection.id)
-        ON ae.property_collection.organization_id = auth.organization_user.organization_id
+        ON ae.property_collection.organization_id = ae.organization_user.organization_id
       WHERE
         ae.relation.id = id AND
-        auth.organization_user.role = 'orgCollectionWriter'
+        ae.organization_user.role = 'orgCollectionWriter'
     )
   );
 
-DROP TABLE IF EXISTS auth.role CASCADE;
-CREATE TABLE auth.role (
+DROP TABLE IF EXISTS ae.role CASCADE;
+CREATE TABLE ae.role (
   name text PRIMARY KEY
 );
 
-DROP TABLE IF EXISTS auth.organization_user;
-CREATE TABLE auth.organization_user (
-  organization_id UUID REFERENCES auth.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  user_id UUID REFERENCES auth.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  role text REFERENCES auth.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
+DROP TABLE IF EXISTS ae.organization_user;
+CREATE TABLE ae.organization_user (
+  organization_id UUID REFERENCES ae.organization (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  user_id UUID REFERENCES ae.user (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  role text REFERENCES ae.role (name) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (organization_id, user_id, role)
 );
 

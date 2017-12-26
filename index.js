@@ -68,19 +68,14 @@ const doIt = async () => {
     const couchObjects = await getCouchObjects(asyncCouchdbView)
     await importCategories(pgDb)
     const organizations = await importOrganizations(pgDb)
-    const users = await importUsers(pgDb)
+    await importUsers(pgDb)
     await importRoles(pgDb)
     await importOrganizationUsers(pgDb, 'a8e5bc98-696f-11e7-b453-3741aafa0388')
-    await importTaxonomiesNonLr(
-      pgDb,
-      'a8e5bc98-696f-11e7-b453-3741aafa0388',
-      users
-    )
+    await importTaxonomiesNonLr(pgDb, 'a8e5bc98-696f-11e7-b453-3741aafa0388')
     await importTaxonomiesLr(
       asyncCouchdbView,
       pgDb,
-      'a8e5bc98-696f-11e7-b453-3741aafa0388',
-      users
+      'a8e5bc98-696f-11e7-b453-3741aafa0388'
     )
     await importObjectsFauna(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsFlora(asyncCouchdbView, pgDb, couchObjects)
@@ -92,8 +87,7 @@ const doIt = async () => {
     await importCollections(
       asyncCouchdbView,
       pgDb,
-      'a8e5bc98-696f-11e7-b453-3741aafa0388',
-      users
+      'a8e5bc98-696f-11e7-b453-3741aafa0388'
     )
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)

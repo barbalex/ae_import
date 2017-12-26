@@ -70,9 +70,22 @@ const doIt = async () => {
     const organizations = await importOrganizations(pgDb)
     const users = await importUsers(pgDb)
     await importRoles(pgDb)
-    await importOrganizationUsers(pgDb, organizations[0].id, users)
-    await importTaxonomiesNonLr(pgDb, organizations[0].id, users)
-    await importTaxonomiesLr(asyncCouchdbView, pgDb, organizations[0].id, users)
+    await importOrganizationUsers(
+      pgDb,
+      'a8e5bc98-696f-11e7-b453-3741aafa0388',
+      users
+    )
+    await importTaxonomiesNonLr(
+      pgDb,
+      'a8e5bc98-696f-11e7-b453-3741aafa0388',
+      users
+    )
+    await importTaxonomiesLr(
+      asyncCouchdbView,
+      pgDb,
+      'a8e5bc98-696f-11e7-b453-3741aafa0388',
+      users
+    )
     await importObjectsFauna(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsFlora(asyncCouchdbView, pgDb, couchObjects)
     await importSynonymsFlora(pgDb)
@@ -80,7 +93,12 @@ const doIt = async () => {
     await importSynonymsMoose(pgDb)
     await importObjectsPilze(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsLr(asyncCouchdbView, pgDb)
-    await importCollections(asyncCouchdbView, pgDb, organizations[0].id, users)
+    await importCollections(
+      asyncCouchdbView,
+      pgDb,
+      'a8e5bc98-696f-11e7-b453-3741aafa0388',
+      users
+    )
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)

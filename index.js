@@ -70,11 +70,7 @@ const doIt = async () => {
     const organizations = await importOrganizations(pgDb)
     const users = await importUsers(pgDb)
     await importRoles(pgDb)
-    await importOrganizationUsers(
-      pgDb,
-      'a8e5bc98-696f-11e7-b453-3741aafa0388',
-      users
-    )
+    await importOrganizationUsers(pgDb, 'a8e5bc98-696f-11e7-b453-3741aafa0388')
     await importTaxonomiesNonLr(
       pgDb,
       'a8e5bc98-696f-11e7-b453-3741aafa0388',

@@ -67,7 +67,7 @@ const doIt = async () => {
     await rebuildTables()
     const couchObjects = await getCouchObjects(asyncCouchdbView)
     await importCategories(pgDb)
-    const organizations = await importOrganizations(pgDb)
+    await importOrganizations(pgDb)
     await importUsers(pgDb)
     await importRoles(pgDb)
     await importOrganizationUsers(pgDb, 'a8e5bc98-696f-11e7-b453-3741aafa0388')

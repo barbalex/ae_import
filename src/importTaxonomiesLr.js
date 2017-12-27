@@ -14,7 +14,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
   const taxonomies = baumLr.rows.map(row => {
     const { doc } = row
     return {
-      id: doc._id,
+      id: doc._id.toLowerCase(),
       name: doc.Taxonomie.Eigenschaften.Taxonomie,
       habitat_label: doc.Taxonomie.Eigenschaften['Einheit-Abkürzung'],
       description: doc.Taxonomie.Eigenschaften.Beschreibung || null,

@@ -44,7 +44,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
     if (properties.Hierarchie) delete properties.Hierarchie
 
     return {
-      id: o._id,
+      id: o._id.toLowerCase(),
       taxonomy_id,
       parent_id,
       name,
@@ -56,11 +56,9 @@ module.exports = async (asyncCouchdbView, pgDb) => {
   const valueSql = taxObjectsLr
     .map(
       val =>
-        `('${val.id}',${val.taxonomy_id
-          ? `'${val.taxonomy_id}'`
-          : null},${val.parent_id
-          ? `'${val.parent_id}'`
-          : null},'${val.name}','${val.id_old}','${val.category}')`
+        `('${val.id}',${val.taxonomy_id ? `'${val.taxonomy_id}'` : null},${
+          val.parent_id ? `'${val.parent_id}'` : null
+        },'${val.name}','${val.id_old}','${val.category}')`
     )
     .join(',')
   await pgDb.none(`

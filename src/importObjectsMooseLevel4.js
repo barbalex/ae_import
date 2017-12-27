@@ -37,7 +37,7 @@ module.exports = async (
     const object = couchObjects.find(obj => obj._id === objId)
     const properties = object.Taxonomie.Eigenschaften
     return {
-      id: objId,
+      id: objId.toLowerCase(),
       taxonomy_id: taxMoose.id,
       name,
       properties,
@@ -49,7 +49,9 @@ module.exports = async (
   const valueSql = taxObjectsMooseLevel4
     .map(
       val =>
-        `('${val.id}','${val.taxonomy_id}','${val.name}','${val.parent_id}','${val.id_old}','${val.category}')`
+        `('${val.id}','${val.taxonomy_id}','${val.name}','${val.parent_id}','${
+          val.id_old
+        }','${val.category}')`
     )
     .join(',')
   await pgDb.none(`

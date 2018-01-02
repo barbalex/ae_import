@@ -223,26 +223,26 @@ module.exports = async pgDb => {
       OWNER TO postgres;
   `)
   await pgDb.none(`
-    CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
-      RETURNS setof ae.categories_of_taxonomies AS
-      $$
-        WITH categoryTaxonomies AS (
-          SELECT ae.category.name, ae.category.id, ae.taxonomy.id AS taxonomy_id
-          FROM ae.taxonomy
-            INNER JOIN ae.object
-              INNER JOIN ae.category
-              ON ae.category.name = ae.object.category
-            ON ae.object.taxonomy_id = ae.taxonomy.id
-          GROUP BY ae.category.name, ae.category.id, ae.taxonomy.id
-        )
-        SELECT name, id, count(*) AS count
-        FROM categoryTaxonomies
-        GROUP BY name, id
-        ORDER BY name
-      $$
-      LANGUAGE sql STABLE;
-    ALTER FUNCTION ae.categories_of_taxonomies_function()
-      OWNER TO postgres;
+  CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_count_function()
+    RETURNS setof ae.categories_of_taxonomies AS
+    $$
+      WITH categoryTaxonomies AS (
+        SELECT ae.category.name, ae.category.id, ae.taxonomy.id AS taxonomy_id
+        FROM ae.taxonomy
+          INNER JOIN ae.object
+            INNER JOIN ae.category
+            ON ae.category.name = ae.object.category
+          ON ae.object.taxonomy_id = ae.taxonomy.id
+        GROUP BY ae.category.name, ae.category.id, ae.taxonomy.id
+      )
+      SELECT name, id, count(*) AS count
+      FROM categoryTaxonomies
+      GROUP BY name, id
+      ORDER BY name
+    $$
+    LANGUAGE sql STABLE;
+  ALTER FUNCTION ae.categories_of_taxonomies_count_function()
+    OWNER TO postgres;
   `)
   await pgDb.none(`
     CREATE OR REPLACE FUNCTION ae.taxonomies_of_category(category text)
@@ -296,6 +296,31 @@ module.exports = async pgDb => {
     $$
     LANGUAGE sql STABLE;
   ALTER FUNCTION ae.categories_of_taxonomy_function(tax_id uuid)
+    OWNER TO postgres;
+  `)
+  await pgDb.none(`
+  CREATE OR REPLACE FUNCTION ae.categories_of_taxonomies_function()
+    RETURNS TABLE (
+      taxonomy_id UUID,
+      taxonomy_name TEXT,
+      category_name TEXT
+    ) AS
+    $$
+      SELECT DISTINCT
+        ae.taxonomy.id as taxonomy_id,
+        ae.taxonomy.name as taxonomy_name,
+        ae.category.name as category_name
+      FROM ae.taxonomy
+        INNER JOIN ae.object
+          INNER JOIN ae.category
+          ON ae.category.name = ae.object.category
+        ON ae.object.taxonomy_id = ae.taxonomy.id
+      ORDER BY
+        taxonomy_name,
+        category_name
+    $$
+    LANGUAGE sql STABLE;
+  ALTER FUNCTION ae.categories_of_taxonomies_function()
     OWNER TO postgres;
   `)
   console.log('functions added')

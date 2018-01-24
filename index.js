@@ -59,6 +59,7 @@ const importRelationsFromRC = require('./src/importRelationsFromRC')
 const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections')
 const addTaxonomyObjectParentConstraint = require('./src/addTaxonomyObjectParentConstraint')
 const addFunctions = require('./src/addFunctions')
+const addViews = require('./src/addViews')
 
 const pgDb = pgp(config.pg.connectionString)
 
@@ -92,6 +93,7 @@ const doIt = async () => {
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await addFunctions(pgDb)
+    await addViews(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
     await importPropertyCollectionObjectsFromPC(pgDb, couchObjects)
     await importRelationsFromRC(pgDb, couchObjects)

@@ -5,7 +5,7 @@ module.exports = async pgDb => {
     insert into ae.role (name)
     values
       ('orgAdmin'),
-      ('orgHabitatWriter'),
+      ('orgTaxonomyWriter'),
       ('orgCollectionWriter');
   `)
   console.log('3 roles imported')

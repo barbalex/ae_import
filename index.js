@@ -36,7 +36,8 @@ const asyncCouchdbView = promisify(couchDb.view).bind(couchDb)
 const config = require('./configuration')
 const pgp = require('pg-promise')()
 
-const rebuildTables = require('./src/rebuildTables')
+const prepareDatabase = require('./src/prepareDatabase')
+const createTables = require('./src/createTables')
 const getCouchObjects = require('./src/getCouchObjects')
 const importCategories = require('./src/importCategories')
 const importOrganizations = require('./src/importOrganizations')
@@ -58,26 +59,24 @@ const importPropertyCollectionObjectsFromPC = require('./src/importPropertyColle
 const importRelationsFromRC = require('./src/importRelationsFromRC')
 const addUniqueNameConstraintToCollections = require('./src/addUniqueNameConstraintToCollections')
 const addTaxonomyObjectParentConstraint = require('./src/addTaxonomyObjectParentConstraint')
-const addFunctions = require('./src/addFunctions')
-const addViews = require('./src/addViews')
+const createFunctions = require('./src/createFunctions')
+const createTypes = require('./src/createTypes')
+const createViews = require('./src/createViews')
 
 const pgDb = pgp(config.pg.connectionString)
 
 const doIt = async () => {
   try {
-    await rebuildTables()
+    await prepareDatabase(pgDb)
+    await createTables()
     const couchObjects = await getCouchObjects(asyncCouchdbView)
     await importCategories(pgDb)
     await importOrganizations(pgDb)
     await importUsers(pgDb)
     await importRoles(pgDb)
-    await importOrganizationUsers(pgDb, 'a8e5bc98-696f-11e7-b453-3741aafa0388')
-    await importTaxonomiesNonLr(pgDb, 'a8e5bc98-696f-11e7-b453-3741aafa0388')
-    await importTaxonomiesLr(
-      asyncCouchdbView,
-      pgDb,
-      'a8e5bc98-696f-11e7-b453-3741aafa0388'
-    )
+    await importOrganizationUsers(pgDb)
+    await importTaxonomiesNonLr(pgDb)
+    await importTaxonomiesLr(asyncCouchdbView, pgDb)
     await importObjectsFauna(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsFlora(asyncCouchdbView, pgDb, couchObjects)
     await importSynonymsFlora(pgDb)
@@ -85,15 +84,12 @@ const doIt = async () => {
     await importSynonymsMoose(pgDb)
     await importObjectsPilze(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsLr(asyncCouchdbView, pgDb)
-    await importCollections(
-      asyncCouchdbView,
-      pgDb,
-      'a8e5bc98-696f-11e7-b453-3741aafa0388'
-    )
+    await importCollections(asyncCouchdbView, pgDb)
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
-    await addFunctions(pgDb)
-    await addViews(pgDb)
+    await createFunctions(pgDb)
+    await createTypes(pgDb)
+    await createViews(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
     await importPropertyCollectionObjectsFromPC(pgDb, couchObjects)
     await importRelationsFromRC(pgDb, couchObjects)

@@ -4,7 +4,7 @@
 
 const _ = require('lodash')
 
-module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
+module.exports = async (asyncCouchdbView, pgDb) => {
   const baumLr = await asyncCouchdbView('artendb/baumLr', {
     startkey: [1],
     endkey: [1, '\u9999', '\u9999', '\u9999', '\u9999', '\u9999'],
@@ -22,7 +22,7 @@ module.exports = async (asyncCouchdbView, pgDb, organizationId) => {
       habitat_nr_fns_min: doc.Taxonomie.Eigenschaften['Einheit-Nrn FNS von'],
       habitat_nr_fns_max: doc.Taxonomie.Eigenschaften['Einheit-Nrn FNS bis'],
       is_category_standard: true,
-      organization_id: organizationId,
+      organization_id: 'a8e5bc98-696f-11e7-b453-3741aafa0388',
       imported_by: 'a8eeeaa2-696f-11e7-b454-83e34acbe09f',
       terms_of_use:
         'Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich.',

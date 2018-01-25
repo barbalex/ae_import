@@ -6,10 +6,10 @@ const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 const nonLrTaxonomies = require('./nonLrTaxonomies')
 
-module.exports = async (pgDb, organizationId) => {
+module.exports = async pgDb => {
   nonLrTaxonomies.forEach(tax => {
     tax.id = uuidv1()
-    tax.organization_id = organizationId
+    tax.organization_id = 'a8e5bc98-696f-11e7-b453-3741aafa0388'
     tax.imported_by = 'a8eeeaa2-696f-11e7-b454-83e34acbe09f'
     tax.terms_of_use =
       'Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich.'

@@ -21,8 +21,9 @@ const buildDatenstandFromString = dstString => {
   return null
 }
 
-module.exports = async (asyncCouchdbView, pgDb, organization_id) => {
+module.exports = async (asyncCouchdbView, pgDb) => {
   const colsPC = await getCollectionsFromCouch(asyncCouchdbView)
+  const organization_id = 'a8e5bc98-696f-11e7-b453-3741aafa0388'
 
   // build property collections
   const propertyCollections = colsPC.map(c => {

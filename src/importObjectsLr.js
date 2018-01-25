@@ -28,7 +28,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
     const parentId = _.get(o, 'Taxonomie.Eigenschaften.Parent.GUID', '')
     const parent = lrObjects.find(l => l._id === parentId)
     const parent_id =
-      parent && parent.id && isUuid.anyNonNil(parent.id) ? parent.id : null
+      parent && parent._id && isUuid.anyNonNil(parent._id) ? parent._id : null
     const previousTaxonomyId = _.get(
       o,
       'Taxonomie.Eigenschaften.Hierarchie[0].GUID',

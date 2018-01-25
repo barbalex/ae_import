@@ -11,6 +11,6 @@ config.db = {}
 config.pg = {}
 config.pg.connectionString = `postgres://${pgPassfile.user}:${
   pgPassfile.pass
-}@localhost:5432/ae2`
+}@localhost:5432/ae`
 
 module.exports = config

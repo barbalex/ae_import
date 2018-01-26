@@ -62,6 +62,7 @@ const addTaxonomyObjectParentConstraint = require('./src/addTaxonomyObjectParent
 const createFunctions = require('./src/createFunctions')
 const createTypes = require('./src/createTypes')
 const createViews = require('./src/createViews')
+const grantRoles = require('./src/grantRoles')
 
 const pgDb = pgp(config.pg.connectionString)
 
@@ -90,6 +91,7 @@ const doIt = async () => {
     await createFunctions(pgDb)
     await createTypes(pgDb)
     await createViews(pgDb)
+    await grantRoles(pgDb)
     await addTaxonomyObjectParentConstraint(pgDb)
     await importPropertyCollectionObjectsFromPC(pgDb, couchObjects)
     await importRelationsFromRC(pgDb, couchObjects)

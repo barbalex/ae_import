@@ -10,7 +10,7 @@ module.exports = () =>
       __dirname,
       '../../ae2/src/sql/createFunctions.sql'
     )
-    const cmd1 = `set PGPASSWORD="${pgDbPass.pass}"`
+    const cmd1 = `SETX PGPASSWORD ${pgDbPass.pass}`
     const cmd2 = `psql -U ${pgDbPass.user} -d ae -a -f ${filename}`
     exec(cmd1, error => {
       if (error) return reject(`error creating functions: ${error}`)

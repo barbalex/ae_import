@@ -15,6 +15,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
     const { doc } = row
     return {
       id: doc._id.toLowerCase(),
+      type: 'Art',
       name: doc.Taxonomie.Eigenschaften.Taxonomie,
       habitat_label: doc.Taxonomie.Eigenschaften['Einheit-Abkürzung'],
       description: doc.Taxonomie.Eigenschaften.Beschreibung || null,

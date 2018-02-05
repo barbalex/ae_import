@@ -52,7 +52,8 @@ module.exports = async (objectsInCouch, pgDb) => {
             const relation_type = rCInPcFromRc.nature_of_relation
             // build relations
             if (rCInCouch.Beziehungen && rCInCouch.Beziehungen.length) {
-              rCInCouch.Beziehungen.forEach(relationInCouch => {
+              // eslint-disable-next-line prefer-arrow-callback, func-names
+              rCInCouch.Beziehungen.forEach(function(relationInCouch) {
                 let properties = null
                 const propertiesInCouch = _.clone(relationInCouch)
                 if (propertiesInCouch.Beziehungspartner) {
@@ -94,7 +95,9 @@ module.exports = async (objectsInCouch, pgDb) => {
   relations = _.uniqBy(
     relations,
     r =>
-      `${r.property_collection_id}${r.object_id}${r.object_id_relation}${r.relation_type}`
+      `${r.property_collection_id}${r.object_id}${r.object_id_relation}${
+        r.relation_type
+      }`
   )
 
   return relations

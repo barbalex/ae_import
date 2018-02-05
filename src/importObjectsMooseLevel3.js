@@ -14,7 +14,8 @@ module.exports = async (
     group_level: 3,
   })
   const keys = _.map(baumMoose, row => row.key)
-  const taxObjectsMooseLevel3 = _.map(keys, key => {
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  const taxObjectsMooseLevel3 = _.map(keys, function(key) {
     const taxonomie = taxMoose.id
     const klasseObjektName = key[0]
     const klasseObject = taxObjectsMooseLevel1.find(
@@ -36,7 +37,12 @@ module.exports = async (
   })
   const fieldsSql = _.keys(taxObjectsMooseLevel3[0]).join(',')
   const valueSql = taxObjectsMooseLevel3
-    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+    .map(
+      tax =>
+        `('${_.values(tax)
+          .join("','")
+          .replace(/'',/g, 'null,')}')`
+    )
     .join(',')
   await pgDb.none(`
     insert into ae.object (${fieldsSql})

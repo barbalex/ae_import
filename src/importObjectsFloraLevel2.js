@@ -13,7 +13,8 @@ module.exports = async (
     group_level: 2,
   })
   const keys = _.map(baumFlora, row => row.key)
-  const taxObjectsFloraLevel2 = _.map(keys, key => {
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  const taxObjectsFloraLevel2 = _.map(keys, function(key) {
     const familieName = key[0]
     const familieObject = taxObjectsFloraLevel1.find(
       taxObj => taxObj.name === familieName
@@ -29,7 +30,12 @@ module.exports = async (
   })
   const fieldsSql = _.keys(taxObjectsFloraLevel2[0]).join(',')
   const valueSql = taxObjectsFloraLevel2
-    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+    .map(
+      tax =>
+        `('${_.values(tax)
+          .join("','")
+          .replace(/'',/g, 'null,')}')`
+    )
     .join(',')
   await pgDb.none(`
     insert into ae.object (${fieldsSql})

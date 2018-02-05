@@ -8,15 +8,23 @@ module.exports = async (asyncCouchdbView, pgDb, taxMoose) => {
     group_level: 1,
   })
   const names = _.map(baumMoose, row => row.key[0])
-  const taxObjectsMooseLevel1 = names.map(name => ({
-    id: uuidv1(),
-    taxonomy_id: taxMoose.id,
-    name,
-    category: 'Moose',
-  }))
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  const taxObjectsMooseLevel1 = names.map(function(name) {
+    return {
+      id: uuidv1(),
+      taxonomy_id: taxMoose.id,
+      name,
+      category: 'Moose',
+    }
+  })
   const fieldsSql = _.keys(taxObjectsMooseLevel1[0]).join(',')
   const valueSql = taxObjectsMooseLevel1
-    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+    .map(
+      tax =>
+        `('${_.values(tax)
+          .join("','")
+          .replace(/'',/g, 'null,')}')`
+    )
     .join(',')
   await pgDb.none(`
     insert into ae.object (${fieldsSql})

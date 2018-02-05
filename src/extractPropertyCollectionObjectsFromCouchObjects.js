@@ -12,7 +12,8 @@ module.exports = async (objectsInCouch, pgDb) => {
   objectsInCouch.forEach(objectInCouch => {
     if (objectInCouch.Eigenschaftensammlungen) {
       const object_id = objectInCouch._id.toLowerCase()
-      objectInCouch.Eigenschaftensammlungen.forEach(pCInCouch => {
+      // eslint-disable-next-line prefer-arrow-callback, func-names
+      objectInCouch.Eigenschaftensammlungen.forEach(function(pCInCouch) {
         // add property_collection_object
         let pcNameToSearchFor = pCInCouch.Name
         if (

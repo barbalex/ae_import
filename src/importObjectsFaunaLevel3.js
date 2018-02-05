@@ -15,7 +15,8 @@ module.exports = async (
   })
 
   const keys = _.map(baumFauna, row => row.key)
-  const objectsFaunaLevel3 = _.map(keys, key => {
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  const objectsFaunaLevel3 = _.map(keys, function(key) {
     const klasseObjektName = key[0]
     const klasseObject = objectsFaunaLevel1.find(
       taxObj => taxObj.name === klasseObjektName
@@ -36,7 +37,12 @@ module.exports = async (
   })
   const fieldsSql = _.keys(objectsFaunaLevel3[0]).join(',')
   const valueSql = objectsFaunaLevel3
-    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+    .map(
+      tax =>
+        `('${_.values(tax)
+          .join("','")
+          .replace(/'',/g, 'null,')}')`
+    )
     .join(',')
   await pgDb.none(`
     insert into ae.object (${fieldsSql})

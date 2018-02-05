@@ -26,7 +26,8 @@ module.exports = async (asyncCouchdbView, pgDb) => {
   const organization_id = 'a8e5bc98-696f-11e7-b453-3741aafa0388'
 
   // build property collections
-  const propertyCollections = colsPC.map(c => {
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  const propertyCollections = colsPC.map(function(c) {
     const id = uuidv1()
     let name = c[1]
     const description = c[2] || null
@@ -74,30 +75,33 @@ module.exports = async (asyncCouchdbView, pgDb) => {
   console.log(`${propertyCollections.length} property collections imported`)
 
   // build relation collections
-  const relationCollections = pcFromRc.filter(pc => pc.createNewPc).map(c => {
-    const id = uuidv1()
-    const name = c.nameNew
-    const description = c.description
-    const links = c.link
-    const combining = false
-    const last_updated = c.last_updated
-    const terms_of_use = c.terms_of_use
-    const imported_by = 'a8eeeaa2-696f-11e7-b454-83e34acbe09f'
-    const pc_of_origin_name = c[7] || null
+  const relationCollections = pcFromRc
+    .filter(pc => pc.createNewPc)
+    // eslint-disable-next-line prefer-arrow-callback, func-names
+    .map(function(c) {
+      const id = uuidv1()
+      const name = c.nameNew
+      const description = c.description
+      const links = c.link
+      const combining = false
+      const last_updated = c.last_updated
+      const terms_of_use = c.terms_of_use
+      const imported_by = 'a8eeeaa2-696f-11e7-b454-83e34acbe09f'
+      const pc_of_origin_name = c[7] || null
 
-    return {
-      id,
-      name,
-      description,
-      links,
-      combining,
-      organization_id,
-      last_updated,
-      terms_of_use,
-      imported_by,
-      pc_of_origin_name,
-    }
-  })
+      return {
+        id,
+        name,
+        description,
+        links,
+        combining,
+        organization_id,
+        last_updated,
+        terms_of_use,
+        imported_by,
+        pc_of_origin_name,
+      }
+    })
   // write relationCollections
   const fieldsSqlRC = _.keys(relationCollections[0]).join(',')
   const valueSqlRC = relationCollections

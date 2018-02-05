@@ -7,7 +7,8 @@ const uuidv1 = require('uuid/v1')
 const nonLrTaxonomies = require('./nonLrTaxonomies')
 
 module.exports = async pgDb => {
-  nonLrTaxonomies.forEach(tax => {
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  nonLrTaxonomies.forEach(function(tax) {
     tax.id = uuidv1()
     tax.type = 'Lebensraum'
     tax.organization_id = 'a8e5bc98-696f-11e7-b453-3741aafa0388'

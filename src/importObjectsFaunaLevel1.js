@@ -8,15 +8,23 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
     group_level: 1,
   })
   const names = _.map(baumFauna, row => row.key[0])
-  const objectsFaunaLevel1 = names.map(name => ({
-    id: uuidv1(),
-    taxonomy_id: taxFauna.id,
-    name,
-    category: 'Fauna',
-  }))
+  // eslint-disable-next-line prefer-arrow-callback, func-names
+  const objectsFaunaLevel1 = names.map(function(name) {
+    return {
+      id: uuidv1(),
+      taxonomy_id: taxFauna.id,
+      name,
+      category: 'Fauna',
+    }
+  })
   const fieldsSql = _.keys(objectsFaunaLevel1[0]).join(',')
   const valueSql = objectsFaunaLevel1
-    .map(tax => `('${_.values(tax).join("','").replace(/'',/g, 'null,')}')`)
+    .map(
+      tax =>
+        `('${_.values(tax)
+          .join("','")
+          .replace(/'',/g, 'null,')}')`
+    )
     .join(',')
   await pgDb.none(`
     insert into ae.object (${fieldsSql})

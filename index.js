@@ -18,9 +18,7 @@
  *
  */
 
-const {
-  promisify
-} = require('util')
+const { promisify } = require('util')
 // initiate couchDb-connection
 const couchPass = require('./couchPass.json')
 const cradle = require('cradle')
@@ -66,6 +64,7 @@ const createTypes = require('./src/createTypes')
 const createViews = require('./src/createViews')
 const grantRoles = require('./src/grantRoles')
 const createPolicies = require('./src/createPolicies')
+const updateOriginOfPc = require('./src/updateOriginOfPc')
 
 const pgDb = pgp(config.pg.connectionString)
 
@@ -89,6 +88,7 @@ const doIt = async () => {
     await importObjectsPilze(asyncCouchdbView, pgDb, couchObjects)
     await importObjectsLr(asyncCouchdbView, pgDb)
     await importCollections(asyncCouchdbView, pgDb)
+    await updateOriginOfPc(pgDb)
     await correctPropertyCollections(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await createViews()

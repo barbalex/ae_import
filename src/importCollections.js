@@ -83,6 +83,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
     const last_updated = c.last_updated
     const terms_of_use = c.terms_of_use
     const imported_by = 'a8eeeaa2-696f-11e7-b454-83e34acbe09f'
+    const pc_of_origin_name = c[7] || null
 
     return {
       id,
@@ -94,6 +95,7 @@ module.exports = async (asyncCouchdbView, pgDb) => {
       last_updated,
       terms_of_use,
       imported_by,
+      pc_of_origin_name,
     }
   })
   // write relationCollections

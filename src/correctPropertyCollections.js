@@ -111,15 +111,17 @@ module.exports = async pgDb => {
   )
   const rlIds = rlCollections.map(c => c.id)
   const rlPc = {
-    name: rlCollections[0].name,
-    description: rlCollections[0].description,
+    name: 'CH Rote Liste (aktuell)',
+    description:
+      'Zusammenfassung aller Roten Listen aus allen Artgruppen (pro Art jeweils die neusten Informationen)',
     links:
       '{http://www.bafu.admin.ch/biodiversitaet/10372/10393/index.html?lang=de}',
-    combining: rlCollections[0].combining,
-    organization_id: rlCollections[0].organization_id,
-    last_updated: rlCollections[0].last_updated,
-    terms_of_use: rlCollections[0].terms_of_use,
-    imported_by: rlCollections[0].imported_by,
+    combining: true,
+    organization_id: 'a8e5bc98-696f-11e7-b453-3741aafa0388',
+    last_updated: '2014-05-20',
+    terms_of_use:
+      'Importiert mit Einverständnis des Autors. Eine allfällige Weiterverbreitung ist nur mit dessen Zustimmung möglich.',
+    imported_by: 'a8eeeaa2-696f-11e7-b454-83e34acbe09f',
   }
   // 4.2 remove existing collections
   await pgDb.any(`

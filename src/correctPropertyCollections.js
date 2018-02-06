@@ -135,5 +135,37 @@ module.exports = async pgDb => {
       .join("','")
       .replace(/'',/g, 'null,')}')
   `)
+
+  /**
+   * 5. combine all ZH Artwert (aktuell)
+   */
+  // 5.1 prepare data
+  const zhAwCollections = collections.filter(
+    pC => pC.name === 'ZH Artwert (aktuell)'
+  )
+  const zhAwIds = zhAwCollections.map(c => c.id)
+  const zhAwPc = {
+    name: 'ZH Artwert (aktuell)',
+    description:
+      'Artwerte für den Kanton Zürich. Eigenschaften von 1257 Tierarten und 1689 Pflanzenarten. Zusammenfassende Eigenschaftensammlung: enthält Daten von "ZH Artwert (2000)" und "ZH Artwert aus AP Flachmoore (2009)"',
+    links: '{http://naturschutz.zh.ch}',
+    combining: true,
+    organization_id: 'a8e5bc98-696f-11e7-b453-3741aafa0388',
+    last_updated: '2009-01-01',
+    terms_of_use: openDataTerms,
+    imported_by: 'a8eeeaa2-696f-11e7-b454-83e34acbe09f',
+  }
+  // 5.2 remove existing collections
+  await pgDb.any(`
+    DELETE FROM ae.property_collection
+    WHERE id IN ('${zhAwIds.join(`','`)}')
+  `)
+  // 5.3 add a new one instead
+  await pgDb.any(`
+    INSERT INTO ae.property_collection (${_.keys(zhAwPc).join(`,`)})
+    VALUES ('${_.values(zhAwPc)
+      .join("','")
+      .replace(/'',/g, 'null,')}')
+  `)
   console.log('corrected some property collections')
 }

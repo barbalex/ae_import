@@ -110,7 +110,17 @@ module.exports = async pgDb => {
     pC => pC.name === 'CH Rote Liste (aktuell)'
   )
   const rlIds = rlCollections.map(c => c.id)
-  const lrPc = rlCollections[0]
+  const rlPc = {
+    name: rlCollections[0].name,
+    description: rlCollections[0].description,
+    links:
+      '{http://www.bafu.admin.ch/biodiversitaet/10372/10393/index.html?lang=de}',
+    combining: rlCollections[0].combining,
+    organization_id: rlCollections[0].organization_id,
+    last_updated: rlCollections[0].last_updated,
+    terms_of_use: rlCollections[0].terms_of_use,
+    imported_by: rlCollections[0].imported_by,
+  }
   // 4.2 remove existing collections
   await pgDb.any(`
     DELETE FROM ae.property_collection
@@ -118,8 +128,8 @@ module.exports = async pgDb => {
   `)
   // 4.3 add a new one instead
   await pgDb.any(`
-    INSERT INTO ae.property_collection (${_.keys(lrPc).join(`,`)})
-    VALUES ('${_.values(lrPc)
+    INSERT INTO ae.property_collection (${_.keys(rlPc).join(`,`)})
+    VALUES ('${_.values(rlPc)
       .join("','")
       .replace(/'',/g, 'null,')}')
   `)

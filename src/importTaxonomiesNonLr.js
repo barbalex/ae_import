@@ -10,7 +10,7 @@ module.exports = async pgDb => {
   // eslint-disable-next-line prefer-arrow-callback, func-names
   nonLrTaxonomies.forEach(function(tax) {
     tax.id = uuidv1()
-    tax.type = 'Lebensraum'
+    tax.type = 'Art'
     tax.organization_id = 'a8e5bc98-696f-11e7-b453-3741aafa0388'
     tax.imported_by = 'a8eeeaa2-696f-11e7-b454-83e34acbe09f'
     tax.terms_of_use =

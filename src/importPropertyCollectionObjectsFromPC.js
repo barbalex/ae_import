@@ -9,10 +9,15 @@ module.exports = async (pgDb, couchObjects) => {
   )
   // write propertyCollectionObjects
   const valueSqlOPC = propertyCollectionObjects
-    .map(val => `('${val.object_id}','${val.property_collection_id}')`)
+    .map(
+      val =>
+        `('${val.object_id}','${val.property_collection_id}','${
+          val.property_collection_of_origin_name
+        }')`
+    )
     .join(',')
   await pgDb.none(`
-    insert into ae.property_collection_object (object_id,property_collection_id)
+    insert into ae.property_collection_object (object_id,property_collection_id,property_collection_of_origin_name)
     values ${valueSqlOPC};
   `)
   await pgDb.tx(t =>
@@ -33,6 +38,8 @@ module.exports = async (pgDb, couchObjects) => {
     )
   )
   console.log(
-    `${propertyCollectionObjects.length} property collection objects imported from property collections`
+    `${
+      propertyCollectionObjects.length
+    } property collection objects imported from property collections`
   )
 }

@@ -87,7 +87,6 @@ const doIt = async () => {
     await importObjectsLr(asyncCouchdbView, pgDb)
     await importCollections(asyncCouchdbView, pgDb)
     await correctPropertyCollections(pgDb)
-    await updateOriginOfPc(pgDb)
     await addUniqueNameConstraintToCollections(pgDb)
     await createViews()
     // functions need some views
@@ -100,6 +99,8 @@ const doIt = async () => {
     await addTaxonomyObjectParentConstraint(pgDb)
     await importPropertyCollectionObjectsFromPC(pgDb, couchObjects)
     await importRelationsFromRC(pgDb, couchObjects)
+    // wait and test sql after import
+    //await updateOriginOfPc(pgDb)
     console.log('PostgreSQL welcomes arteigenschaften.ch!')
     return pgp.end()
   } catch (error) {

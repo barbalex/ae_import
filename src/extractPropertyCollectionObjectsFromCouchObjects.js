@@ -45,6 +45,8 @@ module.exports = async (objectsInCouch, pgDb) => {
             id: uuidv1(),
             object_id,
             property_collection_id,
+            property_collection_of_origin_name:
+              pCInCouch.Ursprungsdatensammlung || null,
             properties,
           })
         } else {

@@ -71,6 +71,8 @@ module.exports = async (objectsInCouch, pgDb) => {
                         relations.push({
                           id: uuidv1(),
                           property_collection_id,
+                          property_collection_of_origin_name:
+                            rCInCouch.Ursprungsdatensammlung || null,
                           object_id,
                           object_id_relation,
                           relation_type,

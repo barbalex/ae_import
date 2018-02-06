@@ -35,7 +35,9 @@ module.exports = async pgDb => {
   // 1.3 add a new one instead
   await pgDb.any(`
     INSERT INTO ae.property_collection (${_.keys(gisLayerPc).join(`,`)})
-    VALUES ('${_.values(gisLayerPc).join("','").replace(/'',/g, 'null,')}')
+    VALUES ('${_.values(gisLayerPc)
+      .join("','")
+      .replace(/'',/g, 'null,')}')
   `)
 
   /**
@@ -64,12 +66,14 @@ module.exports = async pgDb => {
   // 2.3 add a new one instead
   await pgDb.any(`
    INSERT INTO ae.property_collection (${_.keys(jahresartenPc).join(`,`)})
-   VALUES ('${_.values(jahresartenPc).join("','").replace(/'',/g, 'null,')}')
+   VALUES ('${_.values(jahresartenPc)
+     .join("','")
+     .replace(/'',/g, 'null,')}')
  `)
   /**
-    * 2. combine FNS Schutz (2009)
-    */
-  // 2.1 prepare data
+   * 3. combine FNS Schutz (2009)
+   */
+  // 3.1 prepare data
   const schutzCollections = propertyCollections.filter(
     pC => pC.name === 'FNS Schutz (2009)'
   )
@@ -84,15 +88,40 @@ module.exports = async pgDb => {
     terms_of_use: schutzCollections[0].terms_of_use,
     imported_by: schutzCollections[0].imported_by,
   }
-  // 2.2 remove existing collections
+  // 3.2 remove existing collections
   await pgDb.any(`
     DELETE FROM ae.property_collection
     WHERE id IN ('${schutzIds.join(`','`)}')
   `)
-  // 2.3 add a new one instead
+  // 3.3 add a new one instead
   await pgDb.any(`
     INSERT INTO ae.property_collection (${_.keys(schutzPc).join(`,`)})
-    VALUES ('${_.values(schutzPc).join("','").replace(/'',/g, 'null,')}')
+    VALUES ('${_.values(schutzPc)
+      .join("','")
+      .replace(/'',/g, 'null,')}')
+  `)
+
+  /**
+   * 4. combine all RL aktuell
+   */
+  const collections = await pgDb.any('SELECT * FROM ae.property_collection')
+  // 4.1 prepare data
+  const rlCollections = collections.filter(
+    pC => pC.name === 'CH Rote Liste (aktuell)'
+  )
+  const rlIds = rlCollections.map(c => c.id)
+  const lrPc = rlCollections[0]
+  // 4.2 remove existing collections
+  await pgDb.any(`
+    DELETE FROM ae.property_collection
+    WHERE id IN ('${rlIds.join(`','`)}')
+  `)
+  // 4.3 add a new one instead
+  await pgDb.any(`
+    INSERT INTO ae.property_collection (${_.keys(lrPc).join(`,`)})
+    VALUES ('${_.values(lrPc)
+      .join("','")
+      .replace(/'',/g, 'null,')}')
   `)
   console.log('corrected some property collections')
 }

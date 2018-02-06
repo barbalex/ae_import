@@ -42,7 +42,6 @@ module.exports = async (
       name,
       properties,
       parent_id: familieObject.id,
-      category: 'Fauna',
       id_old: objId,
     }
   })
@@ -51,11 +50,11 @@ module.exports = async (
       val =>
         `('${val.id}','${val.taxonomy_id}','${val.name}','${val.parent_id}','${
           val.id_old
-        }','${val.category}')`
+        }')`
     )
     .join(',')
   await pgDb.none(`
-    insert into ae.object (id,taxonomy_id,name,parent_id,id_old,category)
+    insert into ae.object (id,taxonomy_id,name,parent_id,id_old)
     values ${valueSql};
   `)
   await pgDb.tx(t =>

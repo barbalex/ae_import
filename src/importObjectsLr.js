@@ -50,7 +50,6 @@ module.exports = async (asyncCouchdbView, pgDb) => {
       name,
       properties,
       id_old: o._id,
-      category: 'Lebensräume',
     }
   })
   const valueSql = taxObjectsLr
@@ -58,11 +57,11 @@ module.exports = async (asyncCouchdbView, pgDb) => {
       val =>
         `('${val.id}',${val.taxonomy_id ? `'${val.taxonomy_id}'` : null},${
           val.parent_id ? `'${val.parent_id}'` : null
-        },'${val.name}','${val.id_old}','${val.category}')`
+        },'${val.name}','${val.id_old}')`
     )
     .join(',')
   await pgDb.none(`
-    insert into ae.object (id,taxonomy_id,parent_id,name,id_old,category)
+    insert into ae.object (id,taxonomy_id,parent_id,name,id_old)
     values ${valueSql};
   `)
   await pgDb.tx(t =>

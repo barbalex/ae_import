@@ -14,7 +14,6 @@ module.exports = async (asyncCouchdbView, pgDb, taxFauna) => {
       id: uuidv1(),
       taxonomy_id: taxFauna.id,
       name,
-      category: 'Fauna',
     }
   })
   const fieldsSql = _.keys(objectsFaunaLevel1[0]).join(',')

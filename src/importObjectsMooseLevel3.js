@@ -32,7 +32,6 @@ module.exports = async (
       taxonomy_id: taxonomie,
       name,
       parent_id: familieObject.id,
-      category: 'Moose',
     }
   })
   const fieldsSql = _.keys(taxObjectsMooseLevel3[0]).join(',')

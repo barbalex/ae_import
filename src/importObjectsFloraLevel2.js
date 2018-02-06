@@ -25,7 +25,6 @@ module.exports = async (
       taxonomy_id: taxFlora.id,
       name,
       parent_id: familieObject.id,
-      category: 'Flora',
     }
   })
   const fieldsSql = _.keys(taxObjectsFloraLevel2[0]).join(',')
